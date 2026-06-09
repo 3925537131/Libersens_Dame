@@ -1,0 +1,42 @@
+<div class="lbs ticker">
+  <div class="ticker__track">
+    {%- for block in section.blocks -%}
+      <span {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
+    {%- endfor -%}
+    {%- comment -%} duplicate for seamless loop {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      <span>{{ block.settings.name }}</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LBS Press ticker",
+  "tag": "section",
+  "class": "section-lbs-ticker",
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Press name",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "VOGUE" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Press ticker",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "VOGUE" } },
+        { "type": "logo", "settings": { "name": "Women's Health" } },
+        { "type": "logo", "settings": { "name": "COSMOPOLITAN" } },
+        { "type": "logo", "settings": { "name": "Forbes" } },
+        { "type": "logo", "settings": { "name": "REFINERY29" } },
+        { "type": "logo", "settings": { "name": "ELLE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

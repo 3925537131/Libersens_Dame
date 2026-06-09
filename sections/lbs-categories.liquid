@@ -1,0 +1,62 @@
+<section class="lbs section tabs-section" id="{{ section.settings.anchor_id | default: 'categories' }}">
+  <div class="wrap">
+    <div class="section__head">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    {%- assign tabs = section.settings.tabs | split: ',' -%}
+    {%- if tabs.size > 0 and section.settings.tabs != blank -%}
+      <div class="tabs__nav">
+        {%- for tab in tabs -%}
+          <button class="tab{% if forloop.first %} active{% endif %}">{{ tab | strip }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    <div class="tabs__panel">
+      {%- for block in section.blocks -%}
+        <a class="cat-card" href="{{ block.settings.link | default: '#' }}" style="background:{{ block.settings.color }}" {{ block.shopify_attributes }}>
+          <h3>{{ block.settings.title }}</h3>
+          <span>{{ block.settings.link_label | default: 'Shop now' }} →</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LBS Categories",
+  "tag": "section",
+  "class": "section-lbs-categories",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Find what fits" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
+    { "type": "text", "id": "tabs", "label": "Tab labels (comma-separated, decorative)", "default": "Vibrators, Personal Care, Sexual Health, Bundles" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor id", "default": "categories" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Wearables" },
+        { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "color", "id": "color", "label": "Background color", "default": "#c4c3f2" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Categories",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Wearables", "color": "#c4c3f2" } },
+        { "type": "category", "settings": { "title": "Wands", "color": "#f9e1d5" } },
+        { "type": "category", "settings": { "title": "Suction", "color": "#def1ee" } },
+        { "type": "category", "settings": { "title": "For Couples", "color": "#e9f1b3" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

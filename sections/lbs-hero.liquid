@@ -1,0 +1,46 @@
+<section class="lbs hero">
+  <div class="wrap" style="padding:0">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h1>{{ section.settings.heading }} {%- if section.settings.emphasis != blank %} <em>{{ section.settings.emphasis }}</em>{% endif %}{{ section.settings.heading_suffix }}</h1>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+        <div class="hero__cta">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a href="{{ section.settings.button_link_1 | default: '#' }}" class="btn btn--primary">{{ section.settings.button_label_1 }}</a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a href="{{ section.settings.button_link_2 | default: '#' }}" class="btn btn--outline">{{ section.settings.button_label_2 }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="hero__img"{% if section.settings.image %} style="background-image:url({{ section.settings.image | image_url: width: 1200 }})"{% endif %}>
+        {%- if section.settings.image == blank and section.settings.image_caption != blank -%}
+          <span>{{ section.settings.image_caption }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LBS Hero",
+  "tag": "section",
+  "class": "section-lbs-hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "By Women, For Women" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pleasure," },
+    { "type": "text", "id": "emphasis", "label": "Emphasis word (italic accent)", "default": "redesigned" },
+    { "type": "text", "id": "heading_suffix", "label": "Heading suffix", "default": "." },
+    { "type": "textarea", "id": "text", "label": "Subtext", "default": "Vibrators and intimate wellness essentials — researched, engineered, and designed by women. Body-safe, beautiful, and built to close the pleasure gap." },
+    { "type": "text", "id": "button_label_1", "label": "Button 1 label", "default": "Shop bestsellers" },
+    { "type": "url", "id": "button_link_1", "label": "Button 1 link" },
+    { "type": "text", "id": "button_label_2", "label": "Button 2 label", "default": "Take the quiz" },
+    { "type": "url", "id": "button_link_2", "label": "Button 2 link" },
+    { "type": "image_picker", "id": "image", "label": "Hero image (optional)" },
+    { "type": "text", "id": "image_caption", "label": "Image caption (when no image)", "default": "Designed for real bodies" }
+  ],
+  "presets": [{ "name": "LBS Hero" }]
+}
+{% endschema %}

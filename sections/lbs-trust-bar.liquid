@@ -1,0 +1,53 @@
+<section class="lbs infobar">
+  <div class="wrap" style="padding:0">
+    <div class="infobar__grid">
+      {%- for block in section.blocks -%}
+        <div class="infobar__item" {{ block.shopify_attributes }}>
+          {%- case block.settings.icon -%}
+            {%- when 'shield' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+            {%- when 'drop' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11z"/></svg>
+            {%- when 'check' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+            {%- else -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8L6.6 19.6l1-6L3.3 9.4l6-.9z"/></svg>
+          {%- endcase -%}
+          <strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LBS Trust bar",
+  "tag": "section",
+  "class": "section-lbs-trust",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "shield", "options": [
+          { "value": "shield", "label": "Shield" },
+          { "value": "drop", "label": "Water drop" },
+          { "value": "check", "label": "Check" },
+          { "value": "star", "label": "Star" }
+        ]},
+        { "type": "text", "id": "title", "label": "Title", "default": "Medical-Grade Silicone" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Body-safe materials you can trust" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Trust bar",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "shield", "title": "Medical-Grade Silicone", "text": "Body-safe materials you can trust" } },
+        { "type": "badge", "settings": { "icon": "drop", "title": "Waterproof & Rechargeable", "text": "USB magnetic charging, fully sealed" } },
+        { "type": "badge", "settings": { "icon": "check", "title": "60-Night Trial", "text": "Love it or your money back" } },
+        { "type": "badge", "settings": { "icon": "star", "title": "12,000+ 5-Star Reviews", "text": "Loved by a community of women" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
