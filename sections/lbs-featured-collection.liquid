@@ -16,7 +16,8 @@
     <div class="products" style="--cols:{{ cols }}">
       {%- if collection != blank and collection.products_count > 0 -%}
         {%- for product in collection.products limit: limit -%}
-          {%- assign bg = bgs[forloop.index0 | modulo: bgs.size] | strip -%}
+          {%- assign color_index = forloop.index0 | modulo: bgs.size -%}
+          {%- assign bg = bgs[color_index] | strip -%}
           <a class="card" href="{{ product.url }}">
             <div class="card__img" style="background:{{ bg }}">
               {%- if product.compare_at_price > product.price -%}<span class="card__badge">Sale</span>{%- endif -%}
@@ -43,7 +44,8 @@
       {%- else -%}
         {%- comment -%} Onboarding placeholders shown until a collection is chosen {%- endcomment -%}
         {%- for i in (1..5) -%}
-          {%- assign bg = bgs[forloop.index0 | modulo: bgs.size] | strip -%}
+          {%- assign color_index = forloop.index0 | modulo: bgs.size -%}
+          {%- assign bg = bgs[color_index] | strip -%}
           <div class="card">
             <div class="card__img" style="background:{{ bg }}">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
             <div class="card__body">

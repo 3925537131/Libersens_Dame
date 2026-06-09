@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="podcast__art">
-        {%- if section.settings.image -%}<img src="{{ section.settings.image | image_url: width: 700 }}" alt="{{ section.settings.heading | escape }}">{%- else -%}{{ section.settings.art_text }}{%- endif -%}
+        {%- if section.settings.image -%}<img src="{{ section.settings.image | image_url: width: 700 }}" alt="{{ section.settings.heading | escape }}" width="700" height="700" loading="lazy">{%- else -%}{{ section.settings.art_text }}{%- endif -%}
       </div>
     </div>
   </div>

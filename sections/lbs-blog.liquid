@@ -13,11 +13,12 @@
     <div class="blogs">
       {%- if blog != blank and blog.articles_count > 0 -%}
         {%- for article in blog.articles limit: limit -%}
-          {%- assign bg = bgs[forloop.index0 | modulo: bgs.size] | strip -%}
+          {%- assign color_index = forloop.index0 | modulo: bgs.size -%}
+          {%- assign bg = bgs[color_index] | strip -%}
           <article class="post">
             <a href="{{ article.url }}">
               <div class="post__img" style="background:{{ bg }}">
-                {%- if article.image -%}<img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | escape }}" loading="lazy">{%- endif -%}
+                {%- if article.image -%}<img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | escape }}" width="800" height="533" loading="lazy">{%- endif -%}
               </div>
             </a>
             {%- if article.tags.size > 0 -%}<span class="tag">{{ article.tags.first }}</span>{%- endif -%}
@@ -28,9 +29,10 @@
         {%- endfor -%}
       {%- else -%}
         {%- for block in section.blocks -%}
-          {%- assign bg = bgs[forloop.index0 | modulo: bgs.size] | strip -%}
+          {%- assign color_index = forloop.index0 | modulo: bgs.size -%}
+          {%- assign bg = bgs[color_index] | strip -%}
           <article class="post" {{ block.shopify_attributes }}>
-            <a href="{{ block.settings.link | default: '#' }}"><div class="post__img" style="background:{{ bg }}">{%- if block.settings.image -%}<img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}">{%- endif -%}</div></a>
+            <a href="{{ block.settings.link | default: '#' }}"><div class="post__img" style="background:{{ bg }}">{%- if block.settings.image -%}<img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" width="800" height="533" loading="lazy">{%- endif -%}</div></a>
             {%- if block.settings.tag != blank -%}<span class="tag">{{ block.settings.tag }}</span>{%- endif -%}
             <h3><a href="{{ block.settings.link | default: '#' }}">{{ block.settings.title }}</a></h3>
             {%- if block.settings.excerpt != blank -%}<p>{{ block.settings.excerpt }}</p>{%- endif -%}
