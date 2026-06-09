@@ -186,3 +186,51 @@
   .lbs .products,.lbs .experts{grid-template-columns:1fr}
   .lbs .lbs-footer__top{grid-template-columns:1fr}
 }
+
+/* ===== Bestsellers carousel ===== */
+.lbs .bs-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:34px}
+.lbs .bs-head__text h2{font-size:clamp(26px,3vw,38px);color:var(--blue);margin-bottom:6px}
+.lbs .bs-head__text p{color:var(--blue);font-family:var(--sans);font-size:18px}
+.lbs .bs-seeall{flex:0 0 auto;display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--blue);color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:16px 30px;border-radius:12px;transition:.15s}
+.lbs .bs-seeall:hover{background:var(--blue);color:#fff}
+.lbs .bs-seeall svg{width:16px;height:16px}
+
+.lbs .bs-carousel{position:relative}
+.lbs .bs-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;padding-bottom:2px}
+.lbs .bs-track::-webkit-scrollbar{display:none}
+.lbs .bs-card{flex:0 0 calc(100% / var(--cols,4) - 22px);scroll-snap-align:start;background:var(--bs-card-bg,#f6f4f1);border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.lbs .bs-card__media{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:.82;padding:24px}
+.lbs .bs-card__media img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.lbs .bs-badge{position:absolute;top:16px;left:16px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:8px;background:var(--lavender);color:var(--ink)}
+.lbs .bs-badge--out{background:var(--peach)}
+.lbs .bs-card--out .bs-card__name{color:#9a958c}
+.lbs .bs-card__info{padding:0 18px 22px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.lbs .bs-card__name{font-family:var(--sans);font-weight:600;font-size:17px;color:var(--ink);margin-bottom:8px}
+.lbs .bs-card__name a{color:inherit}
+.lbs .bs-card__opt{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:16px}
+.lbs .bs-add-form{width:100%;margin:0}
+.lbs .bs-add{width:100%;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.05em;text-transform:uppercase;padding:16px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:.15s}
+.lbs .bs-add:hover{background:var(--blue-dark)}
+.lbs .bs-add__sep{opacity:.45;font-weight:400}
+.lbs .bs-add--out{background:transparent;border:1.5px solid #c9c5be;color:#9a958c;cursor:not-allowed}
+.lbs .bs-add--out:hover{background:transparent}
+.lbs .bs-card__rating{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:12px}
+.lbs .bs-card__rating .num{color:var(--blue);font-weight:700}
+.lbs .bs-card__rating .stars{color:var(--blue);font-size:13px;letter-spacing:1px}
+.lbs .bs-card__rating .count{color:var(--grey);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+
+.lbs .bs-foot{display:flex;align-items:center;gap:24px;margin-top:30px}
+.lbs .bs-progress{flex:1;height:3px;background:#ece8e2;border-radius:3px;overflow:hidden}
+.lbs .bs-progress__fill{display:block;height:100%;width:25%;background:var(--coral);border-radius:3px;transition:width .2s ease}
+.lbs .bs-nav{display:flex;gap:12px}
+.lbs .bs-arrow{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--blue);background:#fff;color:var(--blue);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+.lbs .bs-arrow svg{width:16px;height:16px}
+.lbs .bs-arrow:hover{background:var(--blue);color:#fff}
+.lbs .bs-arrow:disabled{opacity:.35;cursor:default;border-color:#c9c5be;color:#c9c5be}
+.lbs .bs-arrow:disabled:hover{background:#fff;color:#c9c5be}
+
+@media(max-width:1024px){ .lbs .bs-card{flex-basis:calc(100% / 3 - 16px)} }
+@media(max-width:749px){
+  .lbs .bs-head{flex-direction:column}
+  .lbs .bs-card{flex-basis:calc(100% / 1.35)}
+}
