@@ -1,96 +1,414 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "hero": { "type": "lbs-hero", "settings": {} },
+    "hero": {
+      "type": "lbs-hero",
+      "settings": {
+        "eyebrow": "By Women, For Women",
+        "heading": "Pleasure,",
+        "emphasis": "redesigned",
+        "heading_suffix": ".",
+        "text": "Vibrators and intimate wellness essentials — researched, engineered, and designed by women. Body-safe, beautiful, and built to close the pleasure gap.",
+        "button_label_1": "Shop bestsellers",
+        "button_link_1": "",
+        "button_label_2": "Take the quiz",
+        "button_link_2": "",
+        "image_caption": "Designed for real bodies"
+      }
+    },
     "trust": {
       "type": "lbs-trust-bar",
       "blocks": {
-        "b1": { "type": "badge", "settings": { "icon": "shield", "title": "Medical-Grade Silicone", "text": "Body-safe materials you can trust" } },
-        "b2": { "type": "badge", "settings": { "icon": "drop", "title": "Waterproof & Rechargeable", "text": "USB magnetic charging, fully sealed" } },
-        "b3": { "type": "badge", "settings": { "icon": "check", "title": "60-Night Trial", "text": "Love it or your money back" } },
-        "b4": { "type": "badge", "settings": { "icon": "star", "title": "12,000+ 5-Star Reviews", "text": "Loved by a community of women" } }
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "shield",
+            "title": "Medical-Grade Silicone",
+            "text": "Body-safe materials you can trust"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "drop",
+            "title": "Waterproof & Rechargeable",
+            "text": "USB magnetic charging, fully sealed"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "check",
+            "title": "60-Night Trial",
+            "text": "Love it or your money back"
+          }
+        },
+        "b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "star",
+            "title": "12,000+ 5-Star Reviews",
+            "text": "Loved by a community of women"
+          }
+        }
       },
-      "block_order": ["b1", "b2", "b3", "b4"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
       "settings": {}
     },
     "bestsellers": {
       "type": "lbs-featured-collection",
-      "settings": { "heading": "Our Bestsellers", "collection": "bestsellers" }
+      "settings": {
+        "eyebrow": "Tried & adored",
+        "heading": "Our Bestsellers",
+        "description": "The pieces our community reaches for again and again.",
+        "collection": "best-sellers",
+        "products_to_show": 5,
+        "columns_desktop": 5,
+        "cream_background": true,
+        "anchor_id": "bestsellers",
+        "show_view_all": true,
+        "button_label": "Shop all products",
+        "card_colors": "var(--peach),var(--lavender),var(--mint),var(--lime),#f0efef"
+      }
     },
     "categories": {
       "type": "lbs-categories",
       "blocks": {
-        "c1": { "type": "category", "settings": { "title": "Wearables", "color": "#c4c3f2" } },
-        "c2": { "type": "category", "settings": { "title": "Wands", "color": "#f9e1d5" } },
-        "c3": { "type": "category", "settings": { "title": "Suction", "color": "#def1ee" } },
-        "c4": { "type": "category", "settings": { "title": "For Couples", "color": "#e9f1b3" } }
+        "c1": {
+          "type": "category",
+          "settings": {
+            "title": "Wearables",
+            "link_label": "Shop now",
+            "link": "",
+            "color": "#c4c3f2"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "title": "Wands",
+            "link_label": "Shop now",
+            "link": "",
+            "color": "#f9e1d5"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "title": "Suction",
+            "link_label": "Shop now",
+            "link": "",
+            "color": "#def1ee"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "title": "For Couples",
+            "link_label": "Shop now",
+            "link": "",
+            "color": "#e9f1b3"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4"],
-      "settings": {}
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "Find what fits",
+        "heading": "Shop by category",
+        "tabs": "Vibrators, Personal Care, Sexual Health, Bundles",
+        "anchor_id": "categories"
+      }
     },
     "ticker": {
       "type": "lbs-ticker",
       "blocks": {
-        "t1": { "type": "logo", "settings": { "name": "VOGUE" } },
-        "t2": { "type": "logo", "settings": { "name": "Women's Health" } },
-        "t3": { "type": "logo", "settings": { "name": "COSMOPOLITAN" } },
-        "t4": { "type": "logo", "settings": { "name": "Forbes" } },
-        "t5": { "type": "logo", "settings": { "name": "REFINERY29" } },
-        "t6": { "type": "logo", "settings": { "name": "ELLE" } }
+        "t1": {
+          "type": "logo",
+          "settings": {
+            "name": "VOGUE"
+          }
+        },
+        "t2": {
+          "type": "logo",
+          "settings": {
+            "name": "Women's Health"
+          }
+        },
+        "t3": {
+          "type": "logo",
+          "settings": {
+            "name": "COSMOPOLITAN"
+          }
+        },
+        "t4": {
+          "type": "logo",
+          "settings": {
+            "name": "Forbes"
+          }
+        },
+        "t5": {
+          "type": "logo",
+          "settings": {
+            "name": "REFINERY29"
+          }
+        },
+        "t6": {
+          "type": "logo",
+          "settings": {
+            "name": "ELLE"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
       "settings": {}
     },
-    "story": { "type": "lbs-story", "settings": {} },
+    "story": {
+      "type": "lbs-story",
+      "settings": {
+        "eyebrow": "Our story",
+        "heading": "Built by women who were tired of being an afterthought.",
+        "text": "<p>Libersens was founded by a sexologist and a product engineer with one shared frustration: intimate products designed without women in the room. So we built our own — researched with real bodies, tested in our own labs, and refined by thousands of women like you.</p><p>Every Libersens product is body-safe, beautifully made, and engineered to help close the pleasure gap for good.</p>",
+        "button_label": "Read our story",
+        "button_link": "",
+        "anchor_id": "story"
+      }
+    },
     "experts": {
       "type": "lbs-experts",
       "blocks": {
-        "e1": { "type": "expert", "settings": { "name": "Dr. Mara Ellis", "role": "OB-GYN", "bio": "Clinical advisor on body-safe materials and pelvic health." } },
-        "e2": { "type": "expert", "settings": { "name": "Dr. Naomi Reyes", "role": "Sex Therapist", "bio": "Guides our approach to desire, intimacy, and education." } },
-        "e3": { "type": "expert", "settings": { "name": "Priya Anand, ND", "role": "Naturopath", "bio": "Develops our pH-balanced personal care formulas." } },
-        "e4": { "type": "expert", "settings": { "name": "Dr. Lena Fox", "role": "Pelvic PT", "bio": "Advises on ergonomics and comfort across the range." } }
+        "e1": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Mara Ellis",
+            "role": "OB-GYN",
+            "bio": "Clinical advisor on body-safe materials and pelvic health."
+          }
+        },
+        "e2": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Naomi Reyes",
+            "role": "Sex Therapist",
+            "bio": "Guides our approach to desire, intimacy, and education."
+          }
+        },
+        "e3": {
+          "type": "expert",
+          "settings": {
+            "name": "Priya Anand, ND",
+            "role": "Naturopath",
+            "bio": "Develops our pH-balanced personal care formulas."
+          }
+        },
+        "e4": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Lena Fox",
+            "role": "Pelvic PT",
+            "bio": "Advises on ergonomics and comfort across the range."
+          }
+        }
       },
-      "block_order": ["e1", "e2", "e3", "e4"],
-      "settings": {}
+      "block_order": [
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ],
+      "settings": {
+        "eyebrow": "Backed by science",
+        "heading": "User-Tested, Doctor Approved",
+        "description": "Our medical & sexual health advisory board guides everything we make.",
+        "cream_background": true
+      }
     },
     "podcast": {
       "type": "lbs-podcast",
       "blocks": {
-        "p1": { "type": "platform", "settings": { "label": "Spotify" } },
-        "p2": { "type": "platform", "settings": { "label": "Apple Podcasts" } },
-        "p3": { "type": "platform", "settings": { "label": "YouTube" } }
+        "p1": {
+          "type": "platform",
+          "settings": {
+            "label": "Spotify",
+            "link": ""
+          }
+        },
+        "p2": {
+          "type": "platform",
+          "settings": {
+            "label": "Apple Podcasts",
+            "link": ""
+          }
+        },
+        "p3": {
+          "type": "platform",
+          "settings": {
+            "label": "YouTube",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3"],
-      "settings": {}
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "eyebrow": "Now streaming",
+        "heading": "Real Talk, by Libersens",
+        "text": "Honest conversations about pleasure, bodies, and the things no one told us. New episodes every week.",
+        "art_text": "Real Talk"
+      }
     },
     "testimonials": {
       "type": "lbs-testimonials",
       "blocks": {
-        "r1": { "type": "review", "settings": { "quote": "The first product that actually felt like it was made with me in mind. Genuinely life-changing.", "author": "Sofia R." } },
-        "r2": { "type": "review", "settings": { "quote": "Beautiful, quiet, and powerful. I've recommended Libersens to every friend I have.", "author": "Jess M." } },
-        "r3": { "type": "review", "settings": { "quote": "Finally a brand that talks about pleasure without shame. The quality is unreal.", "author": "Dani K." } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "The first product that actually felt like it was made with me in mind. Genuinely life-changing.",
+            "author": "Sofia R."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Beautiful, quiet, and powerful. I've recommended Libersens to every friend I have.",
+            "author": "Jess M."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a brand that talks about pleasure without shame. The quality is unreal.",
+            "author": "Dani K."
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3"],
-      "settings": {}
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "From our community",
+        "heading": "Loved by thousands"
+      }
     },
     "siblings": {
       "type": "lbs-siblings",
       "blocks": {
-        "s1": { "type": "brand", "settings": { "name": "Bloom & Co.", "text": "Plant-powered intimate skincare and bath rituals for the whole body.", "button_label": "Explore Bloom", "color": "#f9e1d5" } },
-        "s2": { "type": "brand", "settings": { "name": "Hush", "text": "Considered home goods and candles designed for slowing down.", "button_label": "Explore Hush", "color": "#def1ee" } }
+        "s1": {
+          "type": "brand",
+          "settings": {
+            "name": "Bloom & Co.",
+            "text": "Plant-powered intimate skincare and bath rituals for the whole body.",
+            "button_label": "Explore Bloom",
+            "link": "",
+            "color": "#f9e1d5"
+          }
+        },
+        "s2": {
+          "type": "brand",
+          "settings": {
+            "name": "Hush",
+            "text": "Considered home goods and candles designed for slowing down.",
+            "button_label": "Explore Hush",
+            "link": "",
+            "color": "#def1ee"
+          }
+        }
       },
-      "block_order": ["s1", "s2"],
-      "settings": {}
+      "block_order": [
+        "s1",
+        "s2"
+      ],
+      "settings": {
+        "eyebrow": "The family",
+        "heading": "Our Sibling Brands",
+        "cream_background": true
+      }
     },
-    "newsletter": { "type": "lbs-newsletter", "settings": {} },
+    "newsletter": {
+      "type": "lbs-newsletter",
+      "settings": {
+        "heading": "Find your vibe",
+        "text": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order.",
+        "placeholder": "Enter your email",
+        "button_label": "Get matched",
+        "fineprint": "By signing up you agree to receive emails from Libersens. Unsubscribe anytime.",
+        "anchor_id": "quiz"
+      }
+    },
     "blog": {
       "type": "lbs-blog",
       "blocks": {
-        "a1": { "type": "post", "settings": { "tag": "Wellness", "title": "The pleasure gap, explained", "excerpt": "Why it exists, and what the research actually says about closing it." } },
-        "a2": { "type": "post", "settings": { "tag": "How-to", "title": "Choosing your first vibrator", "excerpt": "A judgment-free guide to finding what feels right for your body." } },
-        "a3": { "type": "post", "settings": { "tag": "Intimacy", "title": "Talking pleasure with a partner", "excerpt": "Five conversation starters for deeper, more connected intimacy." } }
+        "a1": {
+          "type": "post",
+          "settings": {
+            "tag": "Wellness",
+            "title": "The pleasure gap, explained",
+            "excerpt": "Why it exists, and what the research actually says about closing it.",
+            "link": ""
+          }
+        },
+        "a2": {
+          "type": "post",
+          "settings": {
+            "tag": "How-to",
+            "title": "Choosing your first vibrator",
+            "excerpt": "A judgment-free guide to finding what feels right for your body.",
+            "link": ""
+          }
+        },
+        "a3": {
+          "type": "post",
+          "settings": {
+            "tag": "Intimacy",
+            "title": "Talking pleasure with a partner",
+            "excerpt": "Five conversation starters for deeper, more connected intimacy.",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["a1", "a2", "a3"],
-      "settings": {}
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ],
+      "settings": {
+        "eyebrow": "Libersens Journal",
+        "heading": "Learn & explore",
+        "blog": "",
+        "posts_to_show": 3
+      }
     }
   },
   "order": [
