@@ -28,13 +28,11 @@
 
     {% render 'meta-tags' %}
 
-    {%- comment -%} Libersens custom homepage design system + fonts {%- endcomment -%}
-    {%- if template.name == 'index' -%}
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-      {{ 'libersens.css' | asset_url | stylesheet_tag }}
-    {%- endif -%}
+    {%- comment -%} Libersens custom design system + fonts (loaded site-wide for custom header/footer) {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {{ 'libersens.css' | asset_url | stylesheet_tag }}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -315,18 +313,13 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {%- comment -%} Libersens custom homepage supplies its own header & footer {%- endcomment -%}
-    {%- unless template.name == 'index' -%}
-      {% sections 'header-group' %}
-    {%- endunless -%}
+    {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    {%- unless template.name == 'index' -%}
-      {% sections 'footer-group' %}
-    {%- endunless -%}
+    {% sections 'footer-group' %}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
