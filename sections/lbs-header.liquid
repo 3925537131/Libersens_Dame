@@ -14,24 +14,27 @@
           <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
             <a href="{% if mega_collection != blank %}{{ mega_collection.url }}{% else %}{{ block.settings.link | default: '#' }}{% endif %}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
               {{ block.settings.label }}
-              <svg class="lbs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
             </a>
             <div class="lbs-mega">
               <div class="wrap lbs-mega__pad">
                 {%- if mega_collection != blank and mega_collection.products_count > 0 -%}
                   <div class="lbs-mega-products">
                     {%- for product in mega_collection.products limit: block.settings.products_count -%}
-                      <a class="lbs-mega-prod" href="{{ product.url }}">
-                        <span class="lbs-mega-prod__img">
-                          {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 240 }}" alt="{{ product.featured_image.alt | escape }}" width="96" height="96" loading="lazy">{%- endif -%}
-                        </span>
-                        <span class="lbs-mega-prod__name">{{ product.title }}</span>
-                      </a>
+                      <div class="lbs-mega-prod-item">
+                        <a href="{{ product.url }}" class="lbs-mega-prod-link">
+                          <div class="lbs-mega-prod__img">
+                            {%- if product.featured_image -%}
+                              <img src="{{ product.featured_image | image_url: width: 320 }}" alt="{{ product.featured_image.alt | escape }}" width="150" height="178" loading="lazy">
+                            {%- endif -%}
+                          </div>
+                          <p class="lbs-mega-prod__name">
+                            {{ product.title }}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M13 8l4 4-4 4"/></svg>
+                          </p>
+                        </a>
+                      </div>
                     {%- endfor -%}
-                    <a class="lbs-mega-prod lbs-mega-prod--all" href="{{ mega_collection.url }}">
-                      <span class="lbs-mega-prod__img lbs-mega-prod__img--all">&rarr;</span>
-                      <span class="lbs-mega-prod__name">View all</span>
-                    </a>
                   </div>
                 {%- else -%}
                   <p class="lbs-mega-empty">Pick a collection for this dropdown in the theme editor.</p>
@@ -45,7 +48,7 @@
           <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
             <a href="{{ block.settings.link | default: '#' }}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
               {{ block.settings.label }}
-              <svg class="lbs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
             </a>
             <div class="lbs-mega">
               <div class="wrap lbs-mega__pad">
@@ -53,23 +56,25 @@
                   <div class="lbs-mega-cols">
                     {%- for column in mega_list.links -%}
                       <div class="lbs-mega-col">
-                        <a class="lbs-mega-col__head" href="{{ column.url }}">
-                          {{ column.title }}
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                        </a>
-                        {%- for item in column.links -%}
-                          <a class="lbs-mega-item" href="{{ item.url }}">
-                            {%- if item.type == 'product_link' and item.object.featured_image -%}
-                              <span class="lbs-mega-item__img"><img src="{{ item.object.featured_image | image_url: width: 120 }}" alt="" width="44" height="44" loading="lazy"></span>
-                            {%- endif -%}
-                            <span>{{ item.title }}</span>
-                          </a>
-                        {%- endfor -%}
+                        <div class="lbs-mega-col__head-row">
+                          <a class="lbs-mega-col__head" href="{{ column.url }}">{{ column.title }}</a>
+                          <span class="lbs-mega-col__arrow">&rarr;</span>
+                        </div>
+                        <div class="lbs-mega-col__items">
+                          {%- for item in column.links -%}
+                            <a class="lbs-mega-item" href="{{ item.url }}">
+                              {%- if item.type == 'product_link' and item.object.featured_image -%}
+                                <span class="lbs-mega-item__img"><img src="{{ item.object.featured_image | image_url: width: 120 }}" alt="" width="64" height="64" loading="lazy"></span>
+                              {%- endif -%}
+                              <span>{{ item.title }}</span>
+                            </a>
+                          {%- endfor -%}
+                        </div>
                       </div>
                     {%- endfor -%}
                   </div>
                 {%- else -%}
-                  <p class="lbs-mega-empty">Pick a navigation menu for this dropdown in the theme editor (Online Store &rarr; Navigation). Nest links under headings to build columns.</p>
+                  <p class="lbs-mega-empty">Pick a navigation menu in the theme editor (Online Store &rarr; Navigation). Top-level links = column headings, child links = items.</p>
                 {%- endif -%}
               </div>
             </div>
