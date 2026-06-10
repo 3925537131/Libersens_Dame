@@ -12,16 +12,18 @@
     "hero": {
       "type": "lbs-hero",
       "settings": {
-        "eyebrow": "By Women, For Women",
-        "heading": "Pleasure,",
-        "emphasis": "redesigned",
-        "heading_suffix": ".",
-        "text": "Vibrators and intimate wellness essentials — researched, engineered, and designed by women. Body-safe, beautiful, and built to close the pleasure gap.",
-        "button_label_1": "Shop bestsellers",
+        "overlay_opacity": 25,
+        "min_height": 640,
+        "show_stars": true,
+        "eyebrow": "Over 50,000 happy customers",
+        "heading": "By Women, For Women",
+        "emphasis": "",
+        "heading_suffix": "",
+        "text": "Vibrators and sexual health essentials — researched, developed, and designed by women for over a decade.",
+        "button_label_1": "Shop sex products",
         "button_link_1": "",
-        "button_label_2": "Take the quiz",
-        "button_link_2": "",
-        "image_caption": "Designed for real bodies"
+        "button_label_2": "Need help? Take the quiz",
+        "button_link_2": ""
       }
     },
     "trust": {

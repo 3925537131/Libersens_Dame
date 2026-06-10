@@ -4,13 +4,86 @@
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <a href="{{ routes.root_url }}" class="lbs-logo">{{ section.settings.logo_text | default: shop.name }}</a>
+
     <nav class="lbs-nav">
       {%- for block in section.blocks -%}
-        <a href="{{ block.settings.link | default: '#' }}"
-           {% if block.settings.accent %}class="accent"{% endif %}
-           {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- case block.type -%}
+
+        {%- when 'mega_collection' -%}
+          {%- assign mega_collection = collections[block.settings.collection] -%}
+          <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
+            <a href="{% if mega_collection != blank %}{{ mega_collection.url }}{% else %}{{ block.settings.link | default: '#' }}{% endif %}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
+              {{ block.settings.label }}
+              <svg class="lbs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </a>
+            <div class="lbs-mega">
+              <div class="wrap lbs-mega__pad">
+                {%- if mega_collection != blank and mega_collection.products_count > 0 -%}
+                  <div class="lbs-mega-products">
+                    {%- for product in mega_collection.products limit: block.settings.products_count -%}
+                      <a class="lbs-mega-prod" href="{{ product.url }}">
+                        <span class="lbs-mega-prod__img">
+                          {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 240 }}" alt="{{ product.featured_image.alt | escape }}" width="96" height="96" loading="lazy">{%- endif -%}
+                        </span>
+                        <span class="lbs-mega-prod__name">{{ product.title }}</span>
+                      </a>
+                    {%- endfor -%}
+                    <a class="lbs-mega-prod lbs-mega-prod--all" href="{{ mega_collection.url }}">
+                      <span class="lbs-mega-prod__img lbs-mega-prod__img--all">&rarr;</span>
+                      <span class="lbs-mega-prod__name">View all</span>
+                    </a>
+                  </div>
+                {%- else -%}
+                  <p class="lbs-mega-empty">Pick a collection for this dropdown in the theme editor.</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+        {%- when 'mega_menu' -%}
+          {%- assign mega_list = linklists[block.settings.menu] -%}
+          <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
+              {{ block.settings.label }}
+              <svg class="lbs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </a>
+            <div class="lbs-mega">
+              <div class="wrap lbs-mega__pad">
+                {%- if mega_list != blank and mega_list.links.size > 0 -%}
+                  <div class="lbs-mega-cols">
+                    {%- for column in mega_list.links -%}
+                      <div class="lbs-mega-col">
+                        <a class="lbs-mega-col__head" href="{{ column.url }}">
+                          {{ column.title }}
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </a>
+                        {%- for item in column.links -%}
+                          <a class="lbs-mega-item" href="{{ item.url }}">
+                            {%- if item.type == 'product_link' and item.object.featured_image -%}
+                              <span class="lbs-mega-item__img"><img src="{{ item.object.featured_image | image_url: width: 120 }}" alt="" width="44" height="44" loading="lazy"></span>
+                            {%- endif -%}
+                            <span>{{ item.title }}</span>
+                          </a>
+                        {%- endfor -%}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <p class="lbs-mega-empty">Pick a navigation menu for this dropdown in the theme editor (Online Store &rarr; Navigation). Nest links under headings to build columns.</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+        {%- else -%}
+          <div class="lbs-nav-item" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">{{ block.settings.label }}</a>
+          </div>
+
+        {%- endcase -%}
       {%- endfor -%}
     </nav>
+
     <div class="lbs-actions">
       <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Search">
         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
@@ -38,10 +111,31 @@
   "blocks": [
     {
       "type": "link",
-      "name": "Nav link",
+      "name": "Link (no dropdown)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "About" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "checkbox", "id": "accent", "label": "Highlight (coral)", "default": false }
+      ]
+    },
+    {
+      "type": "mega_collection",
+      "name": "Dropdown: collection products",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Vibrators" },
+        { "type": "collection", "id": "collection", "label": "Collection to show" },
+        { "type": "range", "id": "products_count", "label": "Products in dropdown", "min": 3, "max": 8, "step": 1, "default": 5 },
+        { "type": "url", "id": "link", "label": "Fallback link (if no collection)" },
+        { "type": "checkbox", "id": "accent", "label": "Highlight (coral)", "default": false }
+      ]
+    },
+    {
+      "type": "mega_menu",
+      "name": "Dropdown: mega menu",
       "settings": [
         { "type": "text", "id": "label", "label": "Label", "default": "Shop All" },
-        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "info": "Build a nested menu in Online Store → Navigation. Top-level links become column headings; their child links become items (link them to products to show thumbnails)." },
+        { "type": "url", "id": "link", "label": "Heading link" },
         { "type": "checkbox", "id": "accent", "label": "Highlight (coral)", "default": false }
       ]
     }
@@ -50,9 +144,8 @@
     {
       "name": "LBS Header",
       "blocks": [
-        { "type": "link", "settings": { "label": "Vibrators" } },
-        { "type": "link", "settings": { "label": "Shop All" } },
-        { "type": "link", "settings": { "label": "Personal Care" } },
+        { "type": "mega_collection", "settings": { "label": "Vibrators" } },
+        { "type": "mega_menu", "settings": { "label": "Shop All" } },
         { "type": "link", "settings": { "label": "About" } },
         { "type": "link", "settings": { "label": "Find Your Vibe", "accent": true } }
       ]

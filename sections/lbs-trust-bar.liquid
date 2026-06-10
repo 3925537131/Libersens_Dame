@@ -1,17 +1,27 @@
-<section class="lbs infobar">
-  <div class="wrap" style="padding:0">
-    <div class="infobar__grid">
-      {%- for block in section.blocks -%}
-        <div class="infobar__item" {{ block.shopify_attributes }}>
-          {%- case block.settings.icon -%}
-            {%- when 'shield' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
-            {%- when 'drop' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11z"/></svg>
-            {%- when 'check' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
-            {%- else -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8L6.6 19.6l1-6L3.3 9.4l6-.9z"/></svg>
-          {%- endcase -%}
-          <strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span>
-        </div>
-      {%- endfor -%}
+<section class="lbs lbs-trust2" style="--g-top:{{ section.settings.gradient_top }};--g-bottom:{{ section.settings.gradient_bottom }}">
+  {%- if section.settings.show_wave -%}
+    <div class="lbs-trust2__wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+        <path d="M0,34 C200,66 380,6 620,28 S1060,64 1440,30 L1440,70 L0,70 Z" fill="{{ section.settings.gradient_top }}"></path>
+      </svg>
+    </div>
+  {%- endif -%}
+
+  <div class="lbs-trust2__body">
+    <div class="wrap">
+      <div class="infobar__grid">
+        {%- for block in section.blocks -%}
+          <div class="infobar__item" {{ block.shopify_attributes }}>
+            {%- case block.settings.icon -%}
+              {%- when 'shield' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+              {%- when 'drop' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11z"/></svg>
+              {%- when 'check' -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+              {%- else -%}<svg fill="none" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8L6.6 19.6l1-6L3.3 9.4l6-.9z"/></svg>
+            {%- endcase -%}
+            <strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </section>
@@ -22,6 +32,11 @@
   "tag": "section",
   "class": "section-lbs-trust",
   "max_blocks": 4,
+  "settings": [
+    { "type": "checkbox", "id": "show_wave", "label": "Wavy top edge", "default": true },
+    { "type": "color", "id": "gradient_top", "label": "Gradient top color", "default": "#5a62e6" },
+    { "type": "color", "id": "gradient_bottom", "label": "Gradient bottom color", "default": "#3730cc" }
+  ],
   "blocks": [
     {
       "type": "badge",

@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "Header",
   "type": "header",
@@ -18,13 +9,12 @@
     "lbs-header": {
       "type": "lbs-header",
       "blocks": {
-        "l1": { "type": "link", "settings": { "label": "Vibrators", "link": "/#bestsellers" } },
-        "l2": { "type": "link", "settings": { "label": "Shop All", "link": "/collections/all" } },
-        "l3": { "type": "link", "settings": { "label": "Personal Care", "link": "/#categories" } },
-        "l4": { "type": "link", "settings": { "label": "About", "link": "/#story" } },
-        "l5": { "type": "link", "settings": { "label": "Find Your Vibe", "link": "/#quiz", "accent": true } }
+        "l1": { "type": "mega_collection", "settings": { "label": "Vibrators", "collection": "best-sellers", "products_count": 5 } },
+        "l2": { "type": "mega_menu", "settings": { "label": "Shop All", "menu": "main-menu", "link": "/collections/all" } },
+        "l3": { "type": "link", "settings": { "label": "About", "link": "/#story" } },
+        "l4": { "type": "link", "settings": { "label": "Find Your Vibe", "link": "/#quiz", "accent": true } }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "block_order": ["l1", "l2", "l3", "l4"],
       "settings": {}
     }
   },
