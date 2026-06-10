@@ -73,17 +73,16 @@
     "bestsellers": {
       "type": "lbs-featured-collection",
       "settings": {
-        "eyebrow": "Tried & adored",
         "heading": "Our Bestsellers",
         "description": "The pieces our community reaches for again and again.",
-        "collection": "best-sellers",
+        "collection": "frontpage",
         "products_to_show": 5,
-        "columns_desktop": 5,
+        "columns_desktop": 4,
+        "card_bg": "#f6f4f1",
         "cream_background": true,
         "anchor_id": "bestsellers",
         "show_view_all": true,
-        "button_label": "Shop all products",
-        "card_colors": "var(--peach),var(--lavender),var(--mint),var(--lime),#f0efef"
+        "button_label": "Shop all products"
       }
     },
     "categories": {
