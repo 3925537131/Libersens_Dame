@@ -37,9 +37,10 @@
 .lbs .lbs-nav-link:hover{color:var(--blue)}
 .lbs .lbs-nav-link.accent{color:var(--coral)}
 .lbs .lbs-caret{width:12px;height:12px;transition:transform .2s}
-.lbs .lbs-nav-item--mega:hover .lbs-caret,.lbs .lbs-nav-item--mega:focus-within .lbs-caret{transform:rotate(180deg)}
+.lbs .lbs-nav-item--mega:hover .lbs-caret,.lbs .lbs-nav-item--mega:focus-within .lbs-caret,.lbs .lbs-nav-item--mega.is-open .lbs-caret{transform:rotate(180deg)}
 .lbs .lbs-mega{position:absolute;left:0;right:0;top:100%;background:#fff;border-top:1px solid var(--line);box-shadow:0 24px 44px rgba(12,12,43,.10);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:60}
-.lbs .lbs-nav-item--mega:hover .lbs-mega,.lbs .lbs-nav-item--mega:focus-within .lbs-mega{opacity:1;visibility:visible;transform:none}
+.lbs .lbs-mega::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+.lbs .lbs-nav-item--mega:hover .lbs-mega,.lbs .lbs-nav-item--mega:focus-within .lbs-mega,.lbs .lbs-nav-item--mega.is-open .lbs-mega{opacity:1;visibility:visible;transform:none}
 .lbs .lbs-mega__pad{padding:38px 24px 46px}
 .lbs .lbs-mega-empty{color:var(--grey);font-size:14px;max-width:560px}
 .lbs .lbs-mega-products{display:flex;gap:18px;flex-wrap:wrap}

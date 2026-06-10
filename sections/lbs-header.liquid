@@ -99,6 +99,37 @@
   </div>
 </header>
 
+<script>
+  (function () {
+    var items = document.querySelectorAll('.lbs-header .lbs-nav-item--mega');
+    if (!items.length) return;
+    var touch = window.matchMedia('(hover: none)').matches;
+    items.forEach(function (item) {
+      var timer;
+      var link = item.querySelector('.lbs-nav-link');
+      function open() { clearTimeout(timer); item.classList.add('is-open'); }
+      function close() { timer = setTimeout(function () { item.classList.remove('is-open'); }, 150); }
+      item.addEventListener('mouseenter', open);
+      item.addEventListener('mouseleave', close);
+      if (link) {
+        link.addEventListener('focus', open);
+        link.addEventListener('click', function (e) {
+          if (touch && !item.classList.contains('is-open')) {
+            e.preventDefault();
+            items.forEach(function (i) { if (i !== item) i.classList.remove('is-open'); });
+            item.classList.add('is-open');
+          }
+        });
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.lbs-nav-item--mega')) {
+        items.forEach(function (i) { i.classList.remove('is-open'); });
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "LBS Header",
