@@ -8,7 +8,7 @@
     {%- if section.settings.use_judgeme -%}
 
       <div class="lbs-jm-all">
-        {%- render 'judgeme_widgets', widget_type: 'judgeme_all_reviews_widget', concierge_install: true -%}
+        <div class="jdgm-widget jdgm-all-reviews-widget" data-jdgm-widget="all_reviews"></div>
       </div>
 
     {%- else -%}
