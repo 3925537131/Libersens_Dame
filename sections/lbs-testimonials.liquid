@@ -8,7 +8,18 @@
     {%- if section.settings.use_judgeme -%}
 
       <div class="lbs-jm-all">
-        {%- render 'judgeme_widgets', widget_type: 'judgeme_all_reviews_widget', concierge_install: true -%}
+        <div class='jdgm-carousel-wrapper'>
+          {%- assign jm_metafields = shop.metafields.judgeme -%}
+          <div class='jdgm-carousel-title-and-link'>
+            <span class='jdgm-all-reviews-rating-wrapper'>
+              <span style='display:block' data-score='{{ jm_metafields.all_reviews_rating }}' class='jdgm-all-reviews-rating' aria-label='{{ jm_metafields.all_reviews_rating }} stars' tabindex='0' role='img'></span>
+              <span style='display:block' class='jdgm-carousel-number-of-reviews' data-number-of-reviews='{{ jm_metafields.all_reviews_count }}'>
+                from {{ shop.metafields.judgeme.all_reviews_count }} reviews
+              </span>
+            </span>
+          </div>
+          {{ jm_metafields.featured_carousel }}
+        </div>
       </div>
 
     {%- else -%}
@@ -53,8 +64,8 @@
     {
       "type": "checkbox",
       "id": "use_judgeme",
-      "label": "Show all reviews (Judge.me)",
-      "info": "Turn on to display your Judge.me all-reviews widget here. Make sure the Judge.me app embed is enabled in Theme Editor → App embeds.",
+      "label": "Show Judge.me carousel",
+      "info": "Turn on to display your Judge.me Reviews Carousel. Make sure the Judge.me app embed is enabled in Theme Editor → App embeds.",
       "default": false
     }
   ],
