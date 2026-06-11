@@ -14,6 +14,7 @@
       "settings": {
         "overlay_opacity": 25,
         "min_height": 640,
+        "text_color": "#f4ead9",
         "show_stars": true,
         "eyebrow": "Over 50,000 happy customers",
         "heading": "By Women, For Women",
@@ -22,6 +23,8 @@
         "text": "Vibrators and sexual health essentials — researched, developed, and designed by women for over a decade.",
         "button_label_1": "Shop sex products",
         "button_link_1": "",
+        "button_bg": "#cde000",
+        "button_text": "#0029ff",
         "button_label_2": "Need help? Take the quiz",
         "button_link_2": ""
       }
@@ -68,7 +71,11 @@
         "b3",
         "b4"
       ],
-      "settings": {}
+      "settings": {
+        "show_wave": true,
+        "gradient_top": "#5a62e6",
+        "gradient_bottom": "#3730cc"
+      }
     },
     "bestsellers": {
       "type": "lbs-featured-collection",
@@ -91,6 +98,7 @@
         "c1": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
             "badge": "Vibrators",
             "title": "Vibrators",
             "link": "",
@@ -100,6 +108,7 @@
         "c2": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
             "badge": "Accessories",
             "title": "Accessories",
             "link": "",
@@ -107,7 +116,10 @@
           }
         }
       },
-      "block_order": ["c1", "c2"],
+      "block_order": [
+        "c1",
+        "c2"
+      ],
       "settings": {
         "anchor_id": "categories",
         "show_quiz_bar": true,
