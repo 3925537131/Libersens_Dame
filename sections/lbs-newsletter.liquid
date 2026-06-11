@@ -2,9 +2,9 @@
 
   {%- assign bg_image = section.settings.image -%}
   {%- if bg_image != blank -%}
-    <div class="lbs-nl2__bg" style="background-image:url({{ bg_image | image_url: width: 2400 }})"></div>
+    <div class="lbs-nl2__bg" style="background-image:url('{{ bg_image | image_url: width: 2400 }}');background-size:cover;background-position:center"></div>
   {%- else -%}
-    <div class="lbs-nl2__bg" style="background-image:url({{ 'libersens-lifestyle.png' | asset_url }})"></div>
+    <div class="lbs-nl2__bg" style="background-image:url('{{ 'libersens-lifestyle.png' | asset_url }}');background-size:cover;background-position:center"></div>
   {%- endif -%}
   <div class="lbs-nl2__overlay"></div>
 
