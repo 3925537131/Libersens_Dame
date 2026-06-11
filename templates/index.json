@@ -91,8 +91,8 @@
         "c1": {
           "type": "category",
           "settings": {
-            "title": "Wearables",
-            "link_label": "Shop now",
+            "badge": "Vibrators",
+            "title": "Vibrators",
             "link": "",
             "color": "#c4c3f2"
           }
@@ -100,42 +100,20 @@
         "c2": {
           "type": "category",
           "settings": {
-            "title": "Wands",
-            "link_label": "Shop now",
+            "badge": "Accessories",
+            "title": "Accessories",
             "link": "",
             "color": "#f9e1d5"
           }
-        },
-        "c3": {
-          "type": "category",
-          "settings": {
-            "title": "Suction",
-            "link_label": "Shop now",
-            "link": "",
-            "color": "#def1ee"
-          }
-        },
-        "c4": {
-          "type": "category",
-          "settings": {
-            "title": "For Couples",
-            "link_label": "Shop now",
-            "link": "",
-            "color": "#e9f1b3"
-          }
         }
       },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ],
+      "block_order": ["c1", "c2"],
       "settings": {
-        "eyebrow": "Find what fits",
-        "heading": "Shop by category",
-        "tabs": "Vibrators, Personal Care, Sexual Health, Bundles",
-        "anchor_id": "categories"
+        "anchor_id": "categories",
+        "show_quiz_bar": true,
+        "quiz_text": "Not sure which toy is right for you? Find Your Vibe",
+        "quiz_btn": "Take our quiz",
+        "quiz_link": ""
       }
     },
     "ticker": {

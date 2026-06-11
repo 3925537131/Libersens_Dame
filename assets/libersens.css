@@ -118,10 +118,25 @@
 .lbs .tabs__nav{display:inline-flex;gap:8px;background:#fff;border:1px solid var(--line);padding:6px;border-radius:999px;margin-bottom:40px;flex-wrap:wrap;justify-content:center}
 .lbs .tab{border:none;background:none;font-family:var(--sans);font-weight:700;font-size:14px;padding:10px 22px;border-radius:999px;cursor:pointer;color:var(--ink);transition:.15s;text-decoration:none}
 .lbs .tab.active{background:var(--blue);color:#fff}
-.lbs .tabs__panel{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.lbs .cat-card{border-radius:18px;aspect-ratio:.85;padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:var(--ink);position:relative;overflow:hidden;text-align:left}
-.lbs .cat-card h3{font-size:24px;margin-bottom:6px}
-.lbs .cat-card span{font-size:13px;font-weight:700;color:var(--blue);display:inline-flex;align-items:center;gap:6px}
+/* Categories v2 — full-image cards */
+.lbs.lbs-categories2{padding:48px 0;background:var(--cream)}
+.lbs .lbs-cat2-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lbs .lbs-cat2-card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:3/4;display:block;text-decoration:none}
+.lbs .lbs-cat2-card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.lbs .lbs-cat2-card:hover .lbs-cat2-card__img{transform:scale(1.04)}
+.lbs .lbs-cat2-card__placeholder{position:absolute;inset:0}
+.lbs .lbs-cat2-card__overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 45%,transparent 65%)}
+.lbs .lbs-cat2-card__content{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px}
+.lbs .lbs-cat2-badge{display:inline-block;background:var(--lime);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:999px;align-self:flex-start}
+.lbs .lbs-cat2-title{font-size:clamp(38px,5vw,68px);font-weight:800;color:#fff;line-height:1.0;margin-top:auto;margin-bottom:20px}
+.lbs .lbs-cat2-btn{display:inline-block;background:#fff;color:var(--ink);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:14px 32px;border-radius:4px;align-self:flex-start;transition:background .15s,color .15s}
+.lbs .lbs-cat2-card:hover .lbs-cat2-btn{background:var(--lime)}
+/* Quiz bar */
+.lbs .lbs-quiz-bar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:36px 48px;margin-top:16px;background:radial-gradient(ellipse 60% 200% at 25% 50%,rgba(210,235,165,.75) 0%,transparent 65%),var(--cream);border-radius:16px}
+.lbs .lbs-quiz-bar__text{font-size:18px;font-weight:600;color:var(--blue);line-height:1.45;max-width:560px}
+.lbs .lbs-quiz-bar__btn{flex-shrink:0;background:#fff;color:var(--ink);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:16px 28px;border-radius:4px;text-decoration:none;border:1.5px solid #ddd;transition:.15s}
+.lbs .lbs-quiz-bar__btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:749px){.lbs .lbs-cat2-grid{grid-template-columns:1fr}.lbs .lbs-cat2-card{aspect-ratio:4/3}.lbs .lbs-quiz-bar{flex-direction:column;align-items:flex-start;padding:28px 24px}}
 
 .lbs.ticker{background:var(--ink);color:#fff;padding:26px 0;overflow:hidden}
 .lbs .ticker__track{display:flex;gap:64px;white-space:nowrap;animation:lbs-scroll 28s linear infinite;width:max-content}
