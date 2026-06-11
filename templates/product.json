@@ -10,8 +10,11 @@
 {
   "sections": {
     "main": {
-      "type": "main-product",
-      "settings": {}
+      "type": "lbs-main-product",
+      "settings": {
+        "show_vendor": false,
+        "show_perks": true
+      }
     }
   },
   "order": ["main"]

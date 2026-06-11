@@ -9,213 +9,411 @@
  */
 {
   "sections": {
-    "slideshow": {
-      "type": "hero",
+    "hero": {
+      "type": "lbs-hero",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "text": "",
-        "primary_label": "DISCOVER OUR BEST SELLERS",
-        "primary_link": "/collections/best-sellers",
-        "secondary_label": "",
-        "secondary_link": ""
+        "overlay_opacity": 25,
+        "min_height": 640,
+        "text_color": "#f4ead9",
+        "show_stars": true,
+        "eyebrow": "Over 50,000 happy customers",
+        "heading": "By Women, For Women",
+        "emphasis": "",
+        "heading_suffix": "",
+        "text": "Vibrators and sexual health essentials — researched, developed, and designed by women for over a decade.",
+        "button_label_1": "Shop sex products",
+        "button_link_1": "",
+        "button_bg": "#cde000",
+        "button_text": "#0029ff",
+        "button_label_2": "Need help? Take the quiz",
+        "button_link_2": ""
       }
     },
-    "welcome": {
-      "type": "rich-text",
+    "trust": {
+      "type": "lbs-trust-bar",
       "blocks": {
-        "line_1": {
-          "type": "line",
+        "b1": {
+          "type": "badge",
           "settings": {
-            "text": "Built for private confidence"
+            "icon": "shield",
+            "title": "Medical-Grade Silicone",
+            "text": "Body-safe materials you can trust"
           }
         },
-        "line_2": {
-          "type": "line",
+        "b2": {
+          "type": "badge",
           "settings": {
-            "text": "Made for calm rituals"
+            "icon": "drop",
+            "title": "Waterproof & Rechargeable",
+            "text": "USB magnetic charging, fully sealed"
           }
         },
-        "line_3": {
-          "type": "line",
+        "b3": {
+          "type": "badge",
           "settings": {
-            "text": "Designed with discretion"
+            "icon": "check",
+            "title": "60-Night Trial",
+            "text": "Love it or your money back"
+          }
+        },
+        "b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "star",
+            "title": "12,000+ 5-Star Reviews",
+            "text": "Loved by a community of women"
           }
         }
       },
       "block_order": [
-        "line_1",
-        "line_2",
-        "line_3"
+        "b1",
+        "b2",
+        "b3",
+        "b4"
       ],
       "settings": {
-        "eyebrow": "Welcome to",
-        "heading": "libersens",
-        "text": ""
+        "show_wave": true,
+        "gradient_top": "#5a62e6",
+        "gradient_bottom": "#3730cc"
       }
     },
-    "featured_signature": {
-      "type": "featured-product",
+    "bestsellers": {
+      "type": "lbs-featured-collection",
       "settings": {
-        "product": "she-bell-2",
-        "eyebrow": "",
-        "heading": "",
-        "background_style": "default",
-        "placeholder_eyebrow": "",
-        "placeholder_title": "",
-        "placeholder_price": "",
-        "placeholder_text": "Our signature soft-touch essential with whisper-quiet modes, intuitive controls, and a finish made for easy care.",
-        "placeholder_button_label": "",
-        "placeholder_button_link": "shopify://products/she-bell-2",
-        "feature_1": "",
-        "feature_2": "",
-        "feature_3": ""
-      }
-    },
-    "featured_curve": {
-      "type": "featured-product",
-      "settings": {
-        "product": "she-bell-2",
-        "eyebrow": "",
-        "heading": "",
-        "background_style": "default",
-        "placeholder_eyebrow": "She Bell",
-        "placeholder_title": "She Bell",
-        "placeholder_price": "",
-        "placeholder_text": "A discreet, hands-free wearable made for soft positioning, shared connection, and everyday confidence.",
-        "placeholder_button_label": "",
-        "placeholder_button_link": "shopify://products/she-bell-2",
-        "feature_1": "",
-        "feature_2": "",
-        "feature_3": ""
-      }
-    },
-    "custom_slider": {
-      "type": "image-slider",
-      "blocks": {
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "product-line",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_2": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "wearable",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_3": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "lifestyle",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_4": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "hero",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_5": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "product-line",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_6": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "wearable",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_7": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "lifestyle",
-            "eyebrow": "",
-            "heading": ""
-          }
-        },
-        "slide_8": {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "hero",
-            "eyebrow": "",
-            "heading": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_1",
-        "slide_2",
-        "slide_3",
-        "slide_4",
-        "slide_5",
-        "slide_6",
-        "slide_7",
-        "slide_8"
-      ],
-      "custom_css": [],
-      "settings": {
-        "heading": "Find us all on social media @libersens"
-      }
-    },
-    "products": {
-      "type": "featured-collection",
-      "settings": {
+        "heading": "Our Bestsellers",
+        "description": "The pieces our community reaches for again and again.",
         "collection": "frontpage",
-        "eyebrow": "",
-        "heading": "Our collection",
-        "product_limit": 8,
-        "placeholder_set": "products",
-        "button_label": "View all products"
+        "products_to_show": 5,
+        "columns_desktop": 4,
+        "card_bg": "#f6f4f1",
+        "cream_background": true,
+        "anchor_id": "bestsellers",
+        "show_view_all": true,
+        "button_label": "Shop all products"
       }
     },
-    "accessories": {
-      "type": "featured-collection",
+    "categories": {
+      "type": "lbs-categories",
+      "blocks": {
+        "c1": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
+            "badge": "",
+            "title": "Vibrators",
+            "link": "shopify://collections/frontpage",
+            "color": "#c4c3f2"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
+            "badge": "",
+            "title": "Accessories",
+            "link": "shopify://collections/accessories",
+            "color": "#f9e1d5"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2"
+      ],
       "settings": {
-        "collection": "accessories",
-        "eyebrow": "",
-        "heading": "Accessories",
-        "product_limit": 8,
-        "placeholder_set": "accessories",
-        "button_label": "View accessories"
+        "anchor_id": "categories",
+        "show_quiz_bar": true,
+        "quiz_text": "Not sure which toy is right for you? Find Your Vibe",
+        "quiz_btn": "Take our quiz",
+        "quiz_link": ""
       }
     },
-    "featured_collection_KNEJ7K": {
-      "type": "featured-collection",
-      "name": "Featured collection",
+    "ticker": {
+      "type": "lbs-ticker",
+      "blocks": {
+        "t1": {
+          "type": "logo",
+          "settings": {
+            "name": "VOGUE"
+          }
+        },
+        "t2": {
+          "type": "logo",
+          "settings": {
+            "name": "Women's Health"
+          }
+        },
+        "t3": {
+          "type": "logo",
+          "settings": {
+            "name": "COSMOPOLITAN"
+          }
+        },
+        "t4": {
+          "type": "logo",
+          "settings": {
+            "name": "Forbes"
+          }
+        },
+        "t5": {
+          "type": "logo",
+          "settings": {
+            "name": "REFINERY29"
+          }
+        },
+        "t6": {
+          "type": "logo",
+          "settings": {
+            "name": "ELLE"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "settings": {}
+    },
+    "story": {
+      "type": "lbs-story",
       "settings": {
-        "collection": "best-sellers",
-        "eyebrow": "",
-        "heading": "Best Sellers",
-        "product_limit": 4,
-        "placeholder_set": "products",
-        "button_label": "View collection"
+        "eyebrow": "Our story",
+        "heading": "Built by women who were tired of being an afterthought.",
+        "text": "<p>Libersens was founded by a sexologist and a product engineer with one shared frustration: intimate products designed without women in the room. So we built our own — researched with real bodies, tested in our own labs, and refined by thousands of women like you.</p><p>Every Libersens product is body-safe, beautifully made, and engineered to help close the pleasure gap for good.</p>",
+        "button_label": "Read our story",
+        "button_link": "",
+        "anchor_id": "story"
+      }
+    },
+    "experts": {
+      "type": "lbs-experts",
+      "blocks": {
+        "e1": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Mara Ellis",
+            "role": "OB-GYN",
+            "bio": "Clinical advisor on body-safe materials and pelvic health."
+          }
+        },
+        "e2": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Naomi Reyes",
+            "role": "Sex Therapist",
+            "bio": "Guides our approach to desire, intimacy, and education."
+          }
+        },
+        "e3": {
+          "type": "expert",
+          "settings": {
+            "name": "Priya Anand, ND",
+            "role": "Naturopath",
+            "bio": "Develops our pH-balanced personal care formulas."
+          }
+        },
+        "e4": {
+          "type": "expert",
+          "settings": {
+            "name": "Dr. Lena Fox",
+            "role": "Pelvic PT",
+            "bio": "Advises on ergonomics and comfort across the range."
+          }
+        }
+      },
+      "block_order": [
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ],
+      "settings": {
+        "eyebrow": "Backed by science",
+        "heading": "User-Tested, Doctor Approved",
+        "description": "Our medical & sexual health advisory board guides everything we make.",
+        "cream_background": true
+      }
+    },
+    "podcast": {
+      "type": "lbs-podcast",
+      "blocks": {
+        "p1": {
+          "type": "platform",
+          "settings": {
+            "label": "Spotify",
+            "link": ""
+          }
+        },
+        "p2": {
+          "type": "platform",
+          "settings": {
+            "label": "Apple Podcasts",
+            "link": ""
+          }
+        },
+        "p3": {
+          "type": "platform",
+          "settings": {
+            "label": "YouTube",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "eyebrow": "Now streaming",
+        "heading": "Real Talk, by Libersens",
+        "text": "Honest conversations about pleasure, bodies, and the things no one told us. New episodes every week.",
+        "art_text": "Real Talk"
+      }
+    },
+    "testimonials": {
+      "type": "lbs-testimonials",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "The first product that actually felt like it was made with me in mind. Genuinely life-changing.",
+            "author": "Sofia R."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Beautiful, quiet, and powerful. I've recommended Libersens to every friend I have.",
+            "author": "Jess M."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a brand that talks about pleasure without shame. The quality is unreal.",
+            "author": "Dani K."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "From our community",
+        "heading": "Loved by thousands"
+      }
+    },
+    "siblings": {
+      "type": "lbs-siblings",
+      "blocks": {
+        "s1": {
+          "type": "brand",
+          "settings": {
+            "name": "Bloom & Co.",
+            "text": "Plant-powered intimate skincare and bath rituals for the whole body.",
+            "button_label": "Explore Bloom",
+            "link": "",
+            "color": "#f9e1d5"
+          }
+        },
+        "s2": {
+          "type": "brand",
+          "settings": {
+            "name": "Hush",
+            "text": "Considered home goods and candles designed for slowing down.",
+            "button_label": "Explore Hush",
+            "link": "",
+            "color": "#def1ee"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2"
+      ],
+      "settings": {
+        "eyebrow": "The family",
+        "heading": "Our Sibling Brands",
+        "cream_background": true
+      }
+    },
+    "newsletter": {
+      "type": "lbs-newsletter",
+      "settings": {
+        "heading": "Find your vibe",
+        "text": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order.",
+        "placeholder": "Enter your email",
+        "button_label": "Get matched",
+        "fineprint": "By signing up you agree to receive emails from Libersens. Unsubscribe anytime.",
+        "anchor_id": "quiz"
+      }
+    },
+    "blog": {
+      "type": "lbs-blog",
+      "blocks": {
+        "a1": {
+          "type": "post",
+          "settings": {
+            "tag": "Wellness",
+            "title": "The pleasure gap, explained",
+            "excerpt": "Why it exists, and what the research actually says about closing it.",
+            "link": ""
+          }
+        },
+        "a2": {
+          "type": "post",
+          "settings": {
+            "tag": "How-to",
+            "title": "Choosing your first vibrator",
+            "excerpt": "A judgment-free guide to finding what feels right for your body.",
+            "link": ""
+          }
+        },
+        "a3": {
+          "type": "post",
+          "settings": {
+            "tag": "Intimacy",
+            "title": "Talking pleasure with a partner",
+            "excerpt": "Five conversation starters for deeper, more connected intimacy.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ],
+      "settings": {
+        "eyebrow": "Libersens Journal",
+        "heading": "Learn & explore",
+        "blog": "",
+        "posts_to_show": 3
       }
     }
   },
   "order": [
-    "slideshow",
-    "welcome",
-    "featured_signature",
-    "featured_curve",
-    "custom_slider",
-    "products",
-    "accessories",
-    "featured_collection_KNEJ7K"
+    "hero",
+    "trust",
+    "bestsellers",
+    "categories",
+    "ticker",
+    "story",
+    "experts",
+    "podcast",
+    "testimonials",
+    "siblings",
+    "newsletter",
+    "blog"
   ]
 }

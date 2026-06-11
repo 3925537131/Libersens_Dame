@@ -1,0 +1,22 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "lbs-announcement": {
+      "type": "lbs-announcement",
+      "settings": {}
+    },
+    "lbs-header": {
+      "type": "lbs-header",
+      "blocks": {
+        "l1": { "type": "mega_collection", "settings": { "label": "Vibrators", "collection": "best-sellers", "products_count": 5 } },
+        "l2": { "type": "mega_menu", "settings": { "label": "Shop All", "menu": "main-menu", "link": "/collections/all" } },
+        "l3": { "type": "link", "settings": { "label": "About", "link": "/#story" } },
+        "l4": { "type": "link", "settings": { "label": "Find Your Vibe", "link": "/#quiz", "accent": true } }
+      },
+      "block_order": ["l1", "l2", "l3", "l4"],
+      "settings": {}
+    }
+  },
+  "order": ["lbs-announcement", "lbs-header"]
+}

@@ -1,276 +1,58 @@
-{% assign page_handle = page.handle | default: page.title | handleize %}
-{% assign page_title_downcase = page.title | downcase %}
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
 
-{% if page_handle contains 'contact' or page_title_downcase contains 'contact' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'Contact' }}</h1>
-        <p>Private support for orders, product care, and choosing the right Libersens ritual.</p>
-      </div>
-    </div>
-  </section>
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-  <section class="section">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h2>Contact us</h2>
-          <div class="contact-info-item">
-            <h3>Email</h3>
-            <p>hello@libersens.com</p>
-          </div>
-          <div class="contact-info-item">
-            <h3>Working hours</h3>
-            <p>Monday to Friday, 10:00 to 18:00</p>
-          </div>
-          <div class="contact-info-item">
-            <h3>Discreet support</h3>
-            <p>We keep product, order, and delivery conversations clear, respectful, and private.</p>
-          </div>
-          {% if page.content != blank %}
-            <div class="rte">{{ page.content }}</div>
-          {% endif %}
-        </div>
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
-        <div class="contact-form">
-          <h2>Send a message</h2>
-          {% form 'contact' %}
-            {% if form.posted_successfully? %}
-              <p class="form-success">Thanks for reaching out. We will reply soon.</p>
-            {% endif %}
-            {% if form.errors %}
-              <div class="form-errors">{{ form.errors | default_errors }}</div>
-            {% endif %}
-
-            <div class="form-group">
-              <label for="ContactName-{{ section.id }}">Name</label>
-              <input id="ContactName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" required>
-            </div>
-            <div class="form-group">
-              <label for="ContactEmail-{{ section.id }}">Email</label>
-              <input id="ContactEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
-            </div>
-            <div class="form-group">
-              <label for="ContactMessage-{{ section.id }}">Message</label>
-              <textarea id="ContactMessage-{{ section.id }}" name="contact[body]" required></textarea>
-            </div>
-            <button class="button" type="submit">Send</button>
-          {% endform %}
-        </div>
-      </div>
-    </div>
-  </section>
-{% elsif page_handle contains 'faq' or page_title_downcase contains 'faq' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'FAQ' }}</h1>
-        <p>Answers for discreet shipping, product care, returns, and everyday use.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container faq-page">
-      <div class="faq-nav" aria-label="FAQ categories">
-        <a class="faq-nav-tab active" href="#orders">Orders</a>
-        <a class="faq-nav-tab" href="#care">Care</a>
-        <a class="faq-nav-tab" href="#returns">Returns</a>
-      </div>
-
-      <div class="faq-category" id="orders">
-        <h2>Orders and shipping</h2>
-        <details class="faq-item" open>
-          <summary>How discreet is the packaging?</summary>
-          <div class="faq-answer">Orders ship in plain outer packaging without product names printed on the outside.</div>
-        </details>
-        <details class="faq-item">
-          <summary>How long will delivery take?</summary>
-          <div class="faq-answer">Most orders are prepared within 2 to 3 business days. Delivery timing depends on destination and shipping method.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Can I track my order?</summary>
-          <div class="faq-answer">Yes. Once your order ships, Shopify will send tracking details to the email used at checkout.</div>
-        </details>
-      </div>
-
-      <div class="faq-category" id="care">
-        <h2>Product care</h2>
-        <details class="faq-item">
-          <summary>How should I clean my product?</summary>
-          <div class="faq-answer">Use warm water where appropriate, a gentle compatible cleanser, and allow products to dry fully before storage.</div>
-        </details>
-        <details class="faq-item">
-          <summary>How should I store Libersens products?</summary>
-          <div class="faq-answer">Keep products in their pouch or case, away from lint, sharp objects, direct heat, and incompatible materials.</div>
-        </details>
-      </div>
-
-      <div class="faq-category" id="returns">
-        <h2>Returns and exchanges</h2>
-        <details class="faq-item">
-          <summary>What is the return policy?</summary>
-          <div class="faq-answer">For hygiene reasons, opened intimate products may not be returnable unless faulty. Review the refund policy for details.</div>
-        </details>
-        <details class="faq-item">
-          <summary>What if my product arrives damaged?</summary>
-          <div class="faq-answer">Contact support with your order number and photos of the issue so the team can help with replacement options.</div>
-        </details>
-      </div>
-
-      {% if page.content != blank %}
-        <div class="rte">{{ page.content }}</div>
-      {% endif %}
-    </div>
-  </section>
-{% elsif page_handle contains 'shipping' or page_title_downcase contains 'shipping' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'Shipping policy' }}</h1>
-        <p>Discreet, tracked delivery on every Libersens order.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="policy-content rte">
-        {% if page.content != blank %}
-          {{ page.content }}
-        {% else %}
-          <h2>Discreet packaging</h2>
-          <p>Every order ships in plain, unbranded outer packaging. There are no product names or imagery printed on the outside, and the sender appears as a neutral business name.</p>
-          <h2>Processing time</h2>
-          <p>Most orders are prepared within 2 to 3 business days. You will receive an email with tracking details as soon as your order ships.</p>
-          <h2>Delivery estimates</h2>
-          <p>Domestic delivery typically takes 3 to 7 business days after dispatch. International delivery times vary by destination and customs processing.</p>
-          <h2>Shipping costs</h2>
-          <p>Shipping is calculated at checkout based on destination and method. Promotional free-shipping thresholds, where available, are shown in the cart.</p>
-          <h2>Questions</h2>
-          <p>For help with a delivery, contact us at hello@libersens.com with your order number and we will respond privately and promptly.</p>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-{% elsif page_handle contains 'refund' or page_handle contains 'return' or page_title_downcase contains 'refund' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'Refund policy' }}</h1>
-        <p>Clear, fair returns with intimate hygiene always in mind.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="policy-content rte">
-        {% if page.content != blank %}
-          {{ page.content }}
-        {% else %}
-          <h2>Hygiene-sensitive products</h2>
-          <p>For health and hygiene reasons, intimate products that have been opened or used cannot be returned or exchanged unless they are faulty.</p>
-          <h2>Unopened items</h2>
-          <p>Unopened items in their original, sealed packaging may be returned within 30 days of delivery for a refund of the product price.</p>
-          <h2>Faulty or damaged items</h2>
-          <p>If your product arrives damaged or develops a fault, contact us at hello@libersens.com with your order number and photos. We will arrange a replacement or refund.</p>
-          <h2>How refunds are issued</h2>
-          <p>Approved refunds are returned to your original payment method within 5 to 10 business days of us receiving the returned item or confirming a fault.</p>
-          <h2>Start a return</h2>
-          <p>Email hello@libersens.com to begin. All return correspondence is handled privately and discreetly.</p>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-{% elsif page_handle contains 'subscription' or page_title_downcase contains 'subscription' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'Subscription terms' }}</h1>
-        <p>How the Libersens membership and recurring orders work.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="policy-content rte">
-        {% if page.content != blank %}
-          {{ page.content }}
-        {% else %}
-          <h2>What a subscription includes</h2>
-          <p>A Libersens subscription delivers a curated selection of essentials and care accessories on a recurring schedule you choose at checkout.</p>
-          <h2>Billing</h2>
-          <p>You are billed automatically at the start of each cycle using your saved payment method. The price and frequency are confirmed before you subscribe.</p>
-          <h2>Pausing and skipping</h2>
-          <p>You can pause or skip an upcoming delivery from your account up to 48 hours before the next billing date.</p>
-          <h2>Cancellation</h2>
-          <p>You may cancel at any time from your account or by emailing hello@libersens.com. Cancellation stops future charges; the current cycle is not pro-rated.</p>
-          <h2>Changes to terms</h2>
-          <p>If subscription pricing or contents change, we will notify active members by email before the change takes effect.</p>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-{% elsif page_handle contains 'terms-of-service' or page_handle == 'terms' or page_title_downcase contains 'terms of service' %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title | default: 'Terms of service' }}</h1>
-        <p>The terms that apply when you shop with Libersens.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="policy-content rte">
-        {% if page.content != blank %}
-          {{ page.content }}
-        {% else %}
-          <h2>Overview</h2>
-          <p>By accessing this website and placing an order, you agree to the terms set out here. Please read them carefully before using the store.</p>
-          <h2>Eligibility</h2>
-          <p>You must be of legal age in your country of residence to purchase from Libersens. Products are intended for personal adult use only.</p>
-          <h2>Products and pricing</h2>
-          <p>We aim to display products, descriptions, and prices accurately. Prices and availability may change without notice, and we reserve the right to correct errors.</p>
-          <h2>Orders</h2>
-          <p>An order is accepted once payment is confirmed and a confirmation email is sent. We may decline or cancel an order where necessary, with a full refund.</p>
-          <h2>Privacy</h2>
-          <p>We treat your personal and order information with discretion. See the related policy pages for shipping, refunds, and subscription terms.</p>
-          <h2>Contact</h2>
-          <p>Questions about these terms can be sent to hello@libersens.com.</p>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-{% else %}
-  <section class="page-banner">
-    <div class="container">
-      <div class="page-header">
-<h1>{{ page.title }}</h1>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="policy-content rte">
-        {% if page.content != blank %}
-          {{ page.content }}
-        {% else %}
-          <p>Libersens creates intimate care products with a focus on comfort, privacy, and beautifully simple routines.</p>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-{% endif %}
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+  <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {{ page.title | escape }}
+  </h1>
+  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {{ page.content }}
+  </div>
+</div>
 
 {% schema %}
 {
-  "name": "Main page",
-  "settings": []
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
 }
 {% endschema %}
