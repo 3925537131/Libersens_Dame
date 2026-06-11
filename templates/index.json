@@ -99,9 +99,9 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
-            "badge": "Vibrators",
+            "badge": "",
             "title": "Vibrators",
-            "link": "",
+            "link": "shopify://collections/frontpage",
             "color": "#c4c3f2"
           }
         },
@@ -109,9 +109,9 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
-            "badge": "Accessories",
+            "badge": "",
             "title": "Accessories",
-            "link": "",
+            "link": "shopify://collections/accessories",
             "color": "#f9e1d5"
           }
         }
