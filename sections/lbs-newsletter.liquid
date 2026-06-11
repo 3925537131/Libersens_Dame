@@ -1,15 +1,126 @@
-<section class="lbs newsletter" id="{{ section.settings.anchor_id | default: 'quiz' }}">
-  <div class="newsletter__inner">
-    <h2>{{ section.settings.heading }}</h2>
-    {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
-    {%- form 'customer', class: 'newsletter__form' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" aria-label="Email" required>
-      <button class="btn btn--coral" type="submit">{{ section.settings.button_label }}</button>
-    {%- endform -%}
-    {%- if section.settings.fineprint != blank -%}<div class="fineprint">{{ section.settings.fineprint }}</div>{%- endif -%}
+<section class="lbs lbs-nl2" id="{{ section.settings.anchor_id | default: 'quiz' }}">
+
+  {%- if section.settings.image != blank -%}
+    <div class="lbs-nl2__bg" style="background-image:url({{ section.settings.image | image_url: width: 2400 }})"></div>
+    <div class="lbs-nl2__overlay"></div>
+  {%- else -%}
+    <div class="lbs-nl2__bg lbs-nl2__bg--auto"></div>
+  {%- endif -%}
+
+  <div class="lbs-nl2__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="lbs-nl2__eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    <h2 class="lbs-nl2__heading">{{ section.settings.heading }}</h2>
+
+    {%- if section.settings.text != blank -%}
+      <p class="lbs-nl2__text">{{ section.settings.text }}</p>
+    {%- endif -%}
+
+    <div class="lbs-nl2__form">
+      <div class="klaviyo-form-Xerejc"></div>
+    </div>
+
+    {%- if section.settings.fineprint != blank -%}
+      <p class="lbs-nl2__fineprint">{{ section.settings.fineprint }}</p>
+    {%- endif -%}
   </div>
+
 </section>
+
+<style>
+  .lbs.lbs-nl2 {
+    position: relative;
+    min-height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* background image */
+  .lbs-nl2__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* auto-generated background — warm editorial tones */
+  .lbs-nl2__bg--auto {
+    background:
+      radial-gradient(ellipse 55% 90% at 15% 55%, rgba(170, 45, 55, 0.75) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 65% at 78% 25%, rgba(15, 15, 80, 0.85) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 60% at 55% 85%, rgba(90, 25, 110, 0.5) 0%, transparent 50%),
+      linear-gradient(135deg, #1c0606 0%, #0e0e2c 55%, #1c0e1c 100%);
+  }
+
+  /* dark overlay for image legibility */
+  .lbs-nl2__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+  }
+
+  /* content */
+  .lbs-nl2__inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 660px;
+    width: 100%;
+    padding: 80px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .lbs-nl2__eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 18px;
+  }
+
+  .lbs-nl2__heading {
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 700;
+    color: var(--blue, #0029ff);
+    line-height: 1.08;
+    margin: 0 0 20px;
+  }
+
+  .lbs-nl2__text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0 0 36px;
+    max-width: 500px;
+  }
+
+  .lbs-nl2__form {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .lbs-nl2__fineprint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.38);
+    margin: 18px 0 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 749px) {
+    .lbs-nl2__inner { padding: 60px 24px; }
+    .lbs-nl2__heading { font-size: 36px; }
+  }
+</style>
 
 {% schema %}
 {
@@ -17,12 +128,14 @@
   "tag": "section",
   "class": "section-lbs-newsletter",
   "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "image", "label": "Background image (leave blank for auto-generated)" },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Find your vibe" },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order." },
-    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Get matched" },
+    { "type": "textarea", "id": "text", "label": "Subtext", "default": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order." },
     { "type": "text", "id": "fineprint", "label": "Fine print", "default": "By signing up you agree to receive emails from Libersens. Unsubscribe anytime." },
-    { "type": "text", "id": "anchor_id", "label": "Anchor id", "default": "quiz" }
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "default": "quiz" }
   ],
   "presets": [{ "name": "LBS Newsletter" }]
 }
