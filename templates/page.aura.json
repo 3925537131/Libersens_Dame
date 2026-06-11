@@ -1,0 +1,155 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "product-banner-stack",
+      "blocks": {
+        "banner_main": {
+          "type": "banner",
+          "settings": {
+            "fallback_asset": "wearable",
+            "content_position": "bottom",
+            "heading": "Aura",
+            "text": "Wearable and hands-free designs for discreet comfort and shared connection.",
+            "primary_label": "Shop Aura",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "User guide",
+            "secondary_link": "/pages/user-guide"
+          }
+        }
+      },
+      "block_order": [
+        "banner_main"
+      ],
+      "settings": {}
+    },
+    "signature": {
+      "type": "featured-product",
+      "settings": {
+        "eyebrow": "Hands-free favourite",
+        "heading": "Meet the Aura Wearable.",
+        "background_style": "muted",
+        "placeholder_eyebrow": "Aura Wearable",
+        "placeholder_title": "Aura Wearable",
+        "placeholder_price": "$119.00",
+        "placeholder_text": "A low-profile wearable made for hands-free comfort, soft positioning, and effortless discretion.",
+        "placeholder_button_label": "Add to cart",
+        "placeholder_button_link": "/pages/best-sellers",
+        "feature_1": "Hands-free, low-profile fit",
+        "feature_2": "Soft flexible silicone",
+        "feature_3": "App and remote control ready"
+      }
+    },
+    "family": {
+      "type": "product-family-grid",
+      "blocks": {
+        "tile_wearable": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "wearable",
+            "content_position": "bottom",
+            "heading": "Aura Wearable",
+            "text": "Discreet, hands-free comfort for everyday confidence.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        },
+        "tile_duo": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "lifestyle",
+            "content_position": "bottom",
+            "heading": "Aura Duo",
+            "text": "Designed for shared rituals and connected intimacy.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        },
+        "tile_remote": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "product-line",
+            "content_position": "bottom",
+            "heading": "Aura Remote",
+            "text": "App and remote control for effortless, playful pacing.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        }
+      },
+      "block_order": [
+        "tile_wearable",
+        "tile_duo",
+        "tile_remote"
+      ],
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "Discreet shipping"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "Body-safe materials"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "2-year warranty"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "Private support"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4"
+      ],
+      "settings": {}
+    },
+    "cross_sell": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Complete the ritual",
+        "heading": "Care accessories for your Aura.",
+        "product_limit": 4,
+        "placeholder_set": "accessories",
+        "button_label": "View accessories"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "signature",
+    "family",
+    "trust",
+    "cross_sell"
+  ]
+}

@@ -1,0 +1,134 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "showcase": {
+      "type": "page-showcase",
+      "blocks": {
+        "highlight_lume": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "product-line",
+            "label": "Lumé",
+            "title": "Lumé Classic",
+            "text": "The signature soft-touch essential, loved for its quiet modes and easy care.",
+            "price": "$99.00",
+            "button_label": "View item",
+            "link": "/pages/lume"
+          }
+        },
+        "highlight_aura": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "wearable",
+            "label": "Aura",
+            "title": "Aura Wearable",
+            "text": "A discreet, hands-free favourite for everyday confidence.",
+            "price": "$119.00",
+            "button_label": "View item",
+            "link": "/pages/aura"
+          }
+        },
+        "highlight_petite": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "lifestyle",
+            "label": "Petite",
+            "title": "Petite Mini",
+            "text": "The travel-ready essential that goes everywhere with you.",
+            "price": "$69.00",
+            "button_label": "View item",
+            "link": "/pages/petite"
+          }
+        },
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Loved across every line",
+            "text": "These are the products customers reach for first, pulled from Lumé, Aura, and Petite."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "A simple place to start",
+            "text": "New to Libersens? This page is the easiest way to find a confident first choice."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Ready for your real catalog",
+            "text": "Once products are uploaded, link these cards to live product pages and a Shopify collection."
+          }
+        }
+      },
+      "block_order": ["highlight_lume", "highlight_aura", "highlight_petite", "point_1", "point_2", "point_3"],
+      "settings": {
+        "fallback_asset": "hero",
+        "eyebrow": "Best sellers",
+        "heading": "The Libersens favourites.",
+        "text": "A curated edit of our most-loved products across every line, chosen for comfort, quiet confidence, and easy care.",
+        "button_label": "Shop all products",
+        "button_link": "/pages/best-sellers",
+        "grid_eyebrow": "Top picks",
+        "grid_heading": "Start here if you are choosing your first Libersens.",
+        "panel_eyebrow": "Why these",
+        "panel_heading": "A confident, considered shortlist.",
+        "panel_text": "<p>This page mirrors the reference site's featured collection: a focused shortlist of best sellers that gives customers a clear, low-pressure path into the catalog.</p>"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Shop now",
+        "heading": "More customer favourites.",
+        "product_limit": 8,
+        "placeholder_set": "products",
+        "button_label": "View all products"
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The packaging is completely discreet and the product feels genuinely premium. The whole experience feels considered.",
+            "name": "Verified customer",
+            "detail": "Lumé Classic"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Quiet, soft, and so easy to clean and store. Exactly what I was hoping for.",
+            "name": "Verified customer",
+            "detail": "Aura Wearable"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Perfect for travel and the storage pouch is a lovely touch. I feel comfortable taking it anywhere.",
+            "name": "Verified customer",
+            "detail": "Petite Mini"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "eyebrow": "Customer notes",
+        "heading": "Quiet confidence, in their words."
+      }
+    }
+  },
+  "order": ["showcase", "featured", "reviews"]
+}

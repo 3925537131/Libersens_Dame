@@ -1,0 +1,115 @@
+{% assign placeholder_images = 'libersens-product-line.png|libersens-product-wearable.png|libersens-lifestyle.png|libersens-hero.png' | split: '|' %}
+{% assign fallback_index = placeholder_index | default: 0 | modulo: placeholder_images.size %}
+{% assign secondary_index = fallback_index | plus: 1 | modulo: placeholder_images.size %}
+{% assign fallback_image = 'libersens-product-line.png' %}
+{% assign secondary_fallback_image = 'libersens-product-wearable.png' %}
+{% case fallback_index %}
+  {% when 1 %}
+    {% assign fallback_image = 'libersens-product-wearable.png' %}
+  {% when 2 %}
+    {% assign fallback_image = 'libersens-lifestyle.png' %}
+  {% when 3 %}
+    {% assign fallback_image = 'libersens-hero.png' %}
+{% endcase %}
+{% case secondary_index %}
+  {% when 1 %}
+    {% assign secondary_fallback_image = 'libersens-product-wearable.png' %}
+  {% when 2 %}
+    {% assign secondary_fallback_image = 'libersens-lifestyle.png' %}
+  {% when 3 %}
+    {% assign secondary_fallback_image = 'libersens-hero.png' %}
+  {% else %}
+    {% assign secondary_fallback_image = 'libersens-product-line.png' %}
+{% endcase %}
+{% assign product_url = routes.all_products_collection_url %}
+{% assign has_secondary_image = true %}
+{% assign secondary_image = blank %}
+{% if product != blank %}
+  {% assign product_url = product.url %}
+  {% if product.images.size <= 1 %}
+    {% assign has_secondary_image = false %}
+  {% else %}
+    {% for image in product.images limit: 1 offset: 1 %}
+      {% assign secondary_image = image %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+<article class="product-card product-item {% if has_secondary_image %}has-secondary-image{% endif %}">
+  <div class="product-card__media-wrap">
+    <a class="product-card__media" href="{{ product_url }}" aria-label="{% if product != blank %}{{ product.title | escape }}{% else %}Placeholder product{% endif %}">
+    {% if product != blank and product.featured_image != blank %}
+      <img
+        class="product-card__primary-image"
+        src="{{ product.featured_image | image_url: width: 900 }}"
+        alt="{{ product.featured_image.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="900"
+        height="900"
+      >
+      {% if product.images.size > 1 %}
+        <img
+          class="product-card__secondary-image"
+          src="{{ secondary_image | image_url: width: 900 }}"
+          alt="{{ secondary_image.alt | default: product.title | escape }}"
+          loading="lazy"
+          width="900"
+          height="900"
+        >
+      {% endif %}
+    {% else %}
+      <img
+        class="product-card__primary-image"
+        src="{{ fallback_image | asset_url }}"
+        alt="Libersens placeholder product"
+        loading="lazy"
+        width="900"
+        height="900"
+      >
+      <img
+        class="product-card__secondary-image"
+        src="{{ secondary_fallback_image | asset_url }}"
+        alt="Libersens placeholder product alternate"
+        loading="lazy"
+        width="900"
+        height="900"
+      >
+    {% endif %}
+    </a>
+
+    <div class="product-card__quick-form">
+      {% if product != blank and product.available %}
+        <form method="post" action="{{ routes.cart_add_url }}">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="button button--small button--outline" type="submit">+ Add to cart</button>
+        </form>
+      {% elsif product != blank %}
+        <span class="product-card__sold-out">Sold out</span>
+      {% else %}
+        <a class="button button--small button--outline" href="{{ routes.all_products_collection_url }}">Shop collection</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="product-card__info">
+    <a class="product-card__title" href="{{ product_url }}">
+      {% if product != blank %}
+        {{ product.title }}
+      {% else %}
+        {{ placeholder_title | default: 'Libersens Intimacy Essential' }}
+      {% endif %}
+    </a>
+
+    <div class="price">
+      {% if product != blank %}
+        {{ product.price | money }}
+        {% if product.compare_at_price > product.price %}
+          <span class="compare-price">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+      {% else %}
+        {{ placeholder_price | default: '$89.00' }}
+      {% endif %}
+    </div>
+  </div>
+</article>

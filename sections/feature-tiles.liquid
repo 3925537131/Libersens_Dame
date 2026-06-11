@@ -1,0 +1,101 @@
+<section class="section">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="tile-grid">
+      {% for block in section.blocks %}
+        {% assign fallback = 'libersens-product-line.png' %}
+        {% if forloop.index == 2 %}
+          {% assign fallback = 'libersens-product-wearable.png' %}
+        {% elsif forloop.index == 3 %}
+          {% assign fallback = 'libersens-lifestyle.png' %}
+        {% endif %}
+
+        <article class="feature-tile" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <img src="{{ block.settings.image | image_url: width: 1100 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy" width="1100" height="1300">
+          {% else %}
+            <img src="{{ fallback | asset_url }}" alt="Libersens product placeholder" loading="lazy" width="1100" height="1100">
+          {% endif %}
+
+          <div class="feature-tile__content">
+            <h3>{{ block.settings.heading }}</h3>
+            <p>{{ block.settings.text }}</p>
+            {% if block.settings.button_label != blank %}
+              <a class="button button--small" href="{{ block.settings.button_link | default: routes.all_products_collection_url }}">{{ block.settings.button_label }}</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature tiles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Shop by ritual"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Beautifully private, intentionally simple."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Personal essentials"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Soft-touch products made for solo moments and shared connection."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature tiles",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

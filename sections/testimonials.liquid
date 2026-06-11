@@ -1,0 +1,87 @@
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="review-carousel" data-review-carousel>
+      <div class="review-carousel__viewport">
+        <div class="review-carousel__track" data-review-carousel-track>
+          {% for block in section.blocks %}
+            <article class="testimonial review-carousel__slide" {{ block.shopify_attributes }}>
+              <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>{{ block.settings.quote }}</p>
+              <strong>{{ block.settings.name }}</strong>
+              {% if block.settings.detail != blank %}
+                <span>{{ block.settings.detail }}</span>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="review-carousel__controls">
+        <button class="slider-arrow review-carousel__arrow" type="button" data-review-carousel-prev aria-label="Previous review">&#8249;</button>
+        <div class="slider-dots review-carousel__dots" data-review-carousel-dots></div>
+        <button class="slider-arrow review-carousel__arrow" type="button" data-review-carousel-next aria-label="Next review">&#8250;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Customer notes"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Quiet confidence, shared in their words."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "The packaging is discreet, the product feels premium, and the whole experience feels considered."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Verified customer"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "Verified purchase"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

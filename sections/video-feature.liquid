@@ -1,0 +1,87 @@
+{% assign motion_url = section.settings.animated_url | default: section.settings.video_url %}
+
+<section class="section section--flush">
+  <a class="video-feature" href="{{ section.settings.link | default: routes.all_products_collection_url }}">
+    {% if motion_url != blank and motion_url contains '.mp4' %}
+      <video autoplay muted loop playsinline poster="{{ 'libersens-lifestyle.png' | asset_url }}">
+        <source src="{{ motion_url }}" type="video/mp4">
+      </video>
+    {% elsif motion_url != blank %}
+      <img class="video-feature__motion" src="{{ motion_url }}" alt="{{ section.settings.media_alt | escape }}" loading="lazy" width="1600" height="900">
+    {% elsif section.settings.image != blank %}
+      <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy" width="2400" height="1200">
+    {% else %}
+      <img class="video-feature__motion" src="{{ 'libersens-motion.gif' | asset_url }}" alt="Libersens animated ritual background" loading="lazy" width="520" height="292">
+    {% endif %}
+
+    <div class="video-feature__content">
+      {% if section.settings.button_label != blank %}
+        <span class="button video-feature__button">{{ section.settings.button_label }}</span>
+      {% else %}
+        <span class="video-feature__play" aria-hidden="true"></span>
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+      {% endif %}
+    </div>
+  </a>
+</section>
+
+{% schema %}
+{
+  "name": "Video feature",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "MP4 video URL"
+    },
+    {
+      "type": "url",
+      "id": "animated_url",
+      "label": "GIF or MP4 URL"
+    },
+    {
+      "type": "text",
+      "id": "media_alt",
+      "label": "Animated media alt text",
+      "default": "Libersens animated ritual background"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback image"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Click link"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Watch the ritual"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A calmer way to experience intimacy."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video feature"
+    }
+  ]
+}
+{% endschema %}

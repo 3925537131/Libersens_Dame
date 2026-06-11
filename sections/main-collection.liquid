@@ -1,0 +1,168 @@
+<section class="collection-banner">
+  <div class="container">
+    <div class="page-header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ collection.title | default: 'Products' }}</span>
+      </nav>
+      <div class="page-header__text-wrapper">
+        <h1>{{ collection.title | default: 'Products' }}</h1>
+        {% if collection.description != blank %}
+          <div class="rte">{{ collection.description }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--compact collection-main">
+  <div class="container">
+    {% paginate collection.products by 24 %}
+      {% assign display_count = collection.products_count | default: collection.products.size %}
+      {% if display_count == 0 %}
+        {% assign display_count = 8 %}
+      {% endif %}
+
+      <div class="product-facet">
+        <aside class="product-facet__aside">
+          <div class="product-facet__filters-header">
+            <p class="heading heading--small">Filters</p>
+          </div>
+
+          {% if collection.filters.size > 0 %}
+            <form class="facet-form" action="{{ collection.url }}" method="get">
+              {% if collection.sort_by != blank %}
+                <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+              {% endif %}
+
+              {% for filter in collection.filters %}
+                <details class="facet-group" {% if filter.active_values.size > 0 %}open{% endif %}>
+                  <summary>{{ filter.label }}</summary>
+
+                  {% case filter.type %}
+                    {% when 'list', 'boolean' %}
+                      <div class="facet-values">
+                        {% for value in filter.values %}
+                          <label class="checkbox-row" for="Filter-{{ filter.param_name | handleize }}-{{ forloop.index }}">
+                            <input
+                              id="Filter-{{ filter.param_name | handleize }}-{{ forloop.index }}"
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                            >
+                            <span>{{ value.label }}{% if value.count != blank %} ({{ value.count }}){% endif %}</span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    {% when 'price_range' %}
+                      <div class="price-filter">
+                        <label class="field">
+                          <span>From</span>
+                          <input
+                            type="number"
+                            name="{{ filter.min_value.param_name }}"
+                            value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                            placeholder="0"
+                            min="0"
+                          >
+                        </label>
+                        <label class="field">
+                          <span>To</span>
+                          <input
+                            type="number"
+                            name="{{ filter.max_value.param_name }}"
+                            value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                            placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            min="0"
+                          >
+                        </label>
+                      </div>
+                  {% endcase %}
+                </details>
+              {% endfor %}
+
+              <div class="facet-actions">
+                <button class="button button--small" type="submit">Apply filters</button>
+                <a class="link-text" href="{{ collection.url }}">Clear all</a>
+              </div>
+            </form>
+          {% else %}
+            <div class="facet-fallback">
+              <a href="/pages/our-collection">Personal essentials</a>
+              <a href="/pages/our-collection">Wearable connection</a>
+              <a href="/pages/accessories">Care accessories</a>
+              <a href="/pages/new-arrivals">New arrivals</a>
+            </div>
+          {% endif %}
+        </aside>
+
+        <div id="FacetMain" class="product-facet__main" role="region" aria-live="polite">
+          <div class="product-facet__meta-bar">
+            <span role="status">{{ display_count }} products</span>
+
+            {% if collection.sort_options.size > 0 %}
+              <form class="sort-form" action="{{ collection.url }}" method="get">
+                {% for filter in collection.filters %}
+                  {% for value in filter.active_values %}
+                    <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                  {% endfor %}
+                  {% if filter.type == 'price_range' %}
+                    {% if filter.min_value.value %}
+                      <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+                    {% endif %}
+                    {% if filter.max_value.value %}
+                      <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                <label for="SortBy-{{ section.id }}">Sort by</label>
+                {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+                <select id="SortBy-{{ section.id }}" name="sort_by" onchange="this.form.submit()">
+                  {% for option in collection.sort_options %}
+                    <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+                  {% endfor %}
+                </select>
+              </form>
+            {% endif %}
+          </div>
+
+          <product-list class="product-facet__product-list product-list anchor">
+            <div class="product-list__inner product-grid">
+              {% if collection.products.size > 0 %}
+                {% for product in collection.products %}
+                  {% render 'product-card', product: product, placeholder_index: forloop.index0 %}
+                {% endfor %}
+              {% else %}
+                {% render 'product-card', placeholder_index: 0, placeholder_title: 'Libersens Signature Set', placeholder_price: '$129.00' %}
+                {% render 'product-card', placeholder_index: 1, placeholder_title: 'Libersens Curve', placeholder_price: '$89.00' %}
+                {% render 'product-card', placeholder_index: 2, placeholder_title: 'Libersens Wearable', placeholder_price: '$109.00' %}
+                {% render 'product-card', placeholder_index: 3, placeholder_title: 'Libersens Travel Kit', placeholder_price: '$59.00' %}
+                {% render 'product-card', placeholder_index: 4, placeholder_title: 'Libersens Care Pouch', placeholder_price: '$34.00' %}
+                {% render 'product-card', placeholder_index: 5, placeholder_title: 'Libersens Charging Dock', placeholder_price: '$39.00' %}
+                {% render 'product-card', placeholder_index: 6, placeholder_title: 'Libersens Duo Set', placeholder_price: '$129.00' %}
+                {% render 'product-card', placeholder_index: 7, placeholder_title: 'Libersens Private Ritual Box', placeholder_price: '$149.00' %}
+              {% endif %}
+            </div>
+          </product-list>
+
+          {% if paginate.pages > 1 %}
+            <nav class="pagination" role="navigation" aria-label="Pagination">
+              {{ paginate | default_pagination }}
+            </nav>
+          {% endif %}
+        </div>
+      </div>
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main collection",
+  "settings": []
+}
+{% endschema %}

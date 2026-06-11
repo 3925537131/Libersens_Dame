@@ -1,0 +1,155 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "product-banner-stack",
+      "blocks": {
+        "banner_main": {
+          "type": "banner",
+          "settings": {
+            "fallback_asset": "product-line",
+            "content_position": "bottom",
+            "heading": "Lumé",
+            "text": "The signature Libersens line. Soft-touch, body-safe, and tuned for quiet, unhurried rituals.",
+            "primary_label": "Shop Lumé",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "User guide",
+            "secondary_link": "/pages/user-guide"
+          }
+        }
+      },
+      "block_order": [
+        "banner_main"
+      ],
+      "settings": {}
+    },
+    "signature": {
+      "type": "featured-product",
+      "settings": {
+        "eyebrow": "Most loved",
+        "heading": "Meet the Lumé Classic.",
+        "background_style": "muted",
+        "placeholder_eyebrow": "Lumé Classic",
+        "placeholder_title": "Lumé Classic",
+        "placeholder_price": "$99.00",
+        "placeholder_text": "Our signature soft-touch essential with whisper-quiet modes, intuitive controls, and a finish made for easy care.",
+        "placeholder_button_label": "Add to cart",
+        "placeholder_button_link": "/pages/best-sellers",
+        "feature_1": "Whisper-quiet motor",
+        "feature_2": "Soft-touch body-safe silicone",
+        "feature_3": "Fully waterproof and rechargeable"
+      }
+    },
+    "family": {
+      "type": "product-family-grid",
+      "blocks": {
+        "tile_classic": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "product-line",
+            "content_position": "bottom",
+            "heading": "Lumé Classic",
+            "text": "The everyday signature. Gentle, intuitive, and beautifully simple.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        },
+        "tile_curve": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "wearable",
+            "content_position": "bottom",
+            "heading": "Lumé Curve",
+            "text": "A sculpted form with a quiet profile and relaxed, flowing modes.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        },
+        "tile_pro": {
+          "type": "tile",
+          "settings": {
+            "fallback_asset": "hero",
+            "content_position": "bottom",
+            "heading": "Lumé Pro",
+            "text": "Deeper modes and refined controls for a fully personalised ritual.",
+            "primary_label": "Buy now >",
+            "primary_link": "/pages/best-sellers",
+            "secondary_label": "Details",
+            "secondary_link": "/pages/user-guide"
+          }
+        }
+      },
+      "block_order": [
+        "tile_classic",
+        "tile_curve",
+        "tile_pro"
+      ],
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "Discreet shipping"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "Body-safe materials"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "2-year warranty"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "Private support"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4"
+      ],
+      "settings": {}
+    },
+    "cross_sell": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Complete the ritual",
+        "heading": "Care accessories for your Lumé.",
+        "product_limit": 4,
+        "placeholder_set": "accessories",
+        "button_label": "View accessories"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "signature",
+    "family",
+    "trust",
+    "cross_sell"
+  ]
+}

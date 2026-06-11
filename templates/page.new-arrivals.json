@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "showcase": {
+      "type": "page-showcase",
+      "blocks": {
+        "highlight_curve": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "product-line",
+            "label": "New",
+            "title": "Libersens Curve",
+            "text": "A sculpted soft-touch essential with a quiet profile, easy controls, and a form designed for relaxed exploration.",
+            "price": "$89.00",
+            "button_label": "View item"
+          }
+        },
+        "highlight_wearable": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "wearable",
+            "label": "Standout",
+            "title": "Libersens Wearable",
+            "text": "A discreet wearable design for hands-free intimacy, soft positioning, and shared connection without overcomplication.",
+            "price": "$109.00",
+            "button_label": "View item"
+          }
+        },
+        "highlight_travel": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "lifestyle",
+            "label": "Set",
+            "title": "Signature Travel Set",
+            "text": "A private storage kit with a satin pouch, compact charger, and care accessories for keeping everything in one place.",
+            "price": "$129.00",
+            "button_label": "View item"
+          }
+        },
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Why these are new",
+            "text": "This page highlights the newest Libersens concepts and product placeholders first, so launches can be swapped in cleanly later."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Launch-ready structure",
+            "text": "Each card is built to become a real Shopify product link once your catalog is uploaded."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Discreet presentation",
+            "text": "Copy and visuals stay tasteful, premium, and suitable for a female intimacy storefront."
+          }
+        }
+      },
+      "block_order": ["highlight_curve", "highlight_wearable", "highlight_travel", "point_1", "point_2", "point_3"],
+      "settings": {
+        "fallback_asset": "hero",
+        "eyebrow": "New arrivals",
+        "heading": "The newest Libersens rituals.",
+        "text": "Fresh intimacy essentials selected for comfort, quiet confidence, and an elevated self-care routine.",
+        "button_label": "Shop all arrivals",
+        "grid_eyebrow": "Standout items",
+        "grid_heading": "New designs to place at the front of the collection.",
+        "panel_eyebrow": "Launch notes",
+        "panel_heading": "Built so your first product drop feels complete.",
+        "panel_text": "<p>Use this page for your newest releases, limited sets, seasonal bundles, and product stories. The structure mirrors a product-first Shopify homepage: hero, featured cards, practical details, then optional page content.</p>"
+      }
+    }
+  },
+  "order": ["showcase"]
+}

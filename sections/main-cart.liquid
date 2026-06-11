@@ -1,0 +1,58 @@
+<section class="section">
+  <div class="container">
+    <div class="page-hero">
+      <p class="eyebrow">Cart</p>
+      <h1>Your cart</h1>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <form class="cart-form" action="{{ routes.cart_url }}" method="post">
+        <div class="cart-table">
+          {% for item in cart.items %}
+            <div class="cart-line">
+              {% if item.image != blank %}
+                <img src="{{ item.image | image_url: width: 220 }}" alt="{{ item.image.alt | default: item.product.title | escape }}" width="220" height="220">
+              {% else %}
+                <img src="{{ 'libersens-product-wearable.png' | asset_url }}" alt="{{ item.product.title | escape }}" width="220" height="220">
+              {% endif %}
+
+              <div>
+                <strong>{{ item.product.title }}</strong>
+                {% unless item.variant.title == 'Default Title' %}
+                  <p>{{ item.variant.title }}</p>
+                {% endunless %}
+                <div class="field" style="max-width: 120px; margin-top: 12px;">
+                  <label for="Quantity-{{ item.key }}">Quantity</label>
+                  <input class="quantity-input" id="Quantity-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                </div>
+              </div>
+
+              <div class="cart-line__price price">{{ item.final_line_price | money }}</div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="cart-summary">
+          <h3>Subtotal: {{ cart.total_price | money }}</h3>
+          <button class="button button--outline" type="submit" name="update">Update cart</button>
+          <button class="button" type="submit" name="checkout">Checkout</button>
+        </div>
+      </form>
+    {% else %}
+      <div class="empty-state">
+        <h2>Your cart is empty</h2>
+        <p>Explore the Libersens collection when you are ready.</p>
+        <div class="section-actions" style="justify-content: center;">
+          <a class="button" href="{{ routes.all_products_collection_url }}">Start shopping</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": []
+}
+{% endschema %}

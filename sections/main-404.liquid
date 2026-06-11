@@ -1,23 +1,20 @@
-<style type="text/css">
-  .template-404 .title + * {
-    margin-top: 1rem;
-  }
+<section class="section">
+  <div class="container">
+    <div class="empty-state">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p>This page is not available, but the Libersens collection is close by.</p>
+      <div class="section-actions" style="justify-content: center;">
+        <a class="button" href="{{ routes.root_url }}">Return home</a>
+        <a class="button button--outline" href="{{ routes.all_products_collection_url }}">Shop products</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
-    }
-  }
-</style>
-
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
-</div>
+{% schema %}
+{
+  "name": "404",
+  "settings": []
+}
+{% endschema %}

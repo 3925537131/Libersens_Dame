@@ -1,0 +1,95 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "showcase": {
+      "type": "page-showcase",
+      "blocks": {
+        "highlight_solo": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "product-line",
+            "label": "Solo",
+            "title": "Personal essentials",
+            "text": "Soft-touch products designed for simple control, easy cleaning, and private everyday storage.",
+            "price": "From $89.00",
+            "button_label": "Explore"
+          }
+        },
+        "highlight_couples": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "wearable",
+            "label": "Connection",
+            "title": "Wearable intimacy",
+            "text": "Low-profile designs made for shared rituals, hands-free comfort, and discreet setup.",
+            "price": "From $109.00",
+            "button_label": "Explore"
+          }
+        },
+        "highlight_sets": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "lifestyle",
+            "label": "Sets",
+            "title": "Care and storage sets",
+            "text": "Bundles for charging, storage, cleaning, and keeping intimate products beautifully organized.",
+            "price": "From $39.00",
+            "button_label": "Explore"
+          }
+        },
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Choose by ritual",
+            "text": "The collection is organized around how someone wants to use the product, not technical jargon."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Keep comparisons simple",
+            "text": "Use product cards for use case, feel, noise level, storage, and care notes."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Scale as your catalog grows",
+            "text": "When real products are added, link these highlights to live product or collection pages."
+          }
+        }
+      },
+      "block_order": ["highlight_solo", "highlight_couples", "highlight_sets", "point_1", "point_2", "point_3"],
+      "settings": {
+        "fallback_asset": "product-line",
+        "eyebrow": "Our collection",
+        "heading": "A calm, curated intimacy wardrobe.",
+        "text": "Explore Libersens products by ritual: personal essentials, shared connection, and care-forward accessories.",
+        "button_label": "Shop collection",
+        "grid_eyebrow": "Categories",
+        "grid_heading": "A collection built around comfort and discretion.",
+        "panel_eyebrow": "Collection guide",
+        "panel_heading": "Make the buying path feel considered.",
+        "panel_text": "<p>This page gives customers a clear route through the catalog, similar to the reference site's product-family navigation, while keeping the Libersens tone warm, refined, and privacy-first.</p>"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Shop now",
+        "heading": "Featured Libersens products.",
+        "product_limit": 4,
+        "button_label": "View all products"
+      }
+    }
+  },
+  "order": ["showcase", "featured_collection"]
+}

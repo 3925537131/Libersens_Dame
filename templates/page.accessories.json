@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "showcase": {
+      "type": "page-showcase",
+      "blocks": {
+        "highlight_pouch": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "lifestyle",
+            "label": "Storage",
+            "title": "Satin privacy pouch",
+            "text": "A soft storage pouch for keeping essentials protected, organized, and easy to travel with.",
+            "price": "$19.00",
+            "button_label": "View accessory"
+          }
+        },
+        "highlight_clean": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "hero",
+            "label": "Care",
+            "title": "Gentle care kit",
+            "text": "Simple care tools for cleaning, drying, and storing your products with confidence.",
+            "price": "$29.00",
+            "button_label": "View accessory"
+          }
+        },
+        "highlight_charge": {
+          "type": "highlight",
+          "settings": {
+            "fallback_asset": "wearable",
+            "label": "Charging",
+            "title": "Magnetic charging base",
+            "text": "A compact charging accessory designed to look clean on a vanity or bedside table.",
+            "price": "$39.00",
+            "button_label": "View accessory"
+          }
+        },
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Care extends product life",
+            "text": "Position accessories as part of the experience, not an afterthought."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Storage supports privacy",
+            "text": "Make it easy for customers to understand how products are kept discreet at home or while traveling."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "Bundles increase confidence",
+            "text": "Accessory bundles can answer cleaning, charging, and storage questions before they become friction."
+          }
+        }
+      },
+      "block_order": ["highlight_pouch", "highlight_clean", "highlight_charge", "point_1", "point_2", "point_3"],
+      "settings": {
+        "fallback_asset": "lifestyle",
+        "eyebrow": "Accessories",
+        "heading": "The quiet details that complete the ritual.",
+        "text": "Storage, care, charging, and travel accessories that keep intimacy products clean, private, and ready.",
+        "button_label": "Shop accessories",
+        "grid_eyebrow": "Care essentials",
+        "grid_heading": "Everything around the product matters too.",
+        "panel_eyebrow": "Accessory guide",
+        "panel_heading": "Support privacy before and after use.",
+        "panel_text": "<p>Accessories are a natural dedicated page because they answer practical questions around storage, care, charging, and travel. This mirrors the reference site's accessory navigation while staying true to Libersens.</p>"
+      }
+    }
+  },
+  "order": ["showcase"]
+}

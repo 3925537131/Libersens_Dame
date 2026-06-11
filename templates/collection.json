@@ -10,12 +10,8 @@
 {
   "sections": {
     "main": {
-      "type": "lbs-main-collection",
-      "settings": {
-        "products_per_page": 16,
-        "columns_desktop": 4,
-        "enable_sorting": true
-      }
+      "type": "main-collection",
+      "settings": {}
     }
   },
   "order": ["main"]

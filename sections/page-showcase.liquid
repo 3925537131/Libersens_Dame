@@ -1,0 +1,293 @@
+{% assign fallback_image = 'libersens-hero.png' %}
+{% if section.settings.fallback_asset == 'product-line' %}
+  {% assign fallback_image = 'libersens-product-line.png' %}
+{% elsif section.settings.fallback_asset == 'wearable' %}
+  {% assign fallback_image = 'libersens-product-wearable.png' %}
+{% elsif section.settings.fallback_asset == 'lifestyle' %}
+  {% assign fallback_image = 'libersens-lifestyle.png' %}
+{% endif %}
+
+<section class="page-showcase">
+  <div class="page-showcase__hero">
+    {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.image.alt | escape }}" width="2400" height="1200">
+    {% else %}
+      <img src="{{ fallback_image | asset_url }}" alt="Libersens page visual" width="1792" height="1024">
+    {% endif %}
+
+    <div class="container">
+      <div class="page-showcase__copy">
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1>{{ section.settings.heading }}</h1>
+        <p>{{ section.settings.text }}</p>
+        {% if section.settings.button_label != blank %}
+          <div class="section-actions">
+            <a class="button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">{{ section.settings.grid_eyebrow }}</p>
+        <h2>{{ section.settings.grid_heading }}</h2>
+      </div>
+
+      <div class="tile-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'highlight' %}
+            {% assign block_image = 'libersens-product-line.png' %}
+            {% if block.settings.fallback_asset == 'wearable' %}
+              {% assign block_image = 'libersens-product-wearable.png' %}
+            {% elsif block.settings.fallback_asset == 'lifestyle' %}
+              {% assign block_image = 'libersens-lifestyle.png' %}
+            {% elsif block.settings.fallback_asset == 'hero' %}
+              {% assign block_image = 'libersens-hero.png' %}
+            {% endif %}
+
+            <article class="collection-card page-highlight" {{ block.shopify_attributes }}>
+              <a class="product-card__media" href="{{ block.settings.link | default: routes.all_products_collection_url }}">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy" width="1000" height="1000">
+                {% else %}
+                  <img src="{{ block_image | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="1000" height="1000">
+                {% endif %}
+              </a>
+              <div class="product-card__info">
+                <p class="eyebrow">{{ block.settings.label }}</p>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text }}</p>
+                {% if block.settings.price != blank %}
+                  <div class="price">{{ block.settings.price }}</div>
+                {% endif %}
+                <a class="button button--small button--outline" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.button_label }}</a>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--compact page-showcase__panel">
+    <div class="container">
+      <div class="split-feature">
+        <div class="split-feature__content">
+          <p class="eyebrow">{{ section.settings.panel_eyebrow }}</p>
+          <h2>{{ section.settings.panel_heading }}</h2>
+          <div class="split-feature__text">{{ section.settings.panel_text }}</div>
+        </div>
+
+        <div class="guide-list">
+          {% assign point_number = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'point' %}
+              {% assign point_number = point_number | plus: 1 %}
+              <article class="guide-list__item" {{ block.shopify_attributes }}>
+                <span>{{ point_number }}</span>
+                <div>
+                  <h3>{{ block.settings.title }}</h3>
+                  <p>{{ block.settings.text }}</p>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_page_content %}
+    <div class="section">
+      <div class="container">
+        <div class="rte">
+          {{ page.content }}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Page showcase",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "select",
+      "id": "fallback_asset",
+      "label": "Fallback image",
+      "default": "hero",
+      "options": [
+        { "value": "hero", "label": "Hero still life" },
+        { "value": "product-line", "label": "Product line" },
+        { "value": "wearable", "label": "Wearable" },
+        { "value": "lifestyle", "label": "Lifestyle" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Libersens"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed for private confidence."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Thoughtfully designed intimacy products with discreet storage, soft-touch finishes, and routines that feel easy to return to."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "grid_eyebrow",
+      "label": "Grid eyebrow",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "grid_heading",
+      "label": "Grid heading",
+      "default": "Choose the ritual that fits you."
+    },
+    {
+      "type": "text",
+      "id": "panel_eyebrow",
+      "label": "Panel eyebrow",
+      "default": "Details"
+    },
+    {
+      "type": "text",
+      "id": "panel_heading",
+      "label": "Panel heading",
+      "default": "Built around comfort, privacy, and care."
+    },
+    {
+      "type": "richtext",
+      "id": "panel_text",
+      "label": "Panel text",
+      "default": "<p>Each Libersens page is designed like a guided product experience: clear choices first, practical details next, and no awkward guessing.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_page_content",
+      "label": "Show Shopify page content",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "fallback_asset",
+          "label": "Fallback image",
+          "default": "product-line",
+          "options": [
+            { "value": "product-line", "label": "Product line" },
+            { "value": "wearable", "label": "Wearable" },
+            { "value": "lifestyle", "label": "Lifestyle" },
+            { "value": "hero", "label": "Hero still life" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Featured"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Libersens Essential"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "A discreet product card with thoughtful placeholder copy."
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$89.00"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "point",
+      "name": "Detail point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Discreet by default"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Private packaging, simple care, and storage-forward design."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page showcase",
+      "blocks": [
+        { "type": "highlight" },
+        { "type": "highlight" },
+        { "type": "highlight" },
+        { "type": "point" },
+        { "type": "point" },
+        { "type": "point" }
+      ]
+    }
+  ]
+}
+{% endschema %}
