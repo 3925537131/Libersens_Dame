@@ -12,7 +12,7 @@
     "hero": {
       "type": "lbs-hero",
       "settings": {
-        "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
+        "image": "shopify://shop_images/retail-shopping-package.jpg",
         "overlay_opacity": 25,
         "min_height": 640,
         "text_color": "#f4ead9",
