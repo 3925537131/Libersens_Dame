@@ -1,0 +1,9 @@
+# Theme editor data — owned by Shopify, never overwrite from local.
+# These files store everything done in Customize: uploaded images,
+# text edits, section settings, app embeds. Pushing local copies
+# wipes those changes.
+templates/*.json
+templates/customers/*.json
+config/settings_data.json
+sections/header-group.json
+sections/footer-group.json
