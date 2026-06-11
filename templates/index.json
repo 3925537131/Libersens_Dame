@@ -310,7 +310,8 @@
       ],
       "settings": {
         "eyebrow": "From our community",
-        "heading": "Loved by thousands"
+        "heading": "Loved by thousands",
+        "use_judgeme": true
       }
     },
     "siblings": {
