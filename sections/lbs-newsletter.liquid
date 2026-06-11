@@ -22,6 +22,18 @@
       <div class="klaviyo-form-Xerejc"></div>
     </div>
 
+    <script>
+      (function() {
+        if (document.querySelector('.klaviyo-form-Xerejc [data-testid]') ||
+            document.querySelector('.klaviyo-form-Xerejc form') ||
+            document.querySelector('.klaviyo-form-Xerejc iframe')) return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=WRqsLJ';
+        document.head.appendChild(s);
+      })();
+    </script>
+
     {%- if section.settings.fineprint != blank -%}
       <p class="lbs-nl2__fineprint">{{ section.settings.fineprint }}</p>
     {%- endif -%}
