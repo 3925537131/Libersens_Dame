@@ -188,8 +188,6 @@
 .lbs .newsletter__form{display:flex;gap:10px;max-width:460px;margin:0 auto}
 .lbs .newsletter input{flex:1;border:none;border-radius:999px;padding:15px 22px;font-size:15px;font-family:var(--sans)}
 .lbs .newsletter .fineprint{font-size:12px;opacity:.7;margin-top:16px}
-.lbs .newsletter__klaviyo{max-width:520px;margin:0 auto}
-.lbs .newsletter__klaviyo input{flex:initial}
 
 .lbs .blogs{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .lbs .post__img{aspect-ratio:1.5;border-radius:16px;margin-bottom:18px;background-size:cover;background-position:center;overflow:hidden}
