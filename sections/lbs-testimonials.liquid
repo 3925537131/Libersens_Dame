@@ -54,26 +54,40 @@
 </section>
 
 <style>
-  .lbs-testimonials-section { padding: 64px 0; }
+  .lbs-testimonials-section {
+    padding: 64px 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  /* ── carousel shell ── */
   .lbs-rc-outer {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 40px 32px 0;
+    padding: 40px 40px 0;
+    box-sizing: border-box;
   }
   .lbs-rc-viewport {
-    overflow: hidden;
     flex: 1;
+    overflow: hidden;
     min-width: 0;
   }
   .lbs-rc-track {
     display: flex;
     gap: 16px;
-    transition: transform 0.4s cubic-bezier(.4,0,.2,1);
-    will-change: transform;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  /* ── card: 5 across on desktop ──
+     Formula: (100vw - outer-padding×2 - btn×2 - gap×2 - card-gap×4) / 5
+     = (100vw - 80px - 88px - 24px - 64px) / 5
+     = (100vw - 256px) / 5                              */
   .lbs-rc-card {
-    flex-shrink: 0;
+    flex: 0 0 calc((100vw - 256px) / 5);
+    min-width: 0;
     background: #fff;
     border-radius: 14px;
     padding: 28px 24px;
@@ -81,10 +95,26 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    box-sizing: border-box;
   }
+
   .lbs-rc-stars { color: #e07b6a; font-size: 17px; letter-spacing: 2px; }
-  .lbs-rc-quote { font-size: 14px; line-height: 1.65; color: var(--ink); flex: 1; margin: 0; }
-  .lbs-rc-author { font-size: 13px; font-weight: 600; color: var(--ink); opacity: 0.55; margin-top: auto; }
+  .lbs-rc-quote {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink, #1a1a1a);
+    flex: 1;
+    margin: 0;
+  }
+  .lbs-rc-author {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink, #1a1a1a);
+    opacity: 0.55;
+    margin-top: auto;
+  }
+
+  /* ── nav buttons ── */
   .lbs-rc-btn {
     flex-shrink: 0;
     width: 44px;
@@ -98,13 +128,20 @@
     align-items: center;
     justify-content: center;
     transition: background 0.15s, border-color 0.15s, color 0.15s;
-    color: var(--ink);
+    color: var(--ink, #1a1a1a);
   }
-  .lbs-rc-btn:hover:not(:disabled) { background: var(--blue, #0029ff); color: #fff; border-color: var(--blue, #0029ff); }
+  .lbs-rc-btn:hover:not(:disabled) {
+    background: var(--blue, #0029ff);
+    color: #fff;
+    border-color: var(--blue, #0029ff);
+  }
   .lbs-rc-btn:disabled { opacity: 0.25; cursor: default; }
+
+  /* ── mobile: 1 card ── */
   @media (max-width: 749px) {
-    .lbs-rc-outer { padding: 32px 16px 0; gap: 8px; }
-    .lbs-rc-btn { width: 36px; height: 36px; font-size: 15px; }
+    .lbs-rc-outer { padding: 28px 16px 0; gap: 8px; }
+    .lbs-rc-btn   { width: 36px; height: 36px; font-size: 15px; }
+    .lbs-rc-card  { flex: 0 0 calc(100vw - 80px); }
   }
 </style>
 
@@ -112,49 +149,38 @@
 (function () {
   var section = document.querySelector('.lbs-testimonials-section');
   if (!section) return;
-  var track = section.querySelector('.lbs-rc-track');
-  if (!track) return;
-  var viewport = section.querySelector('.lbs-rc-viewport');
+  var track   = section.querySelector('.lbs-rc-track');
   var prevBtn = section.querySelector('.lbs-rc-prev');
   var nextBtn = section.querySelector('.lbs-rc-next');
-  var cards = Array.from(track.querySelectorAll('.lbs-rc-card'));
-  var total = cards.length;
+  if (!track) return;
+
+  var cards   = Array.from(track.querySelectorAll('.lbs-rc-card'));
+  var total   = cards.length;
   var current = 0;
-  var gap = 16;
+  var GAP     = 16;
 
   function perView() { return window.innerWidth < 750 ? 1 : 5; }
 
-  function setWidths() {
-    var pv = perView();
-    var vw = viewport.offsetWidth;
-    var cardW = (vw - gap * (pv - 1)) / pv;
-    cards.forEach(function (c) { c.style.width = cardW + 'px'; });
-    current = Math.min(current, Math.max(0, total - pv));
-    update(false);
+  function cardWidth() {
+    return cards[0] ? (cards[0].getBoundingClientRect().width + GAP) : 0;
   }
 
-  function update(animate) {
-    if (animate === false) track.style.transition = 'none';
-    else track.style.transition = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
-    var pv = perView();
-    var cardW = cards[0] ? (cards[0].offsetWidth + gap) : 0;
-    track.style.transform = 'translateX(-' + (current * cardW) + 'px)';
-    if (prevBtn) prevBtn.disabled = current === 0;
-    if (nextBtn) nextBtn.disabled = current >= total - pv;
-    if (animate === false) requestAnimationFrame(function () { track.style.transition = ''; });
+  function clamp(n) { return Math.max(0, Math.min(n, total - perView())); }
+
+  function goTo(n, animate) {
+    current = clamp(n);
+    track.style.transition = animate === false ? 'none' : '';
+    track.style.transform  = 'translateX(-' + (current * cardWidth()) + 'px)';
+    if (prevBtn) prevBtn.disabled = current <= 0;
+    if (nextBtn) nextBtn.disabled = current >= total - perView();
   }
 
-  if (prevBtn) prevBtn.addEventListener('click', function () {
-    current = Math.max(0, current - perView());
-    update();
-  });
-  if (nextBtn) nextBtn.addEventListener('click', function () {
-    current = Math.min(total - perView(), current + perView());
-    update();
-  });
+  if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - perView()); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + perView()); });
 
-  setWidths();
-  window.addEventListener('resize', setWidths);
+  window.addEventListener('resize', function () { goTo(0, false); });
+
+  goTo(0, false);
 })();
 </script>
 
