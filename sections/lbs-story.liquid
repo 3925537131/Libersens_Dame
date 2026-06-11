@@ -1,9 +1,5 @@
 <section class="lbs story" id="{{ section.settings.anchor_id | default: 'story' }}">
-  <div class="story__img">
-    {%- if section.settings.image != blank -%}
-      <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="" loading="lazy" width="1200" height="900">
-    {%- endif -%}
-  </div>
+  <div class="story__img"{% if section.settings.image %} style="background-image:url({{ section.settings.image | image_url: width: 1200 }})"{% endif %}></div>
   <div class="story__copy">
     {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
     <h2>{{ section.settings.heading }}</h2>
