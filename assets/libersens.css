@@ -198,29 +198,28 @@
 .lbs .post a.read{font-size:13px;font-weight:700;color:var(--blue)}
 
 /* ===== dame-style footer ===== */
-.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#ffffff);color:var(--blue);padding:72px 0 40px;font-family:var(--sans)}
-.lbs.lbs-footer2 *{font-family:inherit}
+.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#ffffff);color:var(--blue);padding:72px 0 40px;font-family:'Manrope',system-ui,-apple-system,sans-serif}
 .lbs .lbs-footer2__inner{position:relative;z-index:2;width:100%;margin:0;padding:0 clamp(24px,5vw,72px)}
 /* newsletter row */
 .lbs .lbs-footer2__news{display:grid;grid-template-columns:1fr 2fr;gap:24px 48px;align-items:baseline;padding-bottom:40px;margin-bottom:40px}
-.lbs .lbs-footer2__news-label{font-family:var(--sans);font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;letter-spacing:.01em}
+.lbs .lbs-footer2__news-label{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(22px,2.5vw,34px);line-height:1.05;letter-spacing:-.01em}
 .lbs .lbs-footer2__news-field{position:relative}
 .lbs .lbs-footer2__news-form{position:relative;display:block}
-.lbs .lbs-footer2__news-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:0 4em 10px 0;font-family:var(--serif);font-size:clamp(26px,3vw,40px);font-weight:500;color:inherit;line-height:1.05}
+.lbs .lbs-footer2__news-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:0 4em 10px 0;font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,3vw,40px);font-weight:500;color:inherit;line-height:1.05}
 .lbs .lbs-footer2__news-input::placeholder{color:currentColor;opacity:.55}
 .lbs .lbs-footer2__news-input:focus{outline:none;border-bottom-color:var(--blue)}
-.lbs .lbs-footer2__news-submit{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,2.2vw,30px);font-weight:500;color:inherit;padding:0;transition:color .15s}
+.lbs .lbs-footer2__news-submit{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-family:'Fraunces',Georgia,serif;font-size:clamp(20px,2.2vw,30px);font-weight:500;color:inherit;padding:0;transition:color .15s}
 .lbs .lbs-footer2__news-submit:hover{color:var(--blue)}
 /* link columns — spread evenly across full footer width */
 .lbs .lbs-footer2__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:40px 24px;justify-items:start}
 .lbs .lbs-footer2__col--copy{justify-self:end;text-align:right}
-.lbs .lbs-footer2__col-head{font-family:var(--sans);font-size:13px;font-weight:800;letter-spacing:.04em;margin-bottom:18px}
+.lbs .lbs-footer2__col-head{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:500;letter-spacing:-.01em;margin-bottom:18px}
 .lbs .lbs-footer2__links{list-style:none}
 .lbs .lbs-footer2__links li{margin-bottom:10px;line-height:1.1}
-.lbs .lbs-footer2__links a{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.02em;text-transform:uppercase;opacity:.85;transition:.15s;display:inline-block}
+.lbs .lbs-footer2__links a{font-family:'Manrope',system-ui,-apple-system,sans-serif;font-size:13px;font-weight:500;letter-spacing:.01em;opacity:.85;transition:.15s;display:inline-block}
 .lbs .lbs-footer2__links a:hover{opacity:1;transform:translateX(2px);color:var(--blue)}
-.lbs .lbs-footer2__col--copy .lbs-footer2__copy{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.02em;text-transform:uppercase;line-height:1.5}
-.lbs .lbs-footer2__legal{font-family:var(--sans);font-size:11px;opacity:.6;margin-top:16px;line-height:1.5}
+.lbs .lbs-footer2__col--copy .lbs-footer2__copy{font-family:'Manrope',system-ui,-apple-system,sans-serif;font-size:13px;font-weight:500;letter-spacing:.01em;line-height:1.5}
+.lbs .lbs-footer2__legal{font-family:'Manrope',system-ui,-apple-system,sans-serif;font-size:12px;opacity:.6;margin-top:16px;line-height:1.5}
 /* animated wave */
 .lbs .lbs-footer2__wave{position:absolute;left:0;right:0;top:0;bottom:-1px;z-index:1;overflow:hidden;pointer-events:none}
 .lbs .lbs-footer2__wave-track{display:flex;width:300%;height:100%;align-items:flex-end;animation:lbs-footer-wave 22s linear infinite}
