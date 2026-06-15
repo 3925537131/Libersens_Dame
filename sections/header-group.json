@@ -11,7 +11,7 @@
       "blocks": {
         "l1": { "type": "mega_collection", "settings": { "label": "Vibrators", "collection": "best-sellers", "products_count": 5 } },
         "l2": { "type": "mega_menu", "settings": { "label": "Shop All", "menu": "main-menu", "link": "/collections/all" } },
-        "l3": { "type": "link", "settings": { "label": "Journal", "link": "/blogs/journal" } },
+        "l3": { "type": "link", "settings": { "label": "Journal", "link": "/blogs/news" } },
         "l4": { "type": "link", "settings": { "label": "About", "link": "/pages/about-us" } },
         "l5": { "type": "link", "settings": { "label": "Find Your Vibe", "link": "/#quiz", "accent": true } }
       },

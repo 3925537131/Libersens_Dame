@@ -24,16 +24,14 @@
           <div class="lbs-footer2__col" {{ block.shopify_attributes }}>
             <p class="lbs-footer2__col-head">{{ block.settings.heading }}</p>
             <ul class="lbs-footer2__links">
-              {%- assign slots = '1,2,3,4,5,6,7,8' | split: ',' -%}
-              {%- for n in slots -%}
-                {%- assign lbl_key = 'l' | append: n -%}
-                {%- assign url_key = 'u' | append: n -%}
-                {%- assign lbl = block.settings[lbl_key] -%}
-                {%- assign lnk = block.settings[url_key] -%}
-                {%- if lbl != blank -%}
-                  <li><a href="{{ lnk | default: '#' }}">{{ lbl }}</a></li>
-                {%- endif -%}
-              {%- endfor -%}
+              {%- if block.settings.l1 != blank -%}<li><a href="{{ block.settings.u1 | default: '#' }}">{{ block.settings.l1 }}</a></li>{%- endif -%}
+              {%- if block.settings.l2 != blank -%}<li><a href="{{ block.settings.u2 | default: '#' }}">{{ block.settings.l2 }}</a></li>{%- endif -%}
+              {%- if block.settings.l3 != blank -%}<li><a href="{{ block.settings.u3 | default: '#' }}">{{ block.settings.l3 }}</a></li>{%- endif -%}
+              {%- if block.settings.l4 != blank -%}<li><a href="{{ block.settings.u4 | default: '#' }}">{{ block.settings.l4 }}</a></li>{%- endif -%}
+              {%- if block.settings.l5 != blank -%}<li><a href="{{ block.settings.u5 | default: '#' }}">{{ block.settings.l5 }}</a></li>{%- endif -%}
+              {%- if block.settings.l6 != blank -%}<li><a href="{{ block.settings.u6 | default: '#' }}">{{ block.settings.l6 }}</a></li>{%- endif -%}
+              {%- if block.settings.l7 != blank -%}<li><a href="{{ block.settings.u7 | default: '#' }}">{{ block.settings.l7 }}</a></li>{%- endif -%}
+              {%- if block.settings.l8 != blank -%}<li><a href="{{ block.settings.u8 | default: '#' }}">{{ block.settings.l8 }}</a></li>{%- endif -%}
             </ul>
           </div>
         {%- endif -%}
@@ -75,7 +73,7 @@
     { "type": "header", "content": "Copyright column" },
     { "type": "text", "id": "logo_text", "label": "Brand name", "default": "Libersens" },
     { "type": "text", "id": "copyright_heading", "label": "Column heading", "default": "Copyright" },
-    { "type": "text", "id": "legal_text", "label": "Legal line", "default": "Terms · Privacy · Accessibility" },
+    { "type": "text", "id": "legal_text", "label": "Legal line" },
     { "type": "header", "content": "Colours" },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#0029FF" },
@@ -89,41 +87,31 @@
         { "type": "text", "id": "heading", "label": "Column heading", "default": "Column" },
         { "type": "header", "content": "Link 1" },
         { "type": "text", "id": "l1", "label": "Label" },
-        { "type": "url",  "id": "u1", "label": "URL" },
+        { "type": "text", "id": "u1", "label": "URL" },
         { "type": "header", "content": "Link 2" },
         { "type": "text", "id": "l2", "label": "Label" },
-        { "type": "url",  "id": "u2", "label": "URL" },
+        { "type": "text", "id": "u2", "label": "URL" },
         { "type": "header", "content": "Link 3" },
         { "type": "text", "id": "l3", "label": "Label" },
-        { "type": "url",  "id": "u3", "label": "URL" },
+        { "type": "text", "id": "u3", "label": "URL" },
         { "type": "header", "content": "Link 4" },
         { "type": "text", "id": "l4", "label": "Label" },
-        { "type": "url",  "id": "u4", "label": "URL" },
+        { "type": "text", "id": "u4", "label": "URL" },
         { "type": "header", "content": "Link 5" },
         { "type": "text", "id": "l5", "label": "Label" },
-        { "type": "url",  "id": "u5", "label": "URL" },
+        { "type": "text", "id": "u5", "label": "URL" },
         { "type": "header", "content": "Link 6" },
         { "type": "text", "id": "l6", "label": "Label" },
-        { "type": "url",  "id": "u6", "label": "URL" },
+        { "type": "text", "id": "u6", "label": "URL" },
         { "type": "header", "content": "Link 7" },
         { "type": "text", "id": "l7", "label": "Label" },
-        { "type": "url",  "id": "u7", "label": "URL" },
+        { "type": "text", "id": "u7", "label": "URL" },
         { "type": "header", "content": "Link 8" },
         { "type": "text", "id": "l8", "label": "Label" },
-        { "type": "url",  "id": "u8", "label": "URL" }
+        { "type": "text", "id": "u8", "label": "URL" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "LBS Footer",
-      "blocks": [
-        { "type": "menu", "settings": { "heading": "Product" } },
-        { "type": "menu", "settings": { "heading": "About" } },
-        { "type": "menu", "settings": { "heading": "Social" } },
-        { "type": "menu", "settings": { "heading": "Terms" } }
-      ]
-    }
-  ]
+  "presets": [{ "name": "LBS Footer" }]
 }
 {% endschema %}

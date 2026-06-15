@@ -9,10 +9,10 @@
           "type": "menu",
           "settings": {
             "heading": "Product",
-            "l1": "Shop", "u1": "/collections/all",
-            "l2": "Returns", "u2": "/pages/returns",
-            "l3": "FAQs", "u3": "/pages/faqs",
-            "l4": "Rewards", "u4": "/pages/rewards",
+            "l1": "Shop",      "u1": "/collections/all",
+            "l2": "Returns",   "u2": "/pages/returns",
+            "l3": "FAQs",      "u3": "/pages/faqs",
+            "l4": "Rewards",   "u4": "/pages/rewards",
             "l5": "Refer a Friend", "u5": "/pages/refer-a-friend"
           }
         },
@@ -20,12 +20,12 @@
           "type": "menu",
           "settings": {
             "heading": "About",
-            "l1": "About Us", "u1": "/pages/about-us",
-            "l2": "Contact Us", "u2": "/pages/contact-us",
-            "l3": "Store Locator", "u3": "/pages/store-locator",
-            "l4": "Careers", "u4": "/pages/careers",
-            "l5": "Press", "u5": "/pages/press",
-            "l6": "Manuals", "u6": "/pages/manuals",
+            "l1": "About Us",       "u1": "/pages/about-us",
+            "l2": "Contact Us",     "u2": "/pages/contact-us",
+            "l3": "Store Locator",  "u3": "/pages/store-locator",
+            "l4": "Careers",        "u4": "/pages/careers",
+            "l5": "Press",          "u5": "/pages/press",
+            "l6": "Manuals",        "u6": "/pages/manuals",
             "l7": "Wholesale Info", "u7": "/pages/wholesale-info",
             "l8": "Join our Affiliate Program", "u8": "/pages/join-our-affiliate-program"
           }
@@ -41,8 +41,8 @@
           "settings": {
             "heading": "Terms",
             "l1": "Terms & Conditions", "u1": "/policies/terms-of-service",
-            "l2": "Privacy Policy", "u2": "/policies/privacy-policy",
-            "l3": "Patent Info", "u3": "/pages/patent-info"
+            "l2": "Privacy Policy",     "u2": "/policies/privacy-policy",
+            "l3": "Patent Info",        "u3": "/pages/patent-info"
           }
         }
       },

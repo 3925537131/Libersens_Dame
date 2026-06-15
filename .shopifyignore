@@ -3,7 +3,7 @@
 # text edits, section settings, app embeds. Pushing local copies
 # wipes those changes.
 templates/*.json
-templates/customers/*.json
-config/settings_data.json
 sections/header-group.json
 sections/footer-group.json
+templates/customers/*.json
+config/settings_data.json
