@@ -199,7 +199,7 @@
 
 /* ===== dame-style footer ===== */
 .lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#f9e1d5);color:var(--footer-text,#0c0c2b);padding:72px 0 200px}
-.lbs .lbs-footer2__inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.lbs .lbs-footer2__inner{position:relative;z-index:2;width:100%;margin:0;padding:0 clamp(24px,5vw,72px)}
 /* newsletter row */
 .lbs .lbs-footer2__news{display:grid;grid-template-columns:1fr 2fr;gap:24px 48px;align-items:baseline;padding-bottom:56px;margin-bottom:56px;border-bottom:1px solid currentColor}
 .lbs .lbs-footer2__news-label{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3vw,40px);line-height:1.05;letter-spacing:-.01em}
@@ -210,8 +210,9 @@
 .lbs .lbs-footer2__news-input:focus{outline:none;border-bottom-color:var(--blue)}
 .lbs .lbs-footer2__news-submit{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,2.2vw,30px);font-weight:500;color:inherit;padding:0;transition:color .15s}
 .lbs .lbs-footer2__news-submit:hover{color:var(--blue)}
-/* link columns */
-.lbs .lbs-footer2__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:40px 24px}
+/* link columns — spread evenly across full footer width */
+.lbs .lbs-footer2__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:40px 24px;justify-items:start}
+.lbs .lbs-footer2__col--copy{justify-self:end;text-align:right}
 .lbs .lbs-footer2__col-head{font-family:var(--sans);font-size:13px;font-weight:800;letter-spacing:.04em;margin-bottom:18px}
 .lbs .lbs-footer2__links{list-style:none}
 .lbs .lbs-footer2__links li{margin-bottom:10px;line-height:1.1}

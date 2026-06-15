@@ -3,21 +3,17 @@
 
     {%- if section.settings.show_newsletter -%}
       <div class="lbs-footer2__news">
-        <label class="lbs-footer2__news-label" for="lbs-footer-email">{{ section.settings.newsletter_heading }}</label>
+        <p class="lbs-footer2__news-label">{{ section.settings.newsletter_heading }}</p>
         <div class="lbs-footer2__news-field">
-          {%- form 'customer', class: 'lbs-footer2__news-form' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <input
-              id="lbs-footer-email"
-              type="email"
-              name="contact[email]"
-              class="lbs-footer2__news-input"
-              placeholder="{{ section.settings.newsletter_placeholder }}"
-              aria-label="Email"
-              autocomplete="email"
-              required>
-            <button type="submit" class="lbs-footer2__news-submit">{{ section.settings.newsletter_button }}</button>
-          {%- endform -%}
+          <div class="klaviyo-form-Xerejc"></div>
+          <script>
+            if (!document.querySelector('script[src*="static.klaviyo.com/onsite"]')) {
+              var klScript = document.createElement('script');
+              klScript.async = true;
+              klScript.src = 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=WRqsLJ';
+              document.head.appendChild(klScript);
+            }
+          </script>
         </div>
       </div>
     {%- endif -%}
@@ -59,8 +55,8 @@
     <div class="lbs-footer2__wave-track">
       {%- for i in (1..3) -%}
         <svg viewBox="0 0 1780 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 150 C 222 0, 222 0, 445 150 S 668 300, 890 150 S 1112 0, 1335 150 S 1558 300, 1780 150 V300 H0 Z" fill="var(--footer-wave)" opacity="0.25"/>
-          <path d="M0 180 C 222 40, 222 40, 445 180 S 668 320, 890 180 S 1112 40, 1335 180 S 1558 320, 1780 180 V320 H0 Z" fill="var(--footer-wave)" opacity="0.35"/>
+          <path d="M0 150 C 222 0, 222 0, 445 150 S 668 300, 890 150 S 1112 0, 1335 150 S 1558 300, 1780 150 V300 H0 Z" fill="var(--footer-wave)" opacity="0.55"/>
+          <path d="M0 180 C 222 40, 222 40, 445 180 S 668 320, 890 180 S 1112 40, 1335 180 S 1558 320, 1780 180 V320 H0 Z" fill="var(--footer-wave)" opacity="1"/>
         </svg>
       {%- endfor -%}
     </div>
@@ -84,9 +80,9 @@
     { "type": "text", "id": "copyright_heading", "label": "Column heading", "default": "Copyright" },
     { "type": "text", "id": "legal_text", "label": "Legal line", "default": "Terms · Privacy · Accessibility" },
     { "type": "header", "content": "Colours" },
-    { "type": "color", "id": "bg_color", "label": "Background", "default": "#f9e1d5" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#0c0c2b" },
-    { "type": "color", "id": "wave_color", "label": "Wave", "default": "#E95938" }
+    { "type": "color", "id": "wave_color", "label": "Wave", "default": "#fbe8de" }
   ],
   "blocks": [
     {
