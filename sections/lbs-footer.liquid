@@ -1,35 +1,68 @@
-<footer class="lbs lbs-footer">
-  <div class="wrap">
-    <div class="lbs-footer__top">
-      <div class="lbs-footer__brand">
-        <span class="lbs-logo">{{ section.settings.logo_text | default: shop.name }}</span>
-        {%- if section.settings.tagline != blank -%}<p>{{ section.settings.tagline }}</p>{%- endif -%}
+<footer class="lbs lbs-footer2" style="--footer-bg:{{ section.settings.bg_color }};--footer-text:{{ section.settings.text_color }};--footer-wave:{{ section.settings.wave_color }}">
+  <div class="lbs-footer2__inner">
+
+    {%- if section.settings.show_newsletter -%}
+      <div class="lbs-footer2__news">
+        <label class="lbs-footer2__news-label" for="lbs-footer-email">{{ section.settings.newsletter_heading }}</label>
+        <div class="lbs-footer2__news-field">
+          {%- form 'customer', class: 'lbs-footer2__news-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input
+              id="lbs-footer-email"
+              type="email"
+              name="contact[email]"
+              class="lbs-footer2__news-input"
+              placeholder="{{ section.settings.newsletter_placeholder }}"
+              aria-label="Email"
+              autocomplete="email"
+              required>
+            <button type="submit" class="lbs-footer2__news-submit">{{ section.settings.newsletter_button }}</button>
+          {%- endform -%}
+        </div>
       </div>
+    {%- endif -%}
+
+    <div class="lbs-footer2__grid">
       {%- for block in section.blocks -%}
         {%- if block.type == 'menu' -%}
-          <div class="lbs-footer__col" {{ block.shopify_attributes }}>
-            <h4>{{ block.settings.heading }}</h4>
-            {%- if block.settings.menu != blank -%}
-              {%- for link in linklists[block.settings.menu].links -%}
-                <a href="{{ link.url }}">{{ link.title }}</a>
-              {%- endfor -%}
-            {%- else -%}
-              {{ block.settings.links | newline_to_br }}
-            {%- endif -%}
+          <div class="lbs-footer2__col" {{ block.shopify_attributes }}>
+            <p class="lbs-footer2__col-head">{{ block.settings.heading }}</p>
+            <ul class="lbs-footer2__links">
+              {%- if block.settings.menu != blank -%}
+                {%- for link in linklists[block.settings.menu].links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              {%- else -%}
+                {%- assign rows = block.settings.links | newline_to_br | split: '<br />' -%}
+                {%- for row in rows -%}
+                  {%- assign label = row | strip -%}
+                  {%- if label != blank -%}<li><a href="#">{{ label }}</a></li>{%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </ul>
           </div>
         {%- endif -%}
       {%- endfor -%}
-    </div>
-    <div class="lbs-footer__bottom">
-      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
-      <div class="lbs-footer__social">
-        {%- if settings.social_instagram_link != blank or section.settings.show_social -%}
-          <a href="{{ settings.social_instagram_link | default: '#' }}" aria-label="Instagram"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="14" height="14" rx="4"/><circle cx="10" cy="10" r="3.2"/><circle cx="14.5" cy="5.5" r=".6" fill="currentColor"/></svg></a>
-          <a href="{{ settings.social_tiktok_link | default: '#' }}" aria-label="TikTok"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 3v9a4 4 0 1 1-3-3.9M13 6a4 4 0 0 0 4 4"/></svg></a>
-          <a href="mailto:{{ shop.email }}" aria-label="Email"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="16" height="12" rx="2"/><path d="M2 5l8 6 8-6"/></svg></a>
+
+      <div class="lbs-footer2__col lbs-footer2__col--copy">
+        <p class="lbs-footer2__col-head">{{ section.settings.copyright_heading }}</p>
+        <p class="lbs-footer2__copy">{{ section.settings.logo_text | default: shop.name }}<br>© {{ 'now' | date: '%Y' }}</p>
+        {%- if section.settings.legal_text != blank -%}
+          <p class="lbs-footer2__legal">{{ section.settings.legal_text }}</p>
         {%- endif -%}
       </div>
-      <span>{{ section.settings.legal_text }}</span>
+    </div>
+
+  </div>
+
+  <div class="lbs-footer2__wave" aria-hidden="true">
+    <div class="lbs-footer2__wave-track">
+      {%- for i in (1..3) -%}
+        <svg viewBox="0 0 1780 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 150 C 222 0, 222 0, 445 150 S 668 300, 890 150 S 1112 0, 1335 150 S 1558 300, 1780 150 V300 H0 Z" fill="var(--footer-wave)" opacity="0.25"/>
+          <path d="M0 180 C 222 40, 222 40, 445 180 S 668 320, 890 180 S 1112 40, 1335 180 S 1558 320, 1780 180 V320 H0 Z" fill="var(--footer-wave)" opacity="0.35"/>
+        </svg>
+      {%- endfor -%}
     </div>
   </div>
 </footer>
@@ -39,12 +72,21 @@
   "name": "LBS Footer",
   "tag": "section",
   "class": "section-lbs-footer",
-  "max_blocks": 4,
+  "max_blocks": 5,
   "settings": [
-    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Libersens" },
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Vibrators and intimate wellness essentials — by women, for women." },
-    { "type": "checkbox", "id": "show_social", "label": "Show social icons", "default": true },
-    { "type": "text", "id": "legal_text", "label": "Bottom-right text", "default": "Terms · Privacy · Accessibility" }
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter signup", "default": true },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Subscribe to our emails" },
+    { "type": "text", "id": "newsletter_placeholder", "label": "Input placeholder", "default": "Email" },
+    { "type": "text", "id": "newsletter_button", "label": "Button label", "default": "Submit" },
+    { "type": "header", "content": "Copyright column" },
+    { "type": "text", "id": "logo_text", "label": "Brand name", "default": "Libersens" },
+    { "type": "text", "id": "copyright_heading", "label": "Column heading", "default": "Copyright" },
+    { "type": "text", "id": "legal_text", "label": "Legal line", "default": "Terms · Privacy · Accessibility" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#f9e1d5" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#0c0c2b" },
+    { "type": "color", "id": "wave_color", "label": "Wave", "default": "#E95938" }
   ],
   "blocks": [
     {
@@ -61,9 +103,10 @@
     {
       "name": "LBS Footer",
       "blocks": [
-        { "type": "menu", "settings": { "heading": "Shop", "links": "Vibrators\nPersonal Care\nSexual Health\nBundles\nSale" } },
-        { "type": "menu", "settings": { "heading": "About", "links": "Our Story\nAdvisory Board\nPress\nCareers\nWholesale" } },
-        { "type": "menu", "settings": { "heading": "Support", "links": "Contact\nFAQs\nShipping & Returns\nRewards\nRefer a friend" } }
+        { "type": "menu", "settings": { "heading": "Product", "links": "Shop\nReturns\nFAQs\nRewards\nRefer a friend" } },
+        { "type": "menu", "settings": { "heading": "About", "links": "About Us\nContact Us\nStore Locator\nCareers\nPress" } },
+        { "type": "menu", "settings": { "heading": "Social", "links": "Email\nFacebook\nInstagram\nTikTok" } },
+        { "type": "menu", "settings": { "heading": "Terms", "links": "Terms & Conditions\nPrivacy Policy\nPatent Info" } }
       ]
     }
   ]
