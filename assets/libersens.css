@@ -198,11 +198,11 @@
 .lbs .post a.read{font-size:13px;font-weight:700;color:var(--blue)}
 
 /* ===== dame-style footer ===== */
-.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#f9e1d5);color:var(--footer-text,#0c0c2b);padding:72px 0 200px}
+.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#ffffff);color:var(--blue);padding:72px 0 200px}
 .lbs .lbs-footer2__inner{position:relative;z-index:2;width:100%;margin:0;padding:0 clamp(24px,5vw,72px)}
 /* newsletter row */
-.lbs .lbs-footer2__news{display:grid;grid-template-columns:1fr 2fr;gap:24px 48px;align-items:baseline;padding-bottom:56px;margin-bottom:56px;border-bottom:1px solid currentColor}
-.lbs .lbs-footer2__news-label{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3vw,40px);line-height:1.05;letter-spacing:-.01em}
+.lbs .lbs-footer2__news{display:grid;grid-template-columns:1fr 2fr;gap:24px 48px;align-items:baseline;padding-bottom:40px;margin-bottom:40px}
+.lbs .lbs-footer2__news-label{font-family:var(--sans);font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;letter-spacing:.01em}
 .lbs .lbs-footer2__news-field{position:relative}
 .lbs .lbs-footer2__news-form{position:relative;display:block}
 .lbs .lbs-footer2__news-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:0 4em 10px 0;font-family:var(--serif);font-size:clamp(26px,3vw,40px);font-weight:500;color:inherit;line-height:1.05}
