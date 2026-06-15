@@ -14,60 +14,14 @@
     "lbs-footer": {
       "type": "lbs-footer",
       "blocks": {
-        "f1": {
-          "type": "menu",
-          "settings": {
-            "heading": "Shop",
-            "menu": "",
-            "links": "Vibrators\nPersonal Care\nSexual Health\nBundles\nSale"
-          }
-        },
-        "f2": {
-          "type": "menu",
-          "settings": {
-            "heading": "About",
-            "menu": "",
-            "links": "Our Story\nAdvisory Board\nPress\nCareers\nWholesale"
-          }
-        },
-        "f3": {
-          "type": "menu",
-          "settings": {
-            "heading": "Support",
-            "menu": "",
-            "links": "Contact\nFAQs\nShipping & Returns\nRewards\nRefer a friend"
-          }
-        },
-        "menu_pB9a34": {
-          "type": "menu",
-          "settings": {
-            "heading": "Terms",
-            "menu": "",
-            "links": "Terms & Conditions\nPrivacy Policy\nPatent Info"
-          }
-        }
+        "f1": { "type": "menu", "settings": { "heading": "Product", "links": "Shop\nReturns\nFAQs\nRewards\nRefer a Friend" } },
+        "f2": { "type": "menu", "settings": { "heading": "About", "links": "About Us\nContact Us\nStore Locator\nCareers\nPress\nManuals\nWholesale Info\nJoin our Affiliate Program" } },
+        "f3": { "type": "menu", "settings": { "heading": "Social", "links": "Email\nFacebook\nTwitter\nInstagram" } },
+        "f4": { "type": "menu", "settings": { "heading": "Terms", "links": "Terms & Conditions\nPrivacy Policy\nPatent Info" } }
       },
-      "block_order": [
-        "f1",
-        "f2",
-        "f3",
-        "menu_pB9a34"
-      ],
-      "settings": {
-        "show_newsletter": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "newsletter_placeholder": "Email",
-        "newsletter_button": "Submit",
-        "logo_text": "Libersens",
-        "copyright_heading": "Copyright",
-        "legal_text": "Terms · Privacy · Accessibility",
-        "bg_color": "#ffffff",
-        "text_color": "#0029ff",
-        "wave_color": "#fbe8de"
-      }
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {}
     }
   },
-  "order": [
-    "lbs-footer"
-  ]
+  "order": ["lbs-footer"]
 }
