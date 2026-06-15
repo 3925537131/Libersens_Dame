@@ -198,7 +198,8 @@
 .lbs .post a.read{font-size:13px;font-weight:700;color:var(--blue)}
 
 /* ===== dame-style footer ===== */
-.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#ffffff);color:var(--blue);padding:72px 0 200px}
+.lbs.lbs-footer2{position:relative;overflow:hidden;background:var(--footer-bg,#ffffff);color:var(--blue);padding:72px 0 40px;font-family:var(--sans)}
+.lbs.lbs-footer2 *{font-family:inherit}
 .lbs .lbs-footer2__inner{position:relative;z-index:2;width:100%;margin:0;padding:0 clamp(24px,5vw,72px)}
 /* newsletter row */
 .lbs .lbs-footer2__news{display:grid;grid-template-columns:1fr 2fr;gap:24px 48px;align-items:baseline;padding-bottom:40px;margin-bottom:40px}
@@ -221,9 +222,9 @@
 .lbs .lbs-footer2__col--copy .lbs-footer2__copy{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.02em;text-transform:uppercase;line-height:1.5}
 .lbs .lbs-footer2__legal{font-family:var(--sans);font-size:11px;opacity:.6;margin-top:16px;line-height:1.5}
 /* animated wave */
-.lbs .lbs-footer2__wave{position:absolute;left:0;right:0;bottom:-1px;z-index:1;height:200px;overflow:hidden;pointer-events:none}
-.lbs .lbs-footer2__wave-track{display:flex;width:300%;height:100%;animation:lbs-footer-wave 22s linear infinite}
-.lbs .lbs-footer2__wave-track svg{width:33.3333%;height:100%;display:block;flex:0 0 33.3333%}
+.lbs .lbs-footer2__wave{position:absolute;left:0;right:0;top:0;bottom:-1px;z-index:1;overflow:hidden;pointer-events:none}
+.lbs .lbs-footer2__wave-track{display:flex;width:300%;height:100%;align-items:flex-end;animation:lbs-footer-wave 22s linear infinite}
+.lbs .lbs-footer2__wave-track svg{width:33.3333%;height:200px;display:block;flex:0 0 33.3333%}
 @keyframes lbs-footer-wave{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
 @media(prefers-reduced-motion:reduce){.lbs .lbs-footer2__wave-track{animation:none}}
 
@@ -249,9 +250,9 @@
 }
 @media(max-width:520px){
   .lbs .products,.lbs .experts{grid-template-columns:1fr}
-  .lbs.lbs-footer2{padding:56px 0 150px}
+  .lbs.lbs-footer2{padding:56px 0 24px}
   .lbs .lbs-footer2__grid{grid-template-columns:1fr 1fr}
-  .lbs .lbs-footer2__wave{height:150px}
+  .lbs .lbs-footer2__wave-track svg{height:150px}
 }
 
 /* ===== Bestsellers carousel ===== */
