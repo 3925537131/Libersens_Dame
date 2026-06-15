@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Hassle-free",
+        "title": "Returns & Exchanges",
+        "intro": "We want you to love what you ordered. If something isn’t right, here’s how we can help."
+      }
+    }
+  },
+  "order": ["main"]
+}

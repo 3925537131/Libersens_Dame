@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Earn & redeem",
+        "title": "Rewards",
+        "intro": "Shop, review, refer — and earn points you can put towards your next order."
+      }
+    }
+  },
+  "order": ["main"]
+}

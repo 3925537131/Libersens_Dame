@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Share the love",
+        "title": "Refer a Friend",
+        "intro": "Give your friends a discount on their first order — and get one for yourself when they shop."
+      }
+    }
+  },
+  "order": ["main"]
+}

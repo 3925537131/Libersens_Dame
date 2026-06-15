@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Get started",
+        "title": "Product Manuals",
+        "intro": "Download setup guides, care instructions, and troubleshooting tips for every Libersens product."
+      }
+    }
+  },
+  "order": ["main"]
+}

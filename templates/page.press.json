@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "In the news",
+        "title": "Press",
+        "intro": "Editorial resources, brand assets, and media contact for journalists and content creators."
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,111 @@
+<div class="lbs lbs-article">
+
+  {%- if article.image -%}
+    <div class="lbs-article__hero">
+      <img src="{{ article.image | image_url: width: 1600 }}"
+           alt="{{ article.image.alt | default: article.title | escape }}"
+           width="{{ article.image.width }}" height="{{ article.image.height }}"
+           loading="eager">
+    </div>
+  {%- else -%}
+    <div class="lbs-article__hero lbs-article__hero--blank" style="background:var(--peach)"></div>
+  {%- endif -%}
+
+  <div class="lbs-article__header">
+    <nav class="lbs-article__crumb" aria-label="Breadcrumb">
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      {%- if article.tags.size > 0 -%}
+        <span aria-hidden="true"> / </span>
+        <span>{{ article.tags.first }}</span>
+      {%- endif -%}
+    </nav>
+    <h1 class="lbs-article__title">{{ article.title }}</h1>
+    <div class="lbs-article__meta">
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
+      {%- if article.author != blank -%}
+        <span class="lbs-article__sep" aria-hidden="true">·</span>
+        <span>By {{ article.author }}</span>
+      {%- endif -%}
+      {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+      {%- assign read_time = word_count | divided_by: 200 | at_least: 1 -%}
+      <span class="lbs-article__sep" aria-hidden="true">·</span>
+      <span>{{ read_time }} min read</span>
+    </div>
+  </div>
+
+  <div class="lbs-article__share-bar">
+    <span class="lbs-article__share-label">Share</span>
+    <a class="lbs-article__share-btn"
+       href="https://twitter.com/intent/tweet?url={{ shop.url | append: article.url | url_encode }}&text={{ article.title | url_encode }}"
+       target="_blank" rel="noopener noreferrer" aria-label="Share on X / Twitter">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+      <span>Twitter</span>
+    </a>
+    <a class="lbs-article__share-btn"
+       href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: article.url | url_encode }}"
+       target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <span>Facebook</span>
+    </a>
+    <a class="lbs-article__share-btn"
+       href="mailto:?subject={{ article.title | url_encode }}&body={{ shop.url | append: article.url | url_encode }}"
+       aria-label="Share via Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      <span>Email</span>
+    </a>
+  </div>
+
+  <div class="lbs-article__body">
+    <div class="lbs-article__content rte">
+      {{ article.content }}
+    </div>
+  </div>
+
+  {%- if article.tags.size > 0 -%}
+    <div class="lbs-article__tags">
+      <span class="lbs-article__tags-label">Filed under</span>
+      {%- for tag in article.tags -%}
+        <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="lbs-article__tag-pill">{{ tag }}</a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+</div>
+
+{%- if blog.articles_count > 1 -%}
+  <section class="lbs lbs-article__related">
+    <div class="wrap">
+      <h2 class="lbs-article__related-title">More from the Journal</h2>
+      <div class="blogs">
+        {%- assign shown = 0 -%}
+        {%- assign bgs = 'var(--lavender),var(--peach),var(--mint)' | split: ',' -%}
+        {%- for a in blog.articles -%}
+          {%- if a.handle != article.handle and shown < 3 -%}
+            <article class="post">
+              <a href="{{ a.url }}">
+                <div class="post__img" style="background:{{ bgs[shown] | strip }}">
+                  {%- if a.image -%}
+                    <img src="{{ a.image | image_url: width: 800 }}" alt="{{ a.image.alt | escape }}" loading="lazy">
+                  {%- endif -%}
+                </div>
+              </a>
+              {%- if a.tags.size > 0 -%}<span class="tag">{{ a.tags.first }}</span>{%- endif -%}
+              <h3><a href="{{ a.url }}">{{ a.title }}</a></h3>
+              <p>{{ a.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
+              <a href="{{ a.url }}" class="read">Read more →</a>
+            </article>
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LBS Article",
+  "tag": "section",
+  "class": "section-lbs-article"
+}
+{% endschema %}

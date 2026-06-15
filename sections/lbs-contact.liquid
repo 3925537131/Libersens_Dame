@@ -1,0 +1,91 @@
+<div class="lbs lbs-contact">
+  <div class="wrap">
+
+    <header class="lbs-contact__header">
+      <h1>{{ section.settings.heading | default: page.title | default: 'Contact Us' }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="lbs-contact__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="lbs-contact__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'department' -%}
+          <div class="lbs-contact__dept" {{ block.shopify_attributes }}>
+            <h3 class="lbs-contact__dept-name">{{ block.settings.department }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="lbs-contact__dept-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+            {%- if block.settings.email != blank -%}
+              <a class="lbs-contact__email btn btn--outline" href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_form -%}
+      <div class="lbs-contact__form-wrap">
+        <h2 class="lbs-contact__form-title">{{ section.settings.form_heading | default: 'Or send us a message' }}</h2>
+        {%- form 'contact', id: 'lbs-contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="lbs-contact__success">Thanks for reaching out — we'll be in touch within 1–2 business days.</p>
+          {%- else -%}
+            <div class="lbs-contact__fields">
+              <div class="lbs-contact__field">
+                <label for="ContactName">Name</label>
+                <input type="text" id="ContactName" name="contact[name]" autocomplete="name" value="{{ form.name }}" placeholder="Your name">
+              </div>
+              <div class="lbs-contact__field">
+                <label for="ContactEmail">Email <span aria-hidden="true">*</span></label>
+                <input type="email" id="ContactEmail" name="contact[email]" autocomplete="email" required value="{{ form.email }}" placeholder="your@email.com">
+              </div>
+              <div class="lbs-contact__field lbs-contact__field--full">
+                <label for="ContactBody">Message <span aria-hidden="true">*</span></label>
+                <textarea id="ContactBody" name="contact[body]" required rows="6" placeholder="How can we help?">{{ form.body }}</textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary">Send message</button>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LBS Contact",
+  "tag": "section",
+  "class": "section-lbs-contact",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Contact Us" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "We're here to help. Reach out to the right team below." },
+    { "type": "checkbox", "id": "show_form", "label": "Show contact form", "default": true },
+    { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Or send us a message" }
+  ],
+  "blocks": [
+    {
+      "type": "department",
+      "name": "Department",
+      "settings": [
+        { "type": "text", "id": "department", "label": "Department name", "default": "Customer Support" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Questions about your order, product care, or anything else." },
+        { "type": "text", "id": "email", "label": "Email address", "default": "hello@libersens.com" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Contact",
+      "blocks": [
+        { "type": "department", "settings": { "department": "Customer Support", "description": "Questions about orders, shipping, returns, or product care.", "email": "hello@libersens.com" } },
+        { "type": "department", "settings": { "department": "Press & Media", "description": "Editorial requests, brand assets, and interview inquiries.", "email": "press@libersens.com" } },
+        { "type": "department", "settings": { "department": "Wholesale", "description": "Interested in stocking Libersens in your store?", "email": "wholesale@libersens.com" } },
+        { "type": "department", "settings": { "department": "Partnerships", "description": "Affiliate, collaboration, and co-marketing enquiries.", "email": "partnerships@libersens.com" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

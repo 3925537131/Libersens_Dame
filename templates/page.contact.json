@@ -1,25 +1,14 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "lbs-contact",
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "form": {
-      "type": "contact-form",
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "Contact Us",
+        "intro": "We’re here to help. Reach out to the right team below.",
+        "show_form": true,
+        "form_heading": "Or send us a message"
       }
     }
   },
-  "order": [
-    "main",
-    "form"
-  ]
+  "order": ["main"]
 }

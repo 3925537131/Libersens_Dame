@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Find us near you",
+        "title": "Store Locator",
+        "intro": "Libersens is available at selected retailers worldwide. Find a store near you below."
+      }
+    }
+  },
+  "order": ["main"]
+}

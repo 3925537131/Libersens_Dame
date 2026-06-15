@@ -1,0 +1,106 @@
+<div class="lbs lbs-faq">
+  <div class="wrap">
+
+    <header class="lbs-faq__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h1>{{ section.settings.heading | default: page.title | default: 'FAQs' }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="lbs-faq__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="lbs-faq__list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'group' -%}
+          <h2 class="lbs-faq__group-title" {{ block.shopify_attributes }}>{{ block.settings.title }}</h2>
+        {%- elsif block.type == 'item' -%}
+          <div class="lbs-faq__item" {{ block.shopify_attributes }}>
+            <button class="lbs-faq__q" aria-expanded="false" type="button">
+              <span>{{ block.settings.question }}</span>
+              <span class="lbs-faq__icon" aria-hidden="true">
+                <svg class="lbs-faq__plus" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+                <svg class="lbs-faq__minus" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="2" y1="8" x2="14" y2="8"/></svg>
+              </span>
+            </button>
+            <div class="lbs-faq__a" hidden>
+              <div class="lbs-faq__a-inner rte">{{ block.settings.answer }}</div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  document.querySelectorAll('.lbs-faq__q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      var answer = this.nextElementSibling;
+      this.setAttribute('aria-expanded', String(!expanded));
+      answer.hidden = expanded;
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "LBS FAQ",
+  "tag": "section",
+  "class": "section-lbs-faq",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Everything you need to know about Libersens — shipping, returns, products, and more." }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Category heading",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Category title", "default": "Shipping" }
+      ]
+    },
+    {
+      "type": "item",
+      "name": "Q&A item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long does shipping take?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Most orders ship within 1–2 business days. Standard delivery takes 3–7 business days.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS FAQ",
+      "blocks": [
+        { "type": "group", "settings": { "title": "Shipping" } },
+        { "type": "item", "settings": { "question": "How long does shipping take?", "answer": "<p>Most orders ship within 1–2 business days. Standard delivery takes 3–7 business days after dispatch.</p>" } },
+        { "type": "item", "settings": { "question": "Do you ship internationally?", "answer": "<p>Yes — we ship to most countries worldwide. International delivery typically takes 7–14 business days.</p>" } },
+        { "type": "item", "settings": { "question": "How can I track my order?", "answer": "<p>Once your order ships you'll receive a tracking email. You can also check your order status by logging into your account.</p>" } },
+        { "type": "item", "settings": { "question": "Is my packaging discreet?", "answer": "<p>Always. All orders are shipped in plain, unmarked packaging with no indication of the contents.</p>" } },
+        { "type": "group", "settings": { "title": "Returns & Exchanges" } },
+        { "type": "item", "settings": { "question": "What is your returns policy?", "answer": "<p>We accept returns of unopened, unused items within 30 days of receipt. For hygiene reasons we cannot accept returns on opened intimate products.</p>" } },
+        { "type": "item", "settings": { "question": "How do I start a return?", "answer": "<p>Email us at <a href=\"mailto:hello@libersens.com\">hello@libersens.com</a> with your order number and reason for return. We'll send you instructions within 1–2 business days.</p>" } },
+        { "type": "item", "settings": { "question": "My item arrived damaged. What do I do?", "answer": "<p>We're sorry to hear that. Please email us at <a href=\"mailto:hello@libersens.com\">hello@libersens.com</a> with a photo of the damage and your order number and we'll make it right.</p>" } },
+        { "type": "group", "settings": { "title": "Product Information" } },
+        { "type": "item", "settings": { "question": "Are your products body-safe?", "answer": "<p>Yes. All Libersens products are made from body-safe, non-porous materials — medical-grade silicone and ABS plastic. They are phthalate-free and latex-free.</p>" } },
+        { "type": "item", "settings": { "question": "Are your products waterproof?", "answer": "<p>Most Libersens products are waterproof or water-resistant. Check the individual product page for specific details.</p>" } },
+        { "type": "item", "settings": { "question": "How do I clean my product?", "answer": "<p>Wash with warm water and a gentle, fragrance-free soap, or use a dedicated toy cleaner. Allow to dry fully before storing in its pouch. Never submerge USB charging ports.</p>" } },
+        { "type": "item", "settings": { "question": "What lubricant should I use?", "answer": "<p>We recommend water-based lubricants with all silicone products. Silicone-based lubricants can degrade silicone materials over time.</p>" } },
+        { "type": "group", "settings": { "title": "Rewards & Referrals" } },
+        { "type": "item", "settings": { "question": "How do I earn rewards points?", "answer": "<p>Earn points on every purchase, for leaving a review, and by referring friends to Libersens. Points can be redeemed for discounts on future orders.</p>" } },
+        { "type": "item", "settings": { "question": "How does the referral programme work?", "answer": "<p>When you refer a friend and they make their first purchase, you both receive a discount code. Find your unique referral link in your account dashboard.</p>" } },
+        { "type": "group", "settings": { "title": "Privacy & Security" } },
+        { "type": "item", "settings": { "question": "Will Libersens appear on my bank statement?", "answer": "<p>Charges on your bank statement will appear as 'Libersens' or our parent company name — never with any description of the products purchased.</p>" } },
+        { "type": "item", "settings": { "question": "How do you protect my data?", "answer": "<p>We take privacy seriously. Your personal data is never sold to third parties. Please read our <a href=\"/policies/privacy-policy\">Privacy Policy</a> for full details.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

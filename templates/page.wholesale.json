@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Stock Libersens",
+        "title": "Wholesale Info",
+        "intro": "Interested in carrying Libersens in your store? We’d love to work with you."
+      }
+    }
+  },
+  "order": ["main"]
+}

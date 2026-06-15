@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Join the team",
+        "title": "Careers",
+        "intro": "We’re building a brand that changes how the world talks about women’s pleasure. Come build it with us."
+      }
+    }
+  },
+  "order": ["main"]
+}

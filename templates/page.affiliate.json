@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Partner with us",
+        "title": "Affiliate Programme",
+        "intro": "Earn commission by sharing Libersens with your audience. Join our affiliate community today."
+      }
+    }
+  },
+  "order": ["main"]
+}

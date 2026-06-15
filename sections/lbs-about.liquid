@@ -1,0 +1,115 @@
+<div class="lbs lbs-about">
+
+  <div class="lbs-about__hero">
+    <div class="lbs-about__hero-img">
+      {%- if section.settings.hero_image != blank -%}
+        <img src="{{ section.settings.hero_image | image_url: width: 1400 }}"
+             alt="{{ section.settings.hero_image.alt | default: 'About Libersens' | escape }}"
+             loading="eager">
+      {%- else -%}
+        <div class="lbs-about__hero-placeholder" style="background:var(--lavender)"></div>
+      {%- endif -%}
+    </div>
+    <div class="lbs-about__hero-copy">
+      <h1>{{ section.settings.hero_heading | default: "Libersens is creating a world where women's pleasure is celebrated, not whispered about." }}</h1>
+    </div>
+  </div>
+
+  <div class="lbs-about__pillars">
+    <div class="wrap">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'pillar' -%}
+          <div class="lbs-about__pillar" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <div class="lbs-about__pillar-icon">{{ block.settings.icon }}</div>
+            {%- endif -%}
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="lbs-about__story">
+    <div class="wrap lbs-about__story-inner">
+      <div class="lbs-about__story-copy">
+        <span class="eyebrow">{{ section.settings.story_eyebrow | default: 'Our story' }}</span>
+        <h2>{{ section.settings.story_heading | default: 'Built by women, for women' }}</h2>
+        <div class="rte">{{ section.settings.story_text | default: '<p>Libersens was founded with one belief: that intimacy products should be designed with women at the centre — not as an afterthought. We spent years researching what women actually want from their intimate lives, and built a brand around those findings.</p><p>Every product is tested for safety, designed for pleasure, and packaged with the privacy you deserve. We believe that knowing your own body is a form of self-care.</p>' }}</div>
+      </div>
+      <div class="lbs-about__story-img">
+        {%- if section.settings.story_image != blank -%}
+          <img src="{{ section.settings.story_image | image_url: width: 800 }}"
+               alt="{{ section.settings.story_image.alt | escape }}" loading="lazy">
+        {%- else -%}
+          <div style="background:var(--peach);width:100%;height:100%;border-radius:16px"></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="lbs-about__mission">
+    <div class="wrap">
+      <div class="lbs-about__mission-stat">
+        <span class="lbs-about__stat-num">{{ section.settings.stat1_num | default: '70%' }}</span>
+        <span class="lbs-about__stat-label">{{ section.settings.stat1_label | default: 'of women report never reaching orgasm through intercourse alone' }}</span>
+      </div>
+      <div class="lbs-about__mission-stat">
+        <span class="lbs-about__stat-num">{{ section.settings.stat2_num | default: '1 in 3' }}</span>
+        <span class="lbs-about__stat-label">{{ section.settings.stat2_label | default: 'women have never spoken to a partner about what they want in bed' }}</span>
+      </div>
+      <div class="lbs-about__mission-stat">
+        <span class="lbs-about__stat-num">{{ section.settings.stat3_num | default: '2024' }}</span>
+        <span class="lbs-about__stat-label">{{ section.settings.stat3_label | default: 'Libersens is changing that — one conversation at a time' }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "LBS About",
+  "tag": "section",
+  "class": "section-lbs-about",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "textarea", "id": "hero_heading", "label": "Hero headline", "default": "Libersens is creating a world where women's pleasure is celebrated, not whispered about." },
+    { "type": "header", "content": "Brand story" },
+    { "type": "text", "id": "story_eyebrow", "label": "Eyebrow", "default": "Our story" },
+    { "type": "text", "id": "story_heading", "label": "Heading", "default": "Built by women, for women" },
+    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>Libersens was founded with one belief: that intimacy products should be designed with women at the centre — not as an afterthought.</p><p>Every product is tested for safety, designed for pleasure, and packaged with the privacy you deserve.</p>" },
+    { "type": "image_picker", "id": "story_image", "label": "Story image" },
+    { "type": "header", "content": "Statistics" },
+    { "type": "text", "id": "stat1_num", "label": "Stat 1 number", "default": "70%" },
+    { "type": "text", "id": "stat1_label", "label": "Stat 1 label", "default": "of women report never reaching orgasm through intercourse alone" },
+    { "type": "text", "id": "stat2_num", "label": "Stat 2 number", "default": "1 in 3" },
+    { "type": "text", "id": "stat2_label", "label": "Stat 2 label", "default": "women have never spoken to a partner about what they want in bed" },
+    { "type": "text", "id": "stat3_num", "label": "Stat 3 number", "default": "2024" },
+    { "type": "text", "id": "stat3_label", "label": "Stat 3 label", "default": "Libersens is changing that — one conversation at a time" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Trust pillar",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon emoji or symbol", "default": "🔬" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Research-led" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Every product is designed based on real feedback from women, not assumptions." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS About",
+      "blocks": [
+        { "type": "pillar", "settings": { "icon": "🔬", "title": "Research-led design", "text": "Every product is designed based on real feedback from women, not assumptions." } },
+        { "type": "pillar", "settings": { "icon": "🛡️", "title": "Body-safe materials", "text": "Medical-grade silicone and ABS plastic — phthalate-free, latex-free, rigorously tested." } },
+        { "type": "pillar", "settings": { "icon": "🔒", "title": "Privacy guaranteed", "text": "Plain packaging, discreet billing, and data that stays yours — always." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

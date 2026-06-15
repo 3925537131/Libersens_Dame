@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-page-content",
+      "settings": {
+        "eyebrow": "Intellectual property",
+        "title": "Patent Information",
+        "intro": "Libersens products are protected by patents in multiple jurisdictions. Details are listed below."
+      }
+    }
+  },
+  "order": ["main"]
+}
