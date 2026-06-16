@@ -5,88 +5,135 @@
     </button>
     <a href="{{ routes.root_url }}" class="lbs-logo">{{ section.settings.logo_text | default: shop.name }}</a>
 
-    <nav class="lbs-nav">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
+    {%- liquid
+      assign vib_coll = collections['vibrators']
+      assign acc_coll = collections['accessories']
+    -%}
+    <nav class="lbs-nav web-nav-dame15">
 
-        {%- when 'mega_collection' -%}
-          {%- assign mega_collection = collections[block.settings.collection] -%}
-          <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
-            <a href="{% if mega_collection != blank %}{{ mega_collection.url }}{% else %}{{ block.settings.link | default: '#' }}{% endif %}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
-              {{ block.settings.label }}
-              <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
-            </a>
-            <div class="lbs-mega">
-              <div class="wrap lbs-mega__pad">
-                {%- if mega_collection != blank and mega_collection.products_count > 0 -%}
-                  <div class="lbs-mega-products">
-                    {%- for product in mega_collection.products limit: block.settings.products_count -%}
-                      <div class="lbs-mega-prod-item">
-                        <a href="{{ product.url }}" class="lbs-mega-prod-link">
-                          <div class="lbs-mega-prod__img">
-                            {%- if product.featured_image -%}
-                              <img src="{{ product.featured_image | image_url: width: 320 }}" alt="{{ product.featured_image.alt | escape }}" width="150" height="178" loading="lazy">
-                            {%- endif -%}
-                          </div>
-                          <p class="lbs-mega-prod__name">
-                            {{ product.title }}
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M13 8l4 4-4 4"/></svg>
-                          </p>
-                        </a>
+      {%- comment -%} ══ VIBRATORS — image-card dropdown (max 5 to fit one row) ══ {%- endcomment -%}
+      <div class="lbs-nav-item lbs-nav-item--mega">
+        <a href="{{ vib_coll.url | default: '/collections/vibrators' }}" class="lbs-nav-link">
+          Vibrators
+          <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
+        </a>
+        <div class="lbs-mega">
+          <div class="wrap lbs-mega__pad">
+            {%- if vib_coll != blank and vib_coll.products_count > 0 -%}
+              <div class="lbs-mega-products">
+                {%- for product in vib_coll.products limit: 5 -%}
+                  <div class="lbs-mega-prod-item">
+                    <a href="{{ product.url }}" class="lbs-mega-prod-link">
+                      <div class="lbs-mega-prod__img">
+                        {%- if product.featured_image -%}
+                          <img src="{{ product.featured_image | image_url: width: 320 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="150" height="178" loading="lazy">
+                        {%- endif -%}
                       </div>
-                    {%- endfor -%}
+                      <p class="lbs-mega-prod__name">
+                        {{ product.title }}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M13 8l4 4-4 4"/></svg>
+                      </p>
+                    </a>
                   </div>
-                {%- else -%}
-                  <p class="lbs-mega-empty">Pick a collection for this dropdown in the theme editor.</p>
-                {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <p class="lbs-mega-empty">Add products to a collection with the handle “vibrators”.</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} ══ SHOP ALL — two columns (Vibrators / Accessories) ══ {%- endcomment -%}
+      <div class="lbs-nav-item lbs-nav-item--mega">
+        <a href="/collections/all" class="lbs-nav-link">
+          Shop All
+          <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
+        </a>
+        <div class="lbs-mega">
+          <div class="wrap lbs-mega__pad">
+            <div class="lbs-mega-cols">
+              {%- comment -%} Vibrators column {%- endcomment -%}
+              <div class="lbs-mega-col">
+                <div class="lbs-mega-col__head-row">
+                  <a class="lbs-mega-col__head" href="{{ vib_coll.url | default: '/collections/vibrators' }}">Vibrators</a>
+                  <span class="lbs-mega-col__arrow">&rarr;</span>
+                </div>
+                <div class="lbs-mega-col__items">
+                  {%- for product in vib_coll.products limit: 4 -%}
+                    <a class="lbs-mega-item" href="{{ product.url }}">
+                      <span class="lbs-mega-item__img">
+                        {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" width="64" height="64" loading="lazy">{%- endif -%}
+                      </span>
+                      <span>{{ product.title }}</span>
+                    </a>
+                  {%- else -%}
+                    <p class="lbs-mega-empty">No vibrators yet.</p>
+                  {%- endfor -%}
+                </div>
+              </div>
+              {%- comment -%} Accessories column {%- endcomment -%}
+              <div class="lbs-mega-col">
+                <div class="lbs-mega-col__head-row">
+                  <a class="lbs-mega-col__head" href="{{ acc_coll.url | default: '/collections/accessories' }}">Accessories</a>
+                  <span class="lbs-mega-col__arrow">&rarr;</span>
+                </div>
+                <div class="lbs-mega-col__items">
+                  {%- for product in acc_coll.products limit: 4 -%}
+                    <a class="lbs-mega-item" href="{{ product.url }}">
+                      <span class="lbs-mega-item__img">
+                        {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" width="64" height="64" loading="lazy">{%- endif -%}
+                      </span>
+                      <span>{{ product.title }}</span>
+                    </a>
+                  {%- else -%}
+                    <p class="lbs-mega-empty">Add products to a collection with the handle “accessories”.</p>
+                  {%- endfor -%}
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-        {%- when 'mega_menu' -%}
-          {%- assign mega_list = linklists[block.settings.menu] -%}
-          <div class="lbs-nav-item lbs-nav-item--mega" {{ block.shopify_attributes }}>
-            <a href="{{ block.settings.link | default: '#' }}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">
-              {{ block.settings.label }}
-              <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
-            </a>
-            <div class="lbs-mega">
-              <div class="wrap lbs-mega__pad">
-                {%- if mega_list != blank and mega_list.links.size > 0 -%}
-                  <div class="lbs-mega-cols">
-                    {%- for column in mega_list.links -%}
-                      <div class="lbs-mega-col">
-                        <div class="lbs-mega-col__head-row">
-                          <a class="lbs-mega-col__head" href="{{ column.url }}">{{ column.title }}</a>
-                          <span class="lbs-mega-col__arrow">&rarr;</span>
-                        </div>
-                        <div class="lbs-mega-col__items">
-                          {%- for item in column.links -%}
-                            <a class="lbs-mega-item" href="{{ item.url }}">
-                              {%- if item.type == 'product_link' and item.object.featured_image -%}
-                                <span class="lbs-mega-item__img"><img src="{{ item.object.featured_image | image_url: width: 120 }}" alt="" width="64" height="64" loading="lazy"></span>
-                              {%- endif -%}
-                              <span>{{ item.title }}</span>
-                            </a>
-                          {%- endfor -%}
-                        </div>
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                {%- else -%}
-                  <p class="lbs-mega-empty">Pick a navigation menu in the theme editor (Online Store &rarr; Navigation). Top-level links = column headings, child links = items.</p>
-                {%- endif -%}
-              </div>
+      {%- comment -%} ══ ABOUT — three image cards ══ {%- endcomment -%}
+      {%- assign about_url_1 = section.settings.about_url_1 | default: '/pages/about-us' -%}
+      {%- assign about_url_2 = section.settings.about_url_2 | default: '/pages/about-us' -%}
+      {%- assign about_url_3 = section.settings.about_url_3 | default: '/blogs/news' -%}
+      <div class="lbs-nav-item lbs-nav-item--mega">
+        <a href="{{ about_url_1 }}" class="lbs-nav-link">
+          About
+          <svg class="lbs-caret" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
+        </a>
+        <div class="lbs-mega">
+          <div class="wrap lbs-mega__pad">
+            <div class="lbs-mega-products lbs-mega-products--about">
+              {%- assign ab_labels = 'About Us,Lab,Blog' | split: ',' -%}
+              {%- assign ab_tints  = '#e2d1dd,#def1ee,#e9f1b3' | split: ',' -%}
+              {%- for i in (0..2) -%}
+                {%- if i == 0 -%}{%- assign ab_href = about_url_1 -%}{%- elsif i == 1 -%}{%- assign ab_href = about_url_2 -%}{%- else -%}{%- assign ab_href = about_url_3 -%}{%- endif -%}
+                <div class="lbs-mega-prod-item">
+                  <a href="{{ ab_href }}" class="lbs-mega-prod-link">
+                    <div class="lbs-mega-prod__img lbs-mega-prod__img--text" style="background:{{ ab_tints[i] }}">
+                      <span>{{ ab_labels[i] }}</span>
+                    </div>
+                    <p class="lbs-mega-prod__name">
+                      {{ ab_labels[i] }}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M13 8l4 4-4 4"/></svg>
+                    </p>
+                  </a>
+                </div>
+              {%- endfor -%}
             </div>
           </div>
+        </div>
+      </div>
 
-        {%- else -%}
-          <div class="lbs-nav-item" {{ block.shopify_attributes }}>
-            <a href="{{ block.settings.link | default: '#' }}" class="lbs-nav-link{% if block.settings.accent %} accent{% endif %}">{{ block.settings.label }}</a>
-          </div>
+      {%- comment -%} ══ FIND YOUR VIBE — plain link ══ {%- endcomment -%}
+      <div class="lbs-nav-item">
+        <a href="{{ section.settings.quiz_url | default: '/pages/find-your-vibe' }}" class="lbs-nav-link accent">Find Your Vibe</a>
+      </div>
 
-        {%- endcase -%}
-      {%- endfor -%}
     </nav>
 
     <div class="lbs-actions">
@@ -164,7 +211,13 @@
   "class": "section-lbs-header",
   "max_blocks": 8,
   "settings": [
-    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Libersens" }
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Libersens" },
+    { "type": "header", "content": "Nav links" },
+    { "type": "paragraph", "content": "Vibrators & Shop All dropdowns auto-populate from collections with the handles ‘vibrators’ and ‘accessories’." },
+    { "type": "url", "id": "about_url_1", "label": "About card 1 link (About Us)" },
+    { "type": "url", "id": "about_url_2", "label": "About card 2 link (Lab)" },
+    { "type": "url", "id": "about_url_3", "label": "About card 3 link (Blog)" },
+    { "type": "url", "id": "quiz_url", "label": "Find Your Vibe link" }
   ],
   "blocks": [
     {

@@ -52,6 +52,8 @@
 .lbs .lbs-mega-prod-link:hover .lbs-mega-prod__img img{transform:scale(1.05)}
 .lbs .lbs-mega-prod__name{display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;color:var(--ink);margin-top:10px}
 .lbs .lbs-mega-prod__name svg{color:var(--blue);flex-shrink:0}
+.lbs .lbs-mega-prod__img--text{display:flex;align-items:center;justify-content:center}
+.lbs .lbs-mega-prod__img--text span{font-family:var(--serif);font-size:22px;color:var(--ink)}
 /* Shop All-style dropdown: category columns */
 .lbs .lbs-mega-cols{display:flex;gap:0}
 .lbs .lbs-mega-col{flex:1;padding:0 20px}
