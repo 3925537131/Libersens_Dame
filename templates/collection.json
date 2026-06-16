@@ -12,11 +12,17 @@
     "main": {
       "type": "lbs-main-collection",
       "settings": {
-        "products_per_page": 16,
-        "columns_desktop": 4,
-        "enable_sorting": true
+        "banner_image": "shopify://shop_images/Palette.jpg",
+        "heading": "",
+        "banner_subtitle": "",
+        "caption_product": "",
+        "caption_label": "Wearable Couples Vibe",
+        "description": "",
+        "products_per_page": 16
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
