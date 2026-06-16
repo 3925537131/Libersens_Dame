@@ -1,11 +1,17 @@
 {%- comment -%}
-  Product reviews — uses Judge.me's SERVER-RENDERED metafield HTML, the same
-  approach as the homepage testimonials carousel ({{ shop.metafields.judgeme.* }}).
-  Judge.me writes the fully-rendered widget into product.metafields.judgeme.widget,
-  so it shows instantly with no JS race and no app-embed dependency.
+  Product reviews — outputs Judge.me's SERVER-RENDERED widget HTML stored in
+  product.metafields.judgeme.widget (same metafield approach as the homepage
+  testimonials carousel). It renders instantly with no JS race.
 
-  Falls back to the JS widget only if the metafield is empty (e.g. Judge.me's
-  Liquid/metafield rendering hasn't been enabled for the shop).
+  NOTE: Judge.me's widget HTML ships with an inline
+    <style class='jdgm-temp-hiding-style'>.jdgm-rev-widg{ display:none }</style>
+  that hides itself until Judge.me's shop.js removes it. Since shop.js isn't
+  guaranteed on this theme, libersens.css overrides that rule (.jdgm-rev-widg
+  { display:block !important }) and styles the jdgm-* classes to the brand look,
+  so reviews always display with zero JS dependency.
+
+  shop.js is still loaded best-effort below to enable the "Write a review" form
+  and any interactive bits — but display does not depend on it.
 {%- endcomment -%}
 
 {%- assign jm_widget = product.metafields.judgeme.widget -%}
@@ -19,16 +25,9 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} ===== TEMP DIAGNOSTIC — remove after debugging ===== {%- endcomment -%}
-    <pre style="background:#111;color:#0f0;padding:16px;font-size:11px;white-space:pre-wrap;word-break:break-all;border-radius:8px;max-height:500px;overflow:auto">FIRST 2500 CHARS OF judgeme.widget:
-{{ product.metafields.judgeme.widget | escape | truncate: 2500 }}</pre>
-    {%- comment -%} ===== END DIAGNOSTIC ===== {%- endcomment -%}
-
     {%- if jm_widget != blank -%}
-      {%- comment -%} Primary: Judge.me's pre-rendered HTML from the product metafield {%- endcomment -%}
       {{ jm_widget }}
     {%- else -%}
-      {%- comment -%} Fallback: JS widget (requires shop.js / app embed) {%- endcomment -%}
       <div class="jdgm-widget jdgm-review-widget"
            data-id="{{ product.id }}"
            data-product-title="{{ product.title | escape }}"
@@ -39,38 +38,20 @@
   </div>
 </section>
 
-{%- comment -%}
-  Only load shop.js when we had to use the JS-widget fallback. When the metafield
-  HTML is present, no JavaScript is needed at all.
-{%- endcomment -%}
-{%- if jm_widget == blank -%}
 <script>
 (function () {
-  function isReady() { return window.jdgm && typeof window.jdgm.loadFromFooter === 'function'; }
-  function reinit() {
-    if (!isReady()) return false;
-    window.jdgm.loadFromFooter();
-    typeof window.jdgm.replaceDeferred === 'function' && window.jdgm.replaceDeferred();
-    return true;
-  }
+  /* Best-effort: load Judge.me shop.js to enable the Write-a-review form and
+     interactive features. Display is handled by CSS, so failure here is harmless. */
   window.jdgm      = window.jdgm      || {};
   window.jdgm.shop = window.jdgm.shop || {{ shop.permanent_domain | json }};
-  {%- assign jdgm_token = shop.metafields.judgeme.public_token -%}
-  {%- if jdgm_token != blank -%}
-  window.jdgm.token = window.jdgm.token || {{ jdgm_token | json }};
-  {%- endif -%}
-  window.jdgm.onloadFunctions = window.jdgm.onloadFunctions || [];
-  window.jdgm.onloadFunctions.push(reinit);
-  if (reinit()) return;
   if (!document.querySelector('script[src*="judge.me"]')) {
     var s = document.createElement('script');
-    s.src = '//cdn.judge.me/assets/shop.js'; s.async = true;
+    s.src = '//cdn.judge.me/assets/shop.js';
+    s.async = true;
     document.head.appendChild(s);
   }
-  var n = 0, t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
 })();
 </script>
-{%- endif -%}
 
 {% schema %}
 {

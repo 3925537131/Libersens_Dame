@@ -722,6 +722,59 @@
 /* ===== Product reviews section ===== */
 .lbs.lbs-prod-reviews,.lbs .lbs-prod-reviews{padding:56px 0 80px;border-top:1px solid var(--line)}
 .lbs-prod-reviews__wrap{max-width:860px;margin:0 auto;padding:0 24px}
+.lbs-prod-reviews__head{text-align:center;margin-bottom:8px}
+.lbs-prod-reviews__heading{font-family:var(--serif);font-size:clamp(24px,3vw,34px);color:var(--ink);margin:0}
+
+/* ===== Judge.me metafield widget — server-rendered HTML, styled to brand =====
+   The widget ships hidden via an inline <style>.jdgm-rev-widg{display:none}</style>
+   that only Judge.me's JS removes. We override it so reviews always show. ===== */
+.lbs-prod-reviews .jdgm-rev-widg{display:block !important;font-family:var(--sans);color:var(--ink)}
+.lbs-prod-reviews .jdgm-temp-hidden{display:block !important}
+
+/* Stars — Judge.me's icon font isn't loaded, so render glyphs ourselves */
+.lbs-prod-reviews .jdgm-star{display:inline-block;width:auto !important;height:auto !important;background:none !important;font-size:17px;line-height:1;letter-spacing:1px;text-indent:0 !important}
+.lbs-prod-reviews .jdgm-star::before{content:'\2605';color:#d6d6e0}
+.lbs-prod-reviews .jdgm-star.jdgm--on::before{color:var(--blue)}
+.lbs-prod-reviews .jdgm-star.jdgm--off::before{color:#d6d6e0}
+.lbs-prod-reviews .jdgm-star.jdgm--half::before{content:'\2605';color:var(--blue);opacity:.5}
+
+/* Header / summary */
+.lbs-prod-reviews .jdgm-rev-widg__header{text-align:center;margin:8px 0 28px;display:block}
+.lbs-prod-reviews .jdgm-rev-widg__title{display:none}
+.lbs-prod-reviews .jdgm-rev-widg__summary-stars{font-size:20px}
+.lbs-prod-reviews .jdgm-rev-widg__summary-text{margin-top:6px;font-size:13px;color:var(--grey)}
+.lbs-prod-reviews .jdgm-rich-snippet{display:none}
+
+/* Write-a-review button (revealed/activated by shop.js if it loads) */
+.lbs-prod-reviews .jdgm-write-rev-link{margin:18px auto 0;padding:11px 24px;border:1.5px solid var(--blue);border-radius:999px;color:var(--blue);font-family:var(--sans);font-weight:600;font-size:13px;text-decoration:none;cursor:pointer;background:none;transition:background .15s,color .15s}
+.lbs-prod-reviews .jdgm-write-rev-link:hover{background:var(--blue);color:#fff}
+
+/* Histogram */
+.lbs-prod-reviews .jdgm-histogram{max-width:340px;margin:18px auto 0;display:block}
+.lbs-prod-reviews .jdgm-histogram__row{display:flex;align-items:center;gap:10px;margin:3px 0}
+.lbs-prod-reviews .jdgm-histogram__star{flex-shrink:0;white-space:nowrap}
+.lbs-prod-reviews .jdgm-histogram__bar{flex:1;height:8px;background:#ecebf3;border-radius:4px;overflow:hidden}
+.lbs-prod-reviews .jdgm-histogram__bar-content{height:100%;background:var(--blue);border-radius:4px}
+.lbs-prod-reviews .jdgm-histogram__percentage,.lbs-prod-reviews .jdgm-histogram__frequency{font-size:12px;color:var(--grey);min-width:34px;text-align:right}
+
+/* Sort / filter controls */
+.lbs-prod-reviews .jdgm-rev-widg__sort-wrapper,.lbs-prod-reviews .jdgm-all-reviews-rating{font-size:13px;color:var(--grey)}
+
+/* Individual reviews */
+.lbs-prod-reviews .jdgm-rev-widg__reviews{margin-top:8px}
+.lbs-prod-reviews .jdgm-rev{padding:22px 0;border-top:1px solid var(--line);text-align:left;position:relative}
+.lbs-prod-reviews .jdgm-rev__header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lbs-prod-reviews .jdgm-rev__rating{display:inline-flex}
+.lbs-prod-reviews .jdgm-rev__timestamp{font-size:12px;color:var(--grey)}
+.lbs-prod-reviews .jdgm-rev__title{font-weight:700;font-size:14px;margin:8px 0 4px;color:var(--ink)}
+.lbs-prod-reviews .jdgm-rev__body{font-size:14px;line-height:1.65;color:var(--ink)}
+.lbs-prod-reviews .jdgm-rev__body p{margin:0 0 8px}
+.lbs-prod-reviews .jdgm-rev__details{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lbs-prod-reviews .jdgm-rev__author{font-weight:600;font-size:13px;color:var(--ink)}
+.lbs-prod-reviews .jdgm-rev__buyer-badge,.lbs-prod-reviews .jdgm-rev__buyer-badge-wrapper{font-size:12px;color:var(--teal,#3b898b);display:inline-flex;align-items:center;gap:4px}
+.lbs-prod-reviews .jdgm-rev__icon{width:40px;height:40px;border-radius:50%;background:var(--cream);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.lbs-prod-reviews .jdgm-rev__pics img{max-width:80px;border-radius:8px;margin:8px 8px 0 0}
+.lbs-prod-reviews .jdgm-paginate{margin-top:24px;text-align:center;font-size:13px}
 
 /* ===== Product page — dame-style redesign (pdp-dame) ===== */
 .lbs.pdp-dame{padding:0 0 48px}
