@@ -722,8 +722,12 @@
 /* ===== Product reviews section ===== */
 .lbs.lbs-prod-reviews,.lbs .lbs-prod-reviews{padding:56px 0 80px;border-top:1px solid var(--line)}
 .lbs-prod-reviews__wrap{max-width:860px;margin:0 auto;padding:0 24px}
-.lbs-prod-reviews__head{text-align:center;margin-bottom:8px}
+.lbs-prod-reviews__head{text-align:center;margin-bottom:18px}
 .lbs-prod-reviews__heading{font-family:var(--serif);font-size:clamp(24px,3vw,34px);color:var(--ink);margin:0}
+.lbs-prod-reviews__summary{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-family:var(--sans);font-size:14px;color:var(--ink)}
+.lbs-prod-reviews__stars{color:var(--blue);font-size:18px;letter-spacing:2px;line-height:1}
+.lbs-prod-reviews__avg{font-weight:700}
+.lbs-prod-reviews__count{color:var(--grey)}
 
 /* ===== Judge.me metafield widget — server-rendered HTML, styled to brand =====
    The widget ships hidden via an inline <style>.jdgm-rev-widg{display:none}</style>
@@ -738,24 +742,19 @@
 .lbs-prod-reviews .jdgm-star.jdgm--off::before{color:#d6d6e0}
 .lbs-prod-reviews .jdgm-star.jdgm--half::before{content:'\2605';color:var(--blue);opacity:.5}
 
-/* Header / summary */
-.lbs-prod-reviews .jdgm-rev-widg__header{text-align:center;margin:8px 0 28px;display:block}
-.lbs-prod-reviews .jdgm-rev-widg__title{display:none}
-.lbs-prod-reviews .jdgm-rev-widg__summary-stars{font-size:20px}
-.lbs-prod-reviews .jdgm-rev-widg__summary-text{margin-top:6px;font-size:13px;color:var(--grey)}
-.lbs-prod-reviews .jdgm-rich-snippet{display:none}
+/* Hide Judge.me's own header bits — we render our own heading/summary above,
+   and the 5→1 star histogram is removed per request. */
+.lbs-prod-reviews .jdgm-rev-widg__title,
+.lbs-prod-reviews .jdgm-rev-widg__summary,
+.lbs-prod-reviews .jdgm-rev-widg__summary-stars,
+.lbs-prod-reviews .jdgm-rev-widg__summary-text,
+.lbs-prod-reviews .jdgm-rich-snippet,
+.lbs-prod-reviews .jdgm-histogram{display:none !important}
+.lbs-prod-reviews .jdgm-rev-widg__header{text-align:center;margin:0 0 18px;display:block}
 
 /* Write-a-review button (revealed/activated by shop.js if it loads) */
-.lbs-prod-reviews .jdgm-write-rev-link{margin:18px auto 0;padding:11px 24px;border:1.5px solid var(--blue);border-radius:999px;color:var(--blue);font-family:var(--sans);font-weight:600;font-size:13px;text-decoration:none;cursor:pointer;background:none;transition:background .15s,color .15s}
+.lbs-prod-reviews .jdgm-write-rev-link{display:inline-block;margin:0 auto 8px;padding:11px 24px;border:1.5px solid var(--blue);border-radius:999px;color:var(--blue);font-family:var(--sans);font-weight:600;font-size:13px;text-decoration:none;cursor:pointer;background:none;transition:background .15s,color .15s}
 .lbs-prod-reviews .jdgm-write-rev-link:hover{background:var(--blue);color:#fff}
-
-/* Histogram */
-.lbs-prod-reviews .jdgm-histogram{max-width:340px;margin:18px auto 0;display:block}
-.lbs-prod-reviews .jdgm-histogram__row{display:flex;align-items:center;gap:10px;margin:3px 0}
-.lbs-prod-reviews .jdgm-histogram__star{flex-shrink:0;white-space:nowrap}
-.lbs-prod-reviews .jdgm-histogram__bar{flex:1;height:8px;background:#ecebf3;border-radius:4px;overflow:hidden}
-.lbs-prod-reviews .jdgm-histogram__bar-content{height:100%;background:var(--blue);border-radius:4px}
-.lbs-prod-reviews .jdgm-histogram__percentage,.lbs-prod-reviews .jdgm-histogram__frequency{font-size:12px;color:var(--grey);min-width:34px;text-align:right}
 
 /* Sort / filter controls */
 .lbs-prod-reviews .jdgm-rev-widg__sort-wrapper,.lbs-prod-reviews .jdgm-all-reviews-rating{font-size:13px;color:var(--grey)}

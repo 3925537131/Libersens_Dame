@@ -1,49 +1,52 @@
 {%- comment -%}
-  Product reviews — outputs Judge.me's SERVER-RENDERED widget HTML stored in
-  product.metafields.judgeme.widget (same metafield approach as the homepage
-  testimonials carousel). It renders instantly with no JS race.
-
-  NOTE: Judge.me's widget HTML ships with an inline
-    <style class='jdgm-temp-hiding-style'>.jdgm-rev-widg{ display:none }</style>
-  that hides itself until Judge.me's shop.js removes it. Since shop.js isn't
-  guaranteed on this theme, libersens.css overrides that rule (.jdgm-rev-widg
-  { display:block !important }) and styles the jdgm-* classes to the brand look,
-  so reviews always display with zero JS dependency.
-
-  shop.js is still loaded best-effort below to enable the "Write a review" form
-  and any interactive bits — but display does not depend on it.
+  Product reviews.
+  - Custom header: "Reviews" + average stars + total review count, rendered from
+    the Judge.me-synced review metafields (always correct, on-brand blue stars).
+  - Review list: Judge.me's official widget embed (modern format). The review data
+    is pre-loaded inline via product.metafields.judgeme.review_widget_data, and
+    review_widget.js renders it (loaded by shop.js below).
+  - Judge.me's own duplicate title/summary and the 5→1 histogram are hidden via CSS
+    (see libersens.css .lbs-prod-reviews .jdgm-*).
 {%- endcomment -%}
 
-{%- assign jm_widget = product.metafields.judgeme.widget -%}
+{%- assign rating_obj = product.metafields.reviews.rating.value -%}
+{%- assign rv_num = rating_obj.rating | default: rating_obj | times: 1.0 -%}
+{%- assign rc = product.metafields.reviews.rating_count.value | default: 0 -%}
 
 <section class="lbs lbs-prod-reviews" id="lbs-reviews">
   <div class="lbs-prod-reviews__wrap">
 
-    {%- if section.settings.heading != blank -%}
-      <div class="lbs-prod-reviews__head">
+    <div class="lbs-prod-reviews__head">
+      {%- if section.settings.heading != blank -%}
         <h2 class="lbs-prod-reviews__heading">{{ section.settings.heading }}</h2>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+      {%- if rv_num > 0 -%}
+        {%- assign full = rv_num | round -%}
+        {%- if full > 5 -%}{%- assign full = 5 -%}{%- endif -%}
+        {%- assign empty = 5 | minus: full -%}
+        <div class="lbs-prod-reviews__summary">
+          <span class="lbs-prod-reviews__stars" aria-hidden="true">
+            {%- for i in (1..full) -%}★{%- endfor -%}
+            {%- if empty > 0 -%}{%- for i in (1..empty) -%}☆{%- endfor -%}{%- endif -%}
+          </span>
+          <span class="lbs-prod-reviews__avg">{{ rv_num | round: 1 }} out of 5</span>
+          <span class="lbs-prod-reviews__count">· {{ rc }} review{% unless rc == 1 %}s{% endunless %}</span>
+        </div>
+      {%- endif -%}
+    </div>
 
-    {%- if jm_widget != blank -%}
-      {{ jm_widget }}
-    {%- else -%}
-      <div class="jdgm-widget jdgm-review-widget"
-           data-id="{{ product.id }}"
-           data-product-title="{{ product.title | escape }}"
-           data-product-handle="{{ product.handle }}"
-           data-page-url="{{ shop.url }}{{ product.url }}"></div>
-    {%- endif -%}
+    {%- comment -%} Ensure the jdgm global exists before Judge.me's inline data script runs {%- endcomment -%}
+    <script>window.jdgm = window.jdgm || {}; window.jdgm.shop = window.jdgm.shop || {{ shop.permanent_domain | json }};</script>
+
+    <!-- Start of Judge.me code -->{% assign has_legacy = false %}{% if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}<div style='clear:both'></div><div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}' data-product-id='{{ product.id }}' data-widget='review' data-auto-install='false' data-shop-reviews-count='{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}' data-entry-point='review_widget.js' data-entry-key='review-widget/main.js'>{% if has_legacy %}<div class='jdgm-legacy-widget-content' style='display: none;'>{{ product.metafields.judgeme.widget }}</div>{% endif %}</div>{% if product.metafields.judgeme.review_widget_data %}<script>jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}</script>{% endif %}<!-- End of Judge.me code -->
 
   </div>
 </section>
 
 <script>
 (function () {
-  /* Best-effort: load Judge.me shop.js to enable the Write-a-review form and
-     interactive features. Display is handled by CSS, so failure here is harmless. */
-  window.jdgm      = window.jdgm      || {};
-  window.jdgm.shop = window.jdgm.shop || {{ shop.permanent_domain | json }};
+  /* Load Judge.me's core loader, which reads data-entry-point and renders
+     the widget from the pre-loaded jdgm.data.reviewWidget data. */
   if (!document.querySelector('script[src*="judge.me"]')) {
     var s = document.createElement('script');
     s.src = '//cdn.judge.me/assets/shop.js';
