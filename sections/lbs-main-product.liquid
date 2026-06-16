@@ -94,18 +94,23 @@
             {%- comment -%} Star rating from Judge.me-synced review metafields. Always visible,
                  rendered server-side so it never flashes/vanishes. Clicking the count jumps
                  to the full Judge.me review widget at the bottom of the page. {%- endcomment -%}
-            {%- assign rv = product.metafields.reviews.rating.value -%}
+            {%- comment -%} reviews.rating is a rating-type metafield: .value is a Rating
+                 object whose .rating is the decimal. Fall back to the raw value if it's
+                 stored as a plain number. {%- endcomment -%}
+            {%- assign rating_obj = product.metafields.reviews.rating.value -%}
+            {%- assign rv_num = rating_obj.rating | default: rating_obj | times: 1.0 -%}
             {%- assign rc = product.metafields.reviews.rating_count.value -%}
-            {%- if rv != blank -%}
-              <a href="#lbs-reviews" class="pdp-dame__stars-fb" aria-label="{{ rv }} out of 5 stars, {{ rc }} reviews">
-                {%- assign rv_num = rv | times: 1 -%}
-                {%- assign full = rv_num | round -%}
-                {%- assign empty = 5 | minus: full -%}
+            {%- if rv_num > 0 -%}
+              {%- assign rv_display = rv_num | round: 1 -%}
+              {%- assign full = rv_num | round -%}
+              {%- if full > 5 -%}{%- assign full = 5 -%}{%- endif -%}
+              {%- assign empty = 5 | minus: full -%}
+              <a href="#lbs-reviews" class="pdp-dame__stars-fb" aria-label="{{ rv_display }} out of 5 stars, {{ rc }} reviews">
                 <span class="pdp-dame__stars-icons" aria-hidden="true">
                   {%- for i in (1..full) -%}★{%- endfor -%}
                   {%- if empty > 0 -%}{%- for i in (1..empty) -%}☆{%- endfor -%}{%- endif -%}
                 </span>
-                <span class="pdp-dame__stars-score">{{ rv }}</span>
+                <span class="pdp-dame__stars-score">{{ rv_display }}</span>
                 {%- if rc != blank -%}
                   <span class="pdp-dame__stars-count">({{ rc }})</span>
                 {%- endif -%}

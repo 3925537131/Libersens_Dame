@@ -1,77 +1,71 @@
-{%- assign widget = section.settings.widget_type | default: 'judgeme_reviews_widget' -%}
+{%- comment -%}
+  Product reviews — uses Judge.me's SERVER-RENDERED metafield HTML, the same
+  approach as the homepage testimonials carousel ({{ shop.metafields.judgeme.* }}).
+  Judge.me writes the fully-rendered widget into product.metafields.judgeme.widget,
+  so it shows instantly with no JS race and no app-embed dependency.
+
+  Falls back to the JS widget only if the metafield is empty (e.g. Judge.me's
+  Liquid/metafield rendering hasn't been enabled for the shop).
+{%- endcomment -%}
+
+{%- assign jm_widget = product.metafields.judgeme.widget -%}
 
 <section class="lbs lbs-prod-reviews" id="lbs-reviews">
   <div class="lbs-prod-reviews__wrap">
-    {%- if widget == 'judgeme_carousel' -%}
-      <div class="jdgm-widget jdgm-carousel"
+
+    {%- if section.settings.heading != blank -%}
+      <div class="lbs-prod-reviews__head">
+        <h2 class="lbs-prod-reviews__heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if jm_widget != blank -%}
+      {%- comment -%} Primary: Judge.me's pre-rendered HTML from the product metafield {%- endcomment -%}
+      {{ jm_widget }}
+    {%- else -%}
+      {%- comment -%} Fallback: JS widget (requires shop.js / app embed) {%- endcomment -%}
+      <div class="jdgm-widget jdgm-review-widget"
            data-id="{{ product.id }}"
            data-product-title="{{ product.title | escape }}"
            data-product-handle="{{ product.handle }}"
-           data-page-url="{{ shop.url }}{{ product.url }}">
-      </div>
-    {%- elsif widget == 'judgeme_all_reviews_widget' -%}
-      {%- render 'judgeme_widgets',
-          widget_type: 'judgeme_all_reviews_widget',
-          concierge_install: true,
-          product: product -%}
-    {%- else -%}
-      {%- render 'judgeme_widgets',
-          widget_type: 'judgeme_reviews_widget',
-          concierge_install: true,
-          product: product,
-          show_write_review_button: true,
-          show_avatar: true,
-          show_display_name: true,
-          show_verified_badge: true,
-          show_helpful_display: true,
-          hide_if_no_reviews: false -%}
+           data-page-url="{{ shop.url }}{{ product.url }}"></div>
     {%- endif -%}
+
   </div>
 </section>
 
+{%- comment -%}
+  Only load shop.js when we had to use the JS-widget fallback. When the metafield
+  HTML is present, no JavaScript is needed at all.
+{%- endcomment -%}
+{%- if jm_widget == blank -%}
 <script>
 (function () {
-  /* Judge.me is "ready" only when loadFromFooter actually exists.
-     Checking window.jdgm alone is wrong — we set it to {} ourselves below,
-     which would make the check always pass before the real script loads. */
-  function isReady() {
-    return window.jdgm && typeof window.jdgm.loadFromFooter === 'function';
-  }
+  function isReady() { return window.jdgm && typeof window.jdgm.loadFromFooter === 'function'; }
   function reinit() {
     if (!isReady()) return false;
     window.jdgm.loadFromFooter();
     typeof window.jdgm.replaceDeferred === 'function' && window.jdgm.replaceDeferred();
     return true;
   }
-
-  /* Pre-set shop credentials so CDN script knows which shop to load */
   window.jdgm      = window.jdgm      || {};
   window.jdgm.shop = window.jdgm.shop || {{ shop.permanent_domain | json }};
   {%- assign jdgm_token = shop.metafields.judgeme.public_token -%}
   {%- if jdgm_token != blank -%}
   window.jdgm.token = window.jdgm.token || {{ jdgm_token | json }};
   {%- endif -%}
-
-  /* Hook into Judge.me's own init cycle (called after their script loads) */
   window.jdgm.onloadFunctions = window.jdgm.onloadFunctions || [];
   window.jdgm.onloadFunctions.push(reinit);
-
-  /* If already fully loaded, fire now and stop */
   if (reinit()) return;
-
-  /* Otherwise ensure their CDN script is loading */
   if (!document.querySelector('script[src*="judge.me"]')) {
     var s = document.createElement('script');
-    s.src   = '//cdn.judge.me/assets/shop.js';
-    s.async = true;
+    s.src = '//cdn.judge.me/assets/shop.js'; s.async = true;
     document.head.appendChild(s);
   }
-
-  /* Poll until loadFromFooter appears (covers async load timing) */
-  var n = 0;
-  var t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
+  var n = 0, t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
 })();
 </script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -79,18 +73,7 @@
   "tag": "section",
   "class": "section-lbs-product-reviews",
   "settings": [
-    {
-      "type": "select",
-      "id": "widget_type",
-      "label": "Review widget",
-      "info": "Judge.me app embed must be enabled in Theme → Customize → App embeds for reviews to appear. Carousel requires Judge.me Premium.",
-      "options": [
-        { "value": "judgeme_reviews_widget",    "label": "Product reviews (recommended)" },
-        { "value": "judgeme_carousel",           "label": "Reviews carousel (Premium)" },
-        { "value": "judgeme_all_reviews_widget", "label": "All-store reviews" }
-      ],
-      "default": "judgeme_reviews_widget"
-    }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Reviews" }
   ],
   "presets": [{ "name": "LBS Product Reviews" }]
 }
