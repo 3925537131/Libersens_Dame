@@ -31,41 +31,45 @@
 
 <script>
 (function () {
-  /* Re-initialise all .jdgm-widget elements on the page.
-     Covers two cases:
-       A) App embed already ran  → call loadFromFooter() immediately
-       B) App embed loads later  → queue via onloadFunctions + poll as backup */
+  /* Judge.me is "ready" only when loadFromFooter actually exists.
+     Checking window.jdgm alone is wrong — we set it to {} ourselves below,
+     which would make the check always pass before the real script loads. */
+  function isReady() {
+    return window.jdgm && typeof window.jdgm.loadFromFooter === 'function';
+  }
   function reinit() {
-    if (!window.jdgm) return false;
-    typeof window.jdgm.loadFromFooter  === 'function' && window.jdgm.loadFromFooter();
+    if (!isReady()) return false;
+    window.jdgm.loadFromFooter();
     typeof window.jdgm.replaceDeferred === 'function' && window.jdgm.replaceDeferred();
     return true;
   }
 
-  /* Pre-set shop info (safe if app embed already set it) */
-  window.jdgm       = window.jdgm       || {};
-  window.jdgm.shop  = window.jdgm.shop  || {{ shop.permanent_domain | json }};
+  /* Pre-set shop credentials so CDN script knows which shop to load */
+  window.jdgm      = window.jdgm      || {};
+  window.jdgm.shop = window.jdgm.shop || {{ shop.permanent_domain | json }};
   {%- assign jdgm_token = shop.metafields.judgeme.public_token -%}
   {%- if jdgm_token != blank -%}
   window.jdgm.token = window.jdgm.token || {{ jdgm_token | json }};
   {%- endif -%}
 
-  /* Queue a reinit for when their script finishes loading */
+  /* Hook into Judge.me's own init cycle (called after their script loads) */
   window.jdgm.onloadFunctions = window.jdgm.onloadFunctions || [];
   window.jdgm.onloadFunctions.push(reinit);
 
-  /* Case A: already loaded — fire immediately */
-  if (!reinit()) {
-    /* Case B: not yet loaded — ensure script exists, then poll */
-    if (!document.querySelector('script[src*="judge.me"]')) {
-      var s = document.createElement('script');
-      s.src   = '//cdn.judge.me/assets/shop.js';
-      s.async = true;
-      document.head.appendChild(s);
-    }
-    var n = 0;
-    var t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
+  /* If already fully loaded, fire now and stop */
+  if (reinit()) return;
+
+  /* Otherwise ensure their CDN script is loading */
+  if (!document.querySelector('script[src*="judge.me"]')) {
+    var s = document.createElement('script');
+    s.src   = '//cdn.judge.me/assets/shop.js';
+    s.async = true;
+    document.head.appendChild(s);
   }
+
+  /* Poll until loadFromFooter appears (covers async load timing) */
+  var n = 0;
+  var t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
 })();
 </script>
 
