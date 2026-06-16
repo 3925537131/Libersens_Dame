@@ -747,11 +747,11 @@
 .pdp-dame__top-badges{display:flex;align-items:center;gap:10px}
 .pdp-dame__bestseller-badge{display:inline-flex;align-items:center;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding:5px 12px;border-radius:6px;background:var(--lavender)}
 .pdp-dame__badge{display:flex;flex-direction:column;gap:4px;line-height:1}
-.pdp-dame__stars-fb{display:flex;align-items:center;gap:6px;font-family:var(--sans);color:var(--blue);font-size:13px}
-.pdp-dame__stars-icons{font-size:14px;letter-spacing:2px;color:var(--blue)}
+.pdp-dame__stars-fb{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);color:var(--blue);font-size:13px;text-decoration:none}
+.pdp-dame__stars-fb:hover .pdp-dame__stars-count{text-decoration:underline}
+.pdp-dame__stars-icons{font-size:15px;letter-spacing:2px;color:var(--blue)}
 .pdp-dame__stars-score{font-weight:700;font-size:14px}
-.pdp-dame__stars-count{font-size:13px;text-decoration:underline;color:var(--blue);text-underline-offset:2px}
-.jdgm-preview-badge:not(:empty) ~ .pdp-dame__stars-fb{display:none}
+.pdp-dame__stars-count{font-size:13px;color:var(--blue);text-underline-offset:2px}
 
 /* Title + price row */
 .pdp-dame__title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}

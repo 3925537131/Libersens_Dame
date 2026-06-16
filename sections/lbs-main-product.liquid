@@ -91,27 +91,25 @@
             {%- endif -%}
           </div>
           <div class="pdp-dame__badge">
-            {%- comment -%} Judge.me preview badge — renders when app embed is enabled {%- endcomment -%}
-            {%- render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product -%}
-            {%- comment -%} Metafield fallback — always visible, hidden via CSS once jdgm renders {%- endcomment -%}
+            {%- comment -%} Star rating from Judge.me-synced review metafields. Always visible,
+                 rendered server-side so it never flashes/vanishes. Clicking the count jumps
+                 to the full Judge.me review widget at the bottom of the page. {%- endcomment -%}
             {%- assign rv = product.metafields.reviews.rating.value -%}
             {%- assign rc = product.metafields.reviews.rating_count.value -%}
             {%- if rv != blank -%}
-              <div class="pdp-dame__stars-fb">
+              <a href="#lbs-reviews" class="pdp-dame__stars-fb" aria-label="{{ rv }} out of 5 stars, {{ rc }} reviews">
                 {%- assign rv_num = rv | times: 1 -%}
-                {%- assign full = rv_num | floor -%}
-                {%- assign half = rv_num | minus: full | times: 2 | ceil -%}
-                {%- assign empty = 5 | minus: full | minus: half -%}
-                <span class="pdp-dame__stars-icons" aria-label="{{ rv }} out of 5 stars">
+                {%- assign full = rv_num | round -%}
+                {%- assign empty = 5 | minus: full -%}
+                <span class="pdp-dame__stars-icons" aria-hidden="true">
                   {%- for i in (1..full) -%}★{%- endfor -%}
-                  {%- if half == 1 -%}☆{%- endif -%}
-                  {%- for i in (1..empty) -%}☆{%- endfor -%}
+                  {%- if empty > 0 -%}{%- for i in (1..empty) -%}☆{%- endfor -%}{%- endif -%}
                 </span>
                 <span class="pdp-dame__stars-score">{{ rv }}</span>
                 {%- if rc != blank -%}
-                  <a href="#lbs-reviews" class="pdp-dame__stars-count">({{ rc }})</a>
+                  <span class="pdp-dame__stars-count">({{ rc }})</span>
                 {%- endif -%}
-              </div>
+              </a>
             {%- endif -%}
           </div>
         </div>
