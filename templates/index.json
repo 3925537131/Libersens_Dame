@@ -82,7 +82,7 @@
       "settings": {
         "heading": "Our Bestsellers",
         "description": "The pieces our community reaches for again and again.",
-        "collection": "frontpage",
+        "collection": "vibrators",
         "products_to_show": 5,
         "columns_desktop": 4,
         "card_bg": "#f6f4f1",
@@ -101,7 +101,7 @@
             "image": "shopify://shop_images/8fa05a0e8575553fdfc1cfda96f5ab35.png",
             "badge": "",
             "title": "Vibrators",
-            "link": "shopify://collections/frontpage",
+            "link": "shopify://collections/vibrators",
             "color": "#c4c3f2"
           }
         },

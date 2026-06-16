@@ -26,7 +26,7 @@
           "type": "mega_collection",
           "settings": {
             "label": "Vibrators",
-            "collection": "frontpage",
+            "collection": "vibrators",
             "products_count": 5,
             "link": "",
             "accent": false
