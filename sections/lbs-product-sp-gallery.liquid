@@ -1,90 +1,87 @@
+{%- comment -%}
+  Default column data — overridden by schema blocks when blocks are added.
+  Colors use Libersens brand palette.
+{%- endcomment -%}
+{%- assign default_titles    = 'Discreet Packaging,Medical Grade Silicone,Waterproof,1-Year Warranty' | split: ',' -%}
+{%- assign default_subs      = 'Plain box — no brand name outside.,100% body-safe & hypoallergenic.,Use in the bath or shower.,Full coverage for peace of mind.' | split: ',' -%}
+{%- assign default_icons     = 'package,silicone,water,warranty' | split: ',' -%}
+{%- assign default_colors    = '#C4C3F2,#DEF1EE,#E8EEFF,#F9E1D5' | split: ',' -%}
+{%- assign default_icon_col  = '#0029FF,#3B898B,#0029FF,#E56B4E' | split: ',' -%}
+
 <section class="lbs lbs-sp-gallery">
   <div class="lbs-sp-gallery__grid">
 
     {%- if section.blocks.size > 0 -%}
+
       {%- for block in section.blocks -%}
+        {%- assign bidx = forloop.index0 -%}
+        {%- assign blk_color     = block.settings.bg_color     | default: default_colors[bidx]   -%}
+        {%- assign blk_icon_col  = block.settings.icon_color   | default: default_icon_col[bidx] -%}
+        {%- assign blk_icon      = block.settings.icon         | default: default_icons[bidx]    -%}
+        {%- assign blk_title     = block.settings.title        | default: default_titles[bidx]   -%}
+        {%- assign blk_sub       = block.settings.subtitle     | default: default_subs[bidx]     -%}
+
         <article class="lbs-sp-gallery__col" {{ block.shopify_attributes }}>
           <div class="lbs-sp-gallery__img-wrap">
             {%- if block.settings.image != blank -%}
               <img class="lbs-sp-gallery__img"
                 src="{{ block.settings.image | image_url: width: 700 }}"
-                alt="{{ block.settings.title | escape }}"
+                alt="{{ blk_title | escape }}"
                 width="700" height="880" loading="lazy">
             {%- else -%}
-              {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg lbs-sp-gallery__placeholder' }}
+              <div class="lbs-sp-gallery__color-block" style="background:{{ blk_color }}">
+                {%- render 'lbs-sp-icon', icon: blk_icon, color: blk_icon_col -%}
+              </div>
             {%- endif -%}
           </div>
           <div class="lbs-sp-gallery__label">
-            {%- case block.settings.icon -%}
-              {%- when 'package' -%}
-                <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="3" y="9" width="24" height="18" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 14h24M11 9V6a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 19h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'silicone' -%}
-                <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M10 5h10v9l4.5 10A2 2 0 0122.7 27H7.3a2 2 0 01-1.8-2.8L10 14V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 17h10M8 22h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'water' -%}
-                <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 4C11 9.5 8 13 8 17a7 7 0 0014 0c0-4-3-7.5-7-13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 19c.5 2 2 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'warranty' -%}
-                <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 3l10 4v8c0 6.5-4.5 11.5-10 12.5C9.5 26.5 5 21.5 5 15V7l10-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 15l3 3 5.5-5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {%- else -%}
-                <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 4l2.8 8.5H27l-7 5.3 2.7 8.2L15 21l-7.7 5 2.7-8.2-7-5.3h9.2L15 4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            {%- endcase -%}
+            {%- render 'lbs-sp-icon', icon: blk_icon, color: blk_icon_col -%}
             <div class="lbs-sp-gallery__text">
-              <p class="lbs-sp-gallery__title">{{ block.settings.title }}</p>
-              <p class="lbs-sp-gallery__sub">{{ block.settings.subtitle }}</p>
+              <p class="lbs-sp-gallery__title">{{ blk_title }}</p>
+              <p class="lbs-sp-gallery__sub">{{ blk_sub }}</p>
             </div>
           </div>
         </article>
       {%- endfor -%}
 
     {%- else -%}
-      <!-- Default hardcoded columns (shown when no blocks are configured) -->
-      <article class="lbs-sp-gallery__col">
-        <div class="lbs-sp-gallery__img-wrap">
-          {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg lbs-sp-gallery__placeholder' }}
-        </div>
-        <div class="lbs-sp-gallery__label">
-          <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="3" y="9" width="24" height="18" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 14h24M11 9V6a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 19h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <div class="lbs-sp-gallery__text">
-            <p class="lbs-sp-gallery__title">Discreet Packaging</p>
-            <p class="lbs-sp-gallery__sub">Plain box — no brand name visible outside.</p>
+
+      {%- comment -%} Hardcoded default 4 columns {%- endcomment -%}
+      {%- for i in (0..3) -%}
+        <article class="lbs-sp-gallery__col">
+          <div class="lbs-sp-gallery__img-wrap">
+            <div class="lbs-sp-gallery__color-block" style="background:{{ default_colors[i] }}">
+              {%- case default_icons[i] -%}
+                {%- when 'package' -%}
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><rect x="8" y="22" width="64" height="48" rx="6" stroke="currentColor" stroke-width="4"/><path d="M8 38h64M28 22V14a12 12 0 0124 0v8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M28 52h24" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+                {%- when 'silicone' -%}
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M28 12h24v24l12 26a6 6 0 01-5.4 8.5H21.4A6 6 0 0116 62l12-26V12z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M28 46h24M22 62h36" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+                {%- when 'water' -%}
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M40 10C28 26 20 36 20 46a20 20 0 0040 0c0-10-8-20-20-36z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M32 52c1.5 5 5 8 8 8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+                {%- when 'warranty' -%}
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M40 8l26 10v22C66 56 55 68 40 72 25 68 14 56 14 40V18l26-10z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M28 40l9 9 15-15" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- endcase -%}
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="lbs-sp-gallery__col">
-        <div class="lbs-sp-gallery__img-wrap">
-          {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg lbs-sp-gallery__placeholder' }}
-        </div>
-        <div class="lbs-sp-gallery__label">
-          <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M10 5h10v9l4.5 10A2 2 0 0122.7 27H7.3a2 2 0 01-1.8-2.8L10 14V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 17h10M8 22h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <div class="lbs-sp-gallery__text">
-            <p class="lbs-sp-gallery__title">Medical Grade Silicone</p>
-            <p class="lbs-sp-gallery__sub">100% body-safe and hypoallergenic.</p>
+          <div class="lbs-sp-gallery__label">
+            {%- case default_icons[i] -%}
+              {%- when 'package' -%}
+                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><rect x="3" y="7" width="22" height="18" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13h22M10 7V5a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 18h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              {%- when 'silicone' -%}
+                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M10 4h8v9l4 9A2 2 0 0120.3 25H7.7A2 2 0 016 22.3l4-9V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 16h8M8 21h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              {%- when 'water' -%}
+                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M14 4C10 9 7 13 7 17a7 7 0 0014 0c0-4-3-8-7-13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 19c.5 2 2 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              {%- when 'warranty' -%}
+                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M14 3l10 4v8c0 6-4.5 10.5-10 11.5C8.5 25.5 4 21 4 15V7l10-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 14l3 3 5.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {%- endcase -%}
+            <div class="lbs-sp-gallery__text">
+              <p class="lbs-sp-gallery__title">{{ default_titles[i] }}</p>
+              <p class="lbs-sp-gallery__sub">{{ default_subs[i] }}</p>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="lbs-sp-gallery__col">
-        <div class="lbs-sp-gallery__img-wrap">
-          {{ 'product-apparel-3' | placeholder_svg_tag: 'placeholder-svg lbs-sp-gallery__placeholder' }}
-        </div>
-        <div class="lbs-sp-gallery__label">
-          <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 4C11 9.5 8 13 8 17a7 7 0 0014 0c0-4-3-7.5-7-13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 19c.5 2 2 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <div class="lbs-sp-gallery__text">
-            <p class="lbs-sp-gallery__title">Waterproof Charging Port</p>
-            <p class="lbs-sp-gallery__sub">Bath or shower — no worries.</p>
-          </div>
-        </div>
-      </article>
-      <article class="lbs-sp-gallery__col">
-        <div class="lbs-sp-gallery__img-wrap">
-          {{ 'product-apparel-4' | placeholder_svg_tag: 'placeholder-svg lbs-sp-gallery__placeholder' }}
-        </div>
-        <div class="lbs-sp-gallery__label">
-          <svg class="lbs-sp-gallery__icon" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 3l10 4v8c0 6.5-4.5 11.5-10 12.5C9.5 26.5 5 21.5 5 15V7l10-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 15l3 3 5.5-5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="lbs-sp-gallery__text">
-            <p class="lbs-sp-gallery__title">1-Year Warranty</p>
-            <p class="lbs-sp-gallery__sub">Full coverage for your peace of mind.</p>
-          </div>
-        </div>
-      </article>
+        </article>
+      {%- endfor -%}
+
     {%- endif -%}
 
   </div>
@@ -101,19 +98,18 @@
       "type": "column",
       "name": "Gallery column",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image",      "label": "Image (overrides colour block)" },
+        { "type": "color",        "id": "bg_color",   "label": "Background colour",  "default": "#C4C3F2" },
+        { "type": "color",        "id": "icon_color", "label": "Icon colour",         "default": "#0029FF" },
         {
-          "type": "select",
-          "id": "icon",
-          "label": "Icon",
+          "type": "select", "id": "icon", "label": "Icon",
           "options": [
-            { "value": "package",  "label": "Box / Discreet packaging" },
-            { "value": "silicone", "label": "Flask / Medical silicone" },
+            { "value": "package",  "label": "Box / Packaging" },
+            { "value": "silicone", "label": "Flask / Silicone" },
             { "value": "water",    "label": "Drop / Waterproof" },
-            { "value": "warranty", "label": "Shield / Warranty" },
-            { "value": "star",     "label": "Star (default)" }
+            { "value": "warranty", "label": "Shield / Warranty" }
           ],
-          "default": "star"
+          "default": "package"
         },
         { "type": "text", "id": "title",    "label": "Title",    "default": "Feature title" },
         { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Short description." }
@@ -124,10 +120,10 @@
     {
       "name": "LBS SP Gallery",
       "blocks": [
-        { "type": "column", "settings": { "icon": "package",  "title": "Discreet Packaging",       "subtitle": "Plain box — no brand name visible outside." } },
-        { "type": "column", "settings": { "icon": "silicone", "title": "Medical Grade Silicone",    "subtitle": "100% body-safe and hypoallergenic." } },
-        { "type": "column", "settings": { "icon": "water",    "title": "Waterproof Charging Port",  "subtitle": "Bath or shower — no worries." } },
-        { "type": "column", "settings": { "icon": "warranty", "title": "1-Year Warranty",           "subtitle": "Full coverage for your peace of mind." } }
+        { "type": "column", "settings": { "icon": "package",  "title": "Discreet Packaging",      "subtitle": "Plain box — no brand name outside.", "bg_color": "#C4C3F2", "icon_color": "#0029FF" } },
+        { "type": "column", "settings": { "icon": "silicone", "title": "Medical Grade Silicone",   "subtitle": "100% body-safe & hypoallergenic.",   "bg_color": "#DEF1EE", "icon_color": "#3B898B" } },
+        { "type": "column", "settings": { "icon": "water",    "title": "Waterproof",               "subtitle": "Bath or shower — no worries.",        "bg_color": "#E8EEFF", "icon_color": "#0029FF" } },
+        { "type": "column", "settings": { "icon": "warranty", "title": "1-Year Warranty",          "subtitle": "Full coverage for peace of mind.",    "bg_color": "#F9E1D5", "icon_color": "#E56B4E" } }
       ]
     }
   ]

@@ -91,7 +91,28 @@
             {%- endif -%}
           </div>
           <div class="pdp-dame__badge">
+            {%- comment -%} Judge.me preview badge — renders when app embed is enabled {%- endcomment -%}
             {%- render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product -%}
+            {%- comment -%} Metafield fallback — always visible, hidden via CSS once jdgm renders {%- endcomment -%}
+            {%- assign rv = product.metafields.reviews.rating.value -%}
+            {%- assign rc = product.metafields.reviews.rating_count.value -%}
+            {%- if rv != blank -%}
+              <div class="pdp-dame__stars-fb">
+                {%- assign rv_num = rv | times: 1 -%}
+                {%- assign full = rv_num | floor -%}
+                {%- assign half = rv_num | minus: full | times: 2 | ceil -%}
+                {%- assign empty = 5 | minus: full | minus: half -%}
+                <span class="pdp-dame__stars-icons" aria-label="{{ rv }} out of 5 stars">
+                  {%- for i in (1..full) -%}★{%- endfor -%}
+                  {%- if half == 1 -%}☆{%- endif -%}
+                  {%- for i in (1..empty) -%}☆{%- endfor -%}
+                </span>
+                <span class="pdp-dame__stars-score">{{ rv }}</span>
+                {%- if rc != blank -%}
+                  <a href="#lbs-reviews" class="pdp-dame__stars-count">({{ rc }})</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
           </div>
         </div>
 

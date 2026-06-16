@@ -23,18 +23,18 @@
         {%- endfor -%}
       ],
       "features": {
-        {%- assign feat_json_first = true -%}
+        {%- assign cjf_defaults = 'Clitoral,Multiple levels,IPX7 Waterproof,Medical-grade Silicone,Multiple patterns,Whisper Quiet' | split: ',' -%}
         {%- for i in (1..6) -%}
-          {%- assign fkey = 'compare-' | append: i -%}
-          {%- assign fcheck = fkey | append: ':' -%}
+          {%- unless forloop.first -%},{%- endunless -%}
+          {%- assign cjf_key    = 'compare-' | append: i -%}
+          {%- assign cjf_check  = cjf_key | append: ':' -%}
+          {%- assign cjf_val    = cjf_defaults[forloop.index0] -%}
           {%- for tag in p.tags -%}
-            {%- if tag contains fcheck -%}
-              {%- assign fval = tag | remove_first: fkey | remove_first: ':' | strip -%}
-              {%- unless feat_json_first -%},{%- endunless -%}
-              {%- assign feat_json_first = false -%}
-              {{ fkey | json }}: {{ fval | json }}
+            {%- if tag contains cjf_check -%}
+              {%- assign cjf_val = tag | remove_first: cjf_key | remove_first: ':' | strip -%}
             {%- endif -%}
           {%- endfor -%}
+          {{ cjf_key | json }}: {{ cjf_val | json }}
         {%- endfor -%}
       }
     }
@@ -133,34 +133,48 @@
         {%- endif -%}
       </div>
 
-      <!-- ── FEATURE ROWS (from product tags: compare-1:value … compare-6:value) ── -->
+      <!-- ── FEATURE ROWS
+           Labels are hardcoded; values come from product tags compare-1: through compare-6:.
+           If no tag is set, a sensible default is shown.
+           Override per product by adding tags like: compare-1:Clitoral + G-spot
+      ── -->
+      {%- assign feat_labels   = 'Stimulation,Intensity Levels,Waterproof,Material,Vibration Patterns,Noise Level' | split: ',' -%}
+      {%- assign feat_defaults = 'Clitoral,Multiple levels,IPX7 Waterproof,Medical-grade Silicone,Multiple patterns,Whisper Quiet' | split: ',' -%}
+
       {%- for i in (1..6) -%}
-        {%- assign fkey = 'compare-' | append: i -%}
-        {%- assign fcheck = fkey | append: ':' -%}
+        {%- assign fidx    = forloop.index0 -%}
+        {%- assign fkey    = 'compare-' | append: i -%}
+        {%- assign fcheck  = fkey | append: ':' -%}
+        {%- assign flabel  = feat_labels[fidx] -%}
+        {%- assign fdefault = feat_defaults[fidx] -%}
+
         {%- assign left_feat = '' -%}
         {%- for tag in product.tags -%}
           {%- if tag contains fcheck -%}
             {%- assign left_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
           {%- endif -%}
         {%- endfor -%}
-        {%- if left_feat != '' -%}
-          {%- assign right_feat = '' -%}
-          {%- if first_other != nil -%}
-            {%- for tag in first_other.tags -%}
-              {%- if tag contains fcheck -%}
-                {%- assign right_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
-              {%- endif -%}
-            {%- endfor -%}
-          {%- endif -%}
-          <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left lbs-prod-compare__cell--feat{% if i == 1 %} lbs-prod-compare__cell--feat-first{% endif %}">
-            <svg class="lbs-prod-compare__feat-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l1.7 5.2H18l-4.6 3.3 1.8 5.4L10 12.5l-5.2 3.4 1.8-5.4L2 7.2h6.3L10 2z" fill="var(--blue)" opacity=".65"/></svg>
-            <p class="lbs-prod-compare__feat-text">{{ left_feat }}</p>
-          </div>
-          <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right lbs-prod-compare__cell--feat{% if i == 1 %} lbs-prod-compare__cell--feat-first{% endif %}" id="lbsRightFeat{{ i }}">
-            <svg class="lbs-prod-compare__feat-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l1.7 5.2H18l-4.6 3.3 1.8 5.4L10 12.5l-5.2 3.4 1.8-5.4L2 7.2h6.3L10 2z" fill="var(--blue)" opacity=".65"/></svg>
-            <p class="lbs-prod-compare__feat-text" data-right-feat="{{ i }}">{{ right_feat }}</p>
-          </div>
+        {%- if left_feat == '' -%}{%- assign left_feat = fdefault -%}{%- endif -%}
+
+        {%- assign right_feat = '' -%}
+        {%- if first_other != nil -%}
+          {%- for tag in first_other.tags -%}
+            {%- if tag contains fcheck -%}
+              {%- assign right_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
+            {%- endif -%}
+          {%- endfor -%}
         {%- endif -%}
+        {%- if right_feat == '' -%}{%- assign right_feat = fdefault -%}{%- endif -%}
+
+        <!-- Full-width row label -->
+        <div class="lbs-prod-compare__row-label">{{ flabel }}</div>
+
+        <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left lbs-prod-compare__cell--feat" id="lbsLeftFeat{{ i }}">
+          <p class="lbs-prod-compare__feat-text">{{ left_feat }}</p>
+        </div>
+        <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right lbs-prod-compare__cell--feat" id="lbsRightFeat{{ i }}">
+          <p class="lbs-prod-compare__feat-text" data-right-feat="{{ i }}">{{ right_feat }}</p>
+        </div>
       {%- endfor -%}
 
     </div>

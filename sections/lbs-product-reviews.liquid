@@ -1,9 +1,8 @@
 {%- assign widget = section.settings.widget_type | default: 'judgeme_reviews_widget' -%}
 
-<section class="lbs lbs-prod-reviews">
+<section class="lbs lbs-prod-reviews" id="lbs-reviews">
   <div class="lbs-prod-reviews__wrap">
     {%- if widget == 'judgeme_carousel' -%}
-      {{- comment -}} Judge.me carousel widget (requires Judge.me Premium plan) {{- endcomment -}}
       <div class="jdgm-widget jdgm-carousel"
            data-id="{{ product.id }}"
            data-product-title="{{ product.title | escape }}"
@@ -30,6 +29,26 @@
   </div>
 </section>
 
+<script>
+(function () {
+  /* Fallback: load Judge.me JS if the app embed did not inject it.
+     This fires only when window.jdgm is not already defined. */
+  if (typeof window.jdgm !== 'undefined') return;
+  window.jdgm = window.jdgm || {};
+  window.jdgm.shop = {{ shop.permanent_domain | json }};
+  {%- assign jdgm_token = shop.metafields.judgeme.public_token -%}
+  {%- if jdgm_token != blank -%}
+  window.jdgm.token = {{ jdgm_token | json }};
+  {%- endif -%}
+  if (!document.querySelector('script[src*="judge.me"]')) {
+    var s = document.createElement('script');
+    s.src = '//cdn.judge.me/assets/shop.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
 {% schema %}
 {
   "name": "LBS Product Reviews",
@@ -40,7 +59,7 @@
       "type": "select",
       "id": "widget_type",
       "label": "Review widget",
-      "info": "Choose which Judge.me widget to display. Carousel requires a Judge.me Premium plan.",
+      "info": "Judge.me app embed must be enabled in Theme → Customize → App embeds for reviews to appear. Carousel requires Judge.me Premium.",
       "options": [
         { "value": "judgeme_reviews_widget",    "label": "Product reviews (recommended)" },
         { "value": "judgeme_carousel",           "label": "Reviews carousel (Premium)" },
