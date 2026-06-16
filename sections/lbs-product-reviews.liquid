@@ -31,20 +31,40 @@
 
 <script>
 (function () {
-  /* Fallback: load Judge.me JS if the app embed did not inject it.
-     This fires only when window.jdgm is not already defined. */
-  if (typeof window.jdgm !== 'undefined') return;
-  window.jdgm = window.jdgm || {};
-  window.jdgm.shop = {{ shop.permanent_domain | json }};
+  /* Re-initialise all .jdgm-widget elements on the page.
+     Covers two cases:
+       A) App embed already ran  → call loadFromFooter() immediately
+       B) App embed loads later  → queue via onloadFunctions + poll as backup */
+  function reinit() {
+    if (!window.jdgm) return false;
+    typeof window.jdgm.loadFromFooter  === 'function' && window.jdgm.loadFromFooter();
+    typeof window.jdgm.replaceDeferred === 'function' && window.jdgm.replaceDeferred();
+    return true;
+  }
+
+  /* Pre-set shop info (safe if app embed already set it) */
+  window.jdgm       = window.jdgm       || {};
+  window.jdgm.shop  = window.jdgm.shop  || {{ shop.permanent_domain | json }};
   {%- assign jdgm_token = shop.metafields.judgeme.public_token -%}
   {%- if jdgm_token != blank -%}
-  window.jdgm.token = {{ jdgm_token | json }};
+  window.jdgm.token = window.jdgm.token || {{ jdgm_token | json }};
   {%- endif -%}
-  if (!document.querySelector('script[src*="judge.me"]')) {
-    var s = document.createElement('script');
-    s.src = '//cdn.judge.me/assets/shop.js';
-    s.defer = true;
-    document.head.appendChild(s);
+
+  /* Queue a reinit for when their script finishes loading */
+  window.jdgm.onloadFunctions = window.jdgm.onloadFunctions || [];
+  window.jdgm.onloadFunctions.push(reinit);
+
+  /* Case A: already loaded — fire immediately */
+  if (!reinit()) {
+    /* Case B: not yet loaded — ensure script exists, then poll */
+    if (!document.querySelector('script[src*="judge.me"]')) {
+      var s = document.createElement('script');
+      s.src   = '//cdn.judge.me/assets/shop.js';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+    var n = 0;
+    var t = setInterval(function () { if (reinit() || ++n >= 40) clearInterval(t); }, 250);
   }
 })();
 </script>

@@ -23,7 +23,14 @@
         {%- endfor -%}
       ],
       "features": {
-        {%- assign cjf_defaults = 'Clitoral,Multiple levels,IPX7 Waterproof,Medical-grade Silicone,Multiple patterns,Whisper Quiet' | split: ',' -%}
+        {%- assign p_mod = p.id | modulo: 3 -%}
+        {%- if p_mod == 0 -%}
+          {%- assign cjf_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
+        {%- elsif p_mod == 1 -%}
+          {%- assign cjf_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
+        {%- else -%}
+          {%- assign cjf_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
+        {%- endif -%}
         {%- for i in (1..6) -%}
           {%- unless forloop.first -%},{%- endunless -%}
           {%- assign cjf_key    = 'compare-' | append: i -%}
@@ -138,8 +145,29 @@
            If no tag is set, a sensible default is shown.
            Override per product by adding tags like: compare-1:Clitoral + G-spot
       ── -->
-      {%- assign feat_labels   = 'Stimulation,Intensity Levels,Waterproof,Material,Vibration Patterns,Noise Level' | split: ',' -%}
-      {%- assign feat_defaults = 'Clitoral,Multiple levels,IPX7 Waterproof,Medical-grade Silicone,Multiple patterns,Whisper Quiet' | split: ',' -%}
+      {%- assign feat_labels = 'Stimulation,Intensity Levels,Waterproof,Material,Vibration Patterns,Noise Level' | split: ',' -%}
+
+      {%- comment -%} Left-column defaults: vary by current product ID modulo 3 {%- endcomment -%}
+      {%- assign lmod = product.id | modulo: 3 -%}
+      {%- if lmod == 0 -%}
+        {%- assign feat_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
+      {%- elsif lmod == 1 -%}
+        {%- assign feat_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
+      {%- else -%}
+        {%- assign feat_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
+      {%- endif -%}
+
+      {%- comment -%} Right-column defaults: vary by first_other product ID modulo 3 {%- endcomment -%}
+      {%- if first_other != nil -%}
+        {%- assign rmod = first_other.id | modulo: 3 -%}
+        {%- if rmod == 0 -%}
+          {%- assign right_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
+        {%- elsif rmod == 1 -%}
+          {%- assign right_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
+        {%- else -%}
+          {%- assign right_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
+        {%- endif -%}
+      {%- endif -%}
 
       {%- for i in (1..6) -%}
         {%- assign fidx    = forloop.index0 -%}
@@ -164,7 +192,7 @@
             {%- endif -%}
           {%- endfor -%}
         {%- endif -%}
-        {%- if right_feat == '' -%}{%- assign right_feat = fdefault -%}{%- endif -%}
+        {%- if right_feat == '' -%}{%- assign right_feat = right_defaults[fidx] -%}{%- endif -%}
 
         <!-- Full-width row label -->
         <div class="lbs-prod-compare__row-label">{{ flabel }}</div>
