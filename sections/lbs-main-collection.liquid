@@ -204,15 +204,42 @@
     {%- endif -%}
   {%- endpaginate -%}
 
-  <!-- ── GUIDE (expandable rich text) ── -->
-  {%- if section.settings.guide_body != blank -%}
+  <!-- ── GUIDE + ABOUT / FAQ ── -->
+  {%- liquid
+    assign g_heading = section.settings.guide_heading
+    assign g_body    = section.settings.guide_body
+    assign a_heading = section.settings.about_heading
+    assign a_body    = section.settings.about_body
+    assign has_faq   = false
+    for block in section.blocks
+      if block.type == 'faq_item'
+        assign has_faq = true
+        break
+      endif
+    endfor
+    assign is_vibrators = false
+    if collection.handle == 'vibrators'
+      assign is_vibrators = true
+    endif
+  -%}
+
+  {%- if is_vibrators and g_heading == blank -%}{%- assign g_heading = 'How to choose the best vibrator for your body and pleasure style' -%}{%- endif -%}
+  {%- if is_vibrators and g_body == blank -%}
+    {%- capture g_body -%}<p>Finding the best vibrator for you depends on your body, preferences, and experience level with pleasure products. Libersens has a range of thoughtfully-designed options — from compact bullet vibrators that deliver precise external stimulation to powerful wand vibrators designed for deep, rumbly sensations. If you're exploring internal stimulation, our curved G-spot vibrators make it easier and more enjoyable to reach the spots that matter, while our external vibrators prioritize clitoral stimulation and hands-on control.</p><p>If you want to explore hands-free or partner-play options, check out our wearable vibrators that move with your body. A couples vibrator can enhance shared pleasure without interrupting the moment, making it a popular choice for partnered play. Not sure which style fits you best? Our quiz walks you through a few questions to help narrow it down.</p><h3>Designed for female pleasure, by female pleasure experts</h3><p>Unlike many vibrators on the market, Libersens products are made by women for women — intuitively designed for the most fulfilling female pleasure. Each vibrator is crafted with premium, body-safe silicone and designed to be intuitive, easy to clean, and comfortable to hold or wear. Our vibration patterns help you build, edge, or work your way up — putting the power back in your hands.</p><h3>Quiet and discreet, so you can be the one making the noise</h3><p>Our vibrators are designed to be quiet, portable, and unintimidating — perfect for those who want power without loud or obtrusive noise. Take them with you wherever you go — traveling, in the tub, or just behind a closed door.</p>{%- endcapture -%}
+  {%- endif -%}
+  {%- if is_vibrators and a_heading == blank -%}{%- assign a_heading = 'About Libersens Vibrators' -%}{%- endif -%}
+  {%- if is_vibrators and a_body == blank -%}
+    {%- capture a_body -%}<p>Libersens was founded with one mission: to create a world where women's pleasure is celebrated, not whispered about. We design vibrators and intimate wellness products that prioritize comfort, performance, and safety — all crafted from premium, body-safe silicone with whisper-quiet motors, rechargeable construction, and waterproof design.</p><p>Each Libersens vibrator is ergonomically shaped to fit naturally in the hand, with intuitive controls and multiple intensity levels designed to deliver reliable internal or external stimulation. We believe that great pleasure comes from great design — and we are committed to making products that are as beautiful as they are functional.</p><p>Whether you are exploring solo or sharing with a partner, the Libersens collection includes clit vibrators, bullet vibrators, G-spot vibrators, wearable vibrators, and couples vibrators — offering options for every body, every preference, and every level of experience.</p>{%- endcapture -%}
+  {%- endif -%}
+
+  {%- if g_body != blank -%}
   <div class="lbs-coll-dame__guide-wrap">
     <div class="lbs-coll-dame__guide" data-expanded="false" id="lbsGuide">
       <div class="lbs-coll-dame__guide-content" id="lbsGuideContent">
-        {%- if section.settings.guide_heading != blank -%}
-          <h2 class="lbs-coll-dame__guide-heading">{{ section.settings.guide_heading }}</h2>
+        {%- if g_heading != blank -%}
+          <h2 class="lbs-coll-dame__guide-heading">{{ g_heading }}</h2>
         {%- endif -%}
-        <div class="lbs-coll-dame__guide-body">{{ section.settings.guide_body }}</div>
+        <div class="lbs-coll-dame__guide-body">{{ g_body }}</div>
       </div>
       <button type="button" class="lbs-coll-dame__guide-toggle" aria-expanded="false" id="lbsGuideToggle">
         <span class="lbs-coll-dame__toggle-more">Read More</span>
@@ -222,27 +249,28 @@
   </div>
   {%- endif -%}
 
-  <!-- ── ABOUT + FAQ ── -->
-  {%- assign has_faq = false -%}
-  {%- for block in section.blocks -%}{%- if block.type == 'faq_item' -%}{%- assign has_faq = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
-  {%- if section.settings.about_body != blank or has_faq -%}
+  {%- if a_body != blank or has_faq or is_vibrators -%}
   <div class="lbs-coll-dame__about-wrap">
-    {%- if section.settings.about_heading != blank -%}
-      <h2 class="lbs-coll-dame__about-heading">{{ section.settings.about_heading }}</h2>
+    {%- if a_heading != blank -%}
+      <h2 class="lbs-coll-dame__about-heading">{{ a_heading }}</h2>
     {%- endif -%}
     <div class="lbs-coll-dame__about">
-      {%- if section.settings.about_body != blank -%}
-        <div class="lbs-coll-dame__about-body">{{ section.settings.about_body }}</div>
+      {%- if a_body != blank -%}
+        <div class="lbs-coll-dame__about-body">{{ a_body }}</div>
       {%- endif -%}
-      {%- if has_faq -%}
-        <div class="lbs-coll-dame__faq" id="lbsCollFaq">
+      <div class="lbs-coll-dame__faq" id="lbsCollFaq">
+        {%- if is_vibrators and has_faq == false -%}
+          <div class="lbs-coll-dame__faq-item" data-open="false"><h3 class="lbs-coll-dame__faq-q"><button type="button" aria-expanded="false">Q: What is a vibrator?</button></h3><div class="lbs-coll-dame__faq-a-wrap" role="region"><div class="lbs-coll-dame__faq-a"><p><strong>A:</strong> A vibrator is a personal pleasure device that creates vibrations to stimulate sensitive areas of your body, like the clitoris and G-spot. They come in many shapes, sizes, and features — so there is something for every body and experience level.</p></div></div></div>
+          <div class="lbs-coll-dame__faq-item" data-open="false"><h3 class="lbs-coll-dame__faq-q"><button type="button" aria-expanded="false">Q: How do I use a vibrator?</button></h3><div class="lbs-coll-dame__faq-a-wrap" role="region"><div class="lbs-coll-dame__faq-a"><p><strong>A:</strong> Begin by selecting a comfortable, private space where you feel at ease. Apply a water-based lubricant to enhance sensation, then turn on your Libersens vibrator and explore the different settings or intensities, gradually finding what feels best for you.</p></div></div></div>
+          <div class="lbs-coll-dame__faq-item" data-open="false"><h3 class="lbs-coll-dame__faq-q"><button type="button" aria-expanded="false">Q: What are the different types of vibrators?</button></h3><div class="lbs-coll-dame__faq-a-wrap" role="region"><div class="lbs-coll-dame__faq-a"><p><strong>A:</strong> Libersens offers a range of styles: <strong>clit vibrators</strong> are shaped to target the clitoris, often compact and discreet. <strong>G-spot vibrators</strong> are typically curved for deeper sensation. <strong>Couples vibrators</strong> provide pleasure for both partners simultaneously. <strong>Bullet vibrators</strong> are compact and portable, perfect for targeted stimulation solo or together.</p></div></div></div>
+          <div class="lbs-coll-dame__faq-item" data-open="false"><h3 class="lbs-coll-dame__faq-q"><button type="button" aria-expanded="false">Q: Are Libersens vibrators waterproof and rechargeable?</button></h3><div class="lbs-coll-dame__faq-a-wrap" role="region"><div class="lbs-coll-dame__faq-a"><p><strong>A:</strong> Yes! All Libersens vibrators are fully waterproof and rechargeable via USB — making them perfect for use in the bath or shower, and always ready for when the moment calls.</p></div></div></div>
+          <div class="lbs-coll-dame__faq-item" data-open="false"><h3 class="lbs-coll-dame__faq-q"><button type="button" aria-expanded="false">Q: What is the quietest vibrator for discreet use?</button></h3><div class="lbs-coll-dame__faq-a-wrap" role="region"><div class="lbs-coll-dame__faq-a"><p><strong>A:</strong> All Libersens vibrators feature whisper-quiet motors designed for complete discretion. For the most compact and quiet option, look to our bullet vibrators — powerful enough for the experience, quiet enough for total privacy.</p></div></div></div>
+        {%- else -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'faq_item' -%}
               <div class="lbs-coll-dame__faq-item" data-open="false" {{ block.shopify_attributes }}>
                 <h3 class="lbs-coll-dame__faq-q">
-                  <button type="button" aria-expanded="false" aria-controls="lbs-faq-{{ block.id }}">
-                    {{ block.settings.question }}
-                  </button>
+                  <button type="button" aria-expanded="false" aria-controls="lbs-faq-{{ block.id }}">{{ block.settings.question }}</button>
                 </h3>
                 <div id="lbs-faq-{{ block.id }}" class="lbs-coll-dame__faq-a-wrap" role="region">
                   <div class="lbs-coll-dame__faq-a">{{ block.settings.answer }}</div>
@@ -250,8 +278,8 @@
               </div>
             {%- endif -%}
           {%- endfor -%}
-        </div>
-      {%- endif -%}
+        {%- endif -%}
+      </div>
     </div>
   </div>
   {%- endif -%}
