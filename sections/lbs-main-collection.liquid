@@ -204,6 +204,58 @@
     {%- endif -%}
   {%- endpaginate -%}
 
+  <!-- ── GUIDE (expandable rich text) ── -->
+  {%- if section.settings.guide_body != blank -%}
+  <div class="lbs-coll-dame__guide-wrap">
+    <div class="lbs-coll-dame__guide" data-expanded="false" id="lbsGuide">
+      <div class="lbs-coll-dame__guide-content" id="lbsGuideContent">
+        {%- if section.settings.guide_heading != blank -%}
+          <h2 class="lbs-coll-dame__guide-heading">{{ section.settings.guide_heading }}</h2>
+        {%- endif -%}
+        <div class="lbs-coll-dame__guide-body">{{ section.settings.guide_body }}</div>
+      </div>
+      <button type="button" class="lbs-coll-dame__guide-toggle" aria-expanded="false" id="lbsGuideToggle">
+        <span class="lbs-coll-dame__toggle-more">Read More</span>
+        <span class="lbs-coll-dame__toggle-less">Read Less</span>
+      </button>
+    </div>
+  </div>
+  {%- endif -%}
+
+  <!-- ── ABOUT + FAQ ── -->
+  {%- assign has_faq = false -%}
+  {%- for block in section.blocks -%}{%- if block.type == 'faq_item' -%}{%- assign has_faq = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+  {%- if section.settings.about_body != blank or has_faq -%}
+  <div class="lbs-coll-dame__about-wrap">
+    {%- if section.settings.about_heading != blank -%}
+      <h2 class="lbs-coll-dame__about-heading">{{ section.settings.about_heading }}</h2>
+    {%- endif -%}
+    <div class="lbs-coll-dame__about">
+      {%- if section.settings.about_body != blank -%}
+        <div class="lbs-coll-dame__about-body">{{ section.settings.about_body }}</div>
+      {%- endif -%}
+      {%- if has_faq -%}
+        <div class="lbs-coll-dame__faq" id="lbsCollFaq">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'faq_item' -%}
+              <div class="lbs-coll-dame__faq-item" data-open="false" {{ block.shopify_attributes }}>
+                <h3 class="lbs-coll-dame__faq-q">
+                  <button type="button" aria-expanded="false" aria-controls="lbs-faq-{{ block.id }}">
+                    {{ block.settings.question }}
+                  </button>
+                </h3>
+                <div id="lbs-faq-{{ block.id }}" class="lbs-coll-dame__faq-a-wrap" role="region">
+                  <div class="lbs-coll-dame__faq-a">{{ block.settings.answer }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
 </div>
 
 <script>
@@ -238,6 +290,59 @@
     });
   }
 })();
+})();
+</script>
+
+<script>
+(function () {
+  /* Guide expand */
+  var guide = document.getElementById('lbsGuide');
+  var content = document.getElementById('lbsGuideContent');
+  var btn = document.getElementById('lbsGuideToggle');
+  if (guide && content && btn) {
+    var MOBILE = 200, DESKTOP = 300;
+    function maxH() { return window.innerWidth >= 750 ? DESKTOP : MOBILE; }
+    function checkGuide() {
+      if (content.scrollHeight <= maxH() + 1) { btn.hidden = true; content.style.maxHeight = ''; return; }
+      btn.hidden = false;
+      if (guide.dataset.expanded !== 'true') content.style.maxHeight = maxH() + 'px';
+    }
+    btn.addEventListener('click', function () {
+      if (guide.dataset.expanded === 'true') {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.offsetHeight;
+        content.style.maxHeight = maxH() + 'px';
+        guide.dataset.expanded = 'false';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        guide.dataset.expanded = 'true';
+        btn.setAttribute('aria-expanded', 'true');
+        content.addEventListener('transitionend', function h(e) {
+          if (e.target === content && e.propertyName === 'max-height') {
+            content.style.maxHeight = 'none';
+            content.removeEventListener('transitionend', h);
+          }
+        });
+      }
+    });
+    window.addEventListener('resize', checkGuide);
+    checkGuide();
+  }
+
+  /* FAQ accordion */
+  var faq = document.getElementById('lbsCollFaq');
+  if (faq) {
+    faq.addEventListener('click', function (e) {
+      var b = e.target.closest('.lbs-coll-dame__faq-q button');
+      if (!b) return;
+      var item = b.closest('.lbs-coll-dame__faq-item');
+      var open = item.getAttribute('data-open') === 'true';
+      item.setAttribute('data-open', open ? 'false' : 'true');
+      b.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  }
+})();
 </script>
 
 {% schema %}
@@ -255,7 +360,13 @@
     { "type": "text", "id": "caption_label", "label": "Caption pill subtitle", "default": "Wearable Couples Vibe" },
     { "type": "header", "content": "Collection" },
     { "type": "richtext", "id": "description", "label": "Collection description override", "info": "Defaults to Shopify collection description." },
-    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 16 }
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 16 },
+    { "type": "header", "content": "Guide section (expandable)" },
+    { "type": "text", "id": "guide_heading", "label": "Heading" },
+    { "type": "richtext", "id": "guide_body", "label": "Body text", "info": "Leave blank to hide this section." },
+    { "type": "header", "content": "About section + FAQ" },
+    { "type": "text", "id": "about_heading", "label": "Heading" },
+    { "type": "richtext", "id": "about_body", "label": "About body text", "info": "Leave blank to hide this section." }
   ],
   "blocks": [
     {
@@ -264,6 +375,14 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Label", "default": "Solo Toys" },
         { "type": "text", "id": "tag_handle", "label": "Tag handle", "info": "Must match Shopify product tag exactly (lowercase, hyphenated).", "default": "solo" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
       ]
     }
   ],
