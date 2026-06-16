@@ -174,7 +174,13 @@
 .lbs .review p{font-family:var(--serif);font-size:18px;line-height:1.4;margin-bottom:18px}
 .lbs .review .who{font-size:13px;font-weight:700;color:var(--grey)}
 /* Judge.me all-reviews widget container */
-.lbs .lbs-jm-all{width:100%;--jdgm-primary-color:var(--blue);--jdgm-star-color:var(--coral)}
+.lbs .lbs-jm-all{width:100%;--jdgm-primary-color:var(--blue);--jdgm-star-color:var(--blue)}
+/* Force Judge.me carousel stars blue to match the "From our community" eyebrow */
+.lbs .lbs-jm-all .jdgm-star,
+.lbs .lbs-jm-all .jdgm-star.jdgm--on,
+.lbs .lbs-jm-all .jdgm--star-on,
+.lbs .lbs-jm-all .jdgm-all-reviews-rating{color:var(--blue) !important}
+.lbs .lbs-jm-all .jdgm-carousel-title{color:var(--blue)}
 
 .lbs .siblings{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .lbs .sibling{border-radius:20px;padding:48px;display:flex;flex-direction:column;justify-content:center;min-height:240px}
