@@ -1,0 +1,19 @@
+{%- comment -%}
+  Small 24px line icon shown next to an SP-gallery card title.
+  Params: icon (package|silicone|water|warranty), color (optional, defaults to brand blue)
+{%- endcomment -%}
+{%- assign ic = color | default: '#0029FF' -%}
+{%- if color == blank -%}{%- assign ic = '#0029FF' -%}{%- endif -%}
+
+<span class="product-sp-gallery__icon" aria-hidden="true">
+{%- case icon -%}
+  {%- when 'package' -%}
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l8 4v8l-8 4-8-4V7l8-4z" stroke="{{ ic }}" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 4 8-4M12 11v8" stroke="{{ ic }}" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 5.5c-1.6-1.4-3.5-.4-3.5.9 0 1.2 2 1.5 3.5.9 1.5.6 3.5.3 3.5-.9 0-1.3-1.9-2.3-3.5-.9z" fill="{{ ic }}"/></svg>
+  {%- when 'silicone' -%}
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c4 5 6 7.2 6 10a6 6 0 01-12 0c0-2.8 2-5 6-10z" stroke="{{ ic }}" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 9.5h3M16 8v3" stroke="{{ ic }}" stroke-width="1.6" stroke-linecap="round"/></svg>
+  {%- when 'water' -%}
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c4 5 6 7.2 6 10a6 6 0 01-12 0c0-2.8 2-5 6-10z" stroke="{{ ic }}" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 13c.3 1.6 1.4 2.6 2.8 2.8" stroke="{{ ic }}" stroke-width="1.6" stroke-linecap="round"/></svg>
+  {%- when 'warranty' -%}
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 2.5V12c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V5.5L12 3z" stroke="{{ ic }}" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="{{ ic }}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{%- endcase -%}
+</span>

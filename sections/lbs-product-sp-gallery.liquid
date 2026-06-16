@@ -1,91 +1,271 @@
 {%- comment -%}
-  Default column data — overridden by schema blocks when blocks are added.
-  Colors use Libersens brand palette.
+  SP Gallery — ports dame.com's product-sp-gallery web component exactly:
+  4-column desktop grid + infinite mobile carousel with pagination dots.
+  Default cards use aesthetic brand SVG illustrations; each card's image can be
+  overridden by uploading a photo via the block's image picker.
 {%- endcomment -%}
-{%- assign default_titles    = 'Discreet Packaging,Medical Grade Silicone,Waterproof,1-Year Warranty' | split: ',' -%}
-{%- assign default_subs      = 'Plain box — no brand name outside.,100% body-safe & hypoallergenic.,Use in the bath or shower.,Full coverage for peace of mind.' | split: ',' -%}
-{%- assign default_icons     = 'package,silicone,water,warranty' | split: ',' -%}
-{%- assign default_colors    = '#C4C3F2,#DEF1EE,#E8EEFF,#F9E1D5' | split: ',' -%}
-{%- assign default_icon_col  = '#0029FF,#3B898B,#0029FF,#E56B4E' | split: ',' -%}
 
-<section class="lbs lbs-sp-gallery">
-  <div class="lbs-sp-gallery__grid">
+{%- comment -%} Default card data (used when no blocks are configured) {%- endcomment -%}
+{%- assign d_icons     = 'package,silicone,water,warranty' | split: ',' -%}
+{%- assign d_titles    = 'Discreet Packaging|||MEDICAL GRADE SILICONE|||WATERPROOF CHARGING PORT|||3-YEAR WARRANTY' | split: '|||' -%}
+{%- assign d_subs      = 'No more — “I was traveling and didn’t want a box left on my porch.”|||No more — “I kept wondering if the material was really safe to use on my body.”|||No more — “I wanted to use it in the shower but wasn’t sure if it was really safe.”|||No more — “I didn’t want to invest in something that might break too soon.”' | split: '|||' -%}
+{%- assign d_grad_top  = '#efe9fb,#e3f3ef,#e6ecff,#fdeee6' | split: ',' -%}
+{%- assign d_grad_bot  = '#ffffff,#ffffff,#ffffff,#ffffff' | split: ',' -%}
+{%- assign d_accent    = '#0029FF,#2f8f8a,#0029FF,#e0673f' | split: ',' -%}
 
+<product-sp-gallery id="product-sp-gallery-{{ section.id }}" class="lbs product-sp-gallery" data-section-id="{{ section.id }}" data-mobile-infinite="true">
+
+  {%- comment -%} ===== DESKTOP GRID ===== {%- endcomment -%}
+  <div class="product-sp-gallery__desktop" role="list">
     {%- if section.blocks.size > 0 -%}
-
       {%- for block in section.blocks -%}
-        {%- assign bidx = forloop.index0 -%}
-        {%- assign blk_color     = block.settings.bg_color     | default: default_colors[bidx]   -%}
-        {%- assign blk_icon_col  = block.settings.icon_color   | default: default_icon_col[bidx] -%}
-        {%- assign blk_icon      = block.settings.icon         | default: default_icons[bidx]    -%}
-        {%- assign blk_title     = block.settings.title        | default: default_titles[bidx]   -%}
-        {%- assign blk_sub       = block.settings.subtitle     | default: default_subs[bidx]     -%}
-
-        <article class="lbs-sp-gallery__col" {{ block.shopify_attributes }}>
-          <div class="lbs-sp-gallery__img-wrap">
-            {%- if block.settings.image != blank -%}
-              <img class="lbs-sp-gallery__img"
-                src="{{ block.settings.image | image_url: width: 700 }}"
-                alt="{{ blk_title | escape }}"
-                width="700" height="880" loading="lazy">
-            {%- else -%}
-              <div class="lbs-sp-gallery__color-block" style="background:{{ blk_color }}">
-                {%- render 'lbs-sp-icon', icon: blk_icon, color: blk_icon_col -%}
-              </div>
-            {%- endif -%}
-          </div>
-          <div class="lbs-sp-gallery__label">
-            {%- render 'lbs-sp-icon', icon: blk_icon, color: blk_icon_col -%}
-            <div class="lbs-sp-gallery__text">
-              <p class="lbs-sp-gallery__title">{{ blk_title }}</p>
-              <p class="lbs-sp-gallery__sub">{{ blk_sub }}</p>
-            </div>
-          </div>
+        <article class="product-sp-gallery__item" role="listitem" {{ block.shopify_attributes }}>
+          {%- render 'lbs-sp-gallery-card',
+              image: block.settings.image, icon: block.settings.icon,
+              title: block.settings.title, subtitle: block.settings.subtitle,
+              grad_top: block.settings.grad_top, grad_bottom: '#ffffff', accent: block.settings.accent -%}
         </article>
       {%- endfor -%}
-
     {%- else -%}
-
-      {%- comment -%} Hardcoded default 4 columns {%- endcomment -%}
       {%- for i in (0..3) -%}
-        <article class="lbs-sp-gallery__col">
-          <div class="lbs-sp-gallery__img-wrap">
-            <div class="lbs-sp-gallery__color-block" style="background:{{ default_colors[i] }}">
-              {%- case default_icons[i] -%}
-                {%- when 'package' -%}
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><rect x="8" y="22" width="64" height="48" rx="6" stroke="currentColor" stroke-width="4"/><path d="M8 38h64M28 22V14a12 12 0 0124 0v8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M28 52h24" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
-                {%- when 'silicone' -%}
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M28 12h24v24l12 26a6 6 0 01-5.4 8.5H21.4A6 6 0 0116 62l12-26V12z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M28 46h24M22 62h36" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
-                {%- when 'water' -%}
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M40 10C28 26 20 36 20 46a20 20 0 0040 0c0-10-8-20-20-36z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M32 52c1.5 5 5 8 8 8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
-                {%- when 'warranty' -%}
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }};opacity:.35"><path d="M40 8l26 10v22C66 56 55 68 40 72 25 68 14 56 14 40V18l26-10z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M28 40l9 9 15-15" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {%- endcase -%}
-            </div>
-          </div>
-          <div class="lbs-sp-gallery__label">
-            {%- case default_icons[i] -%}
-              {%- when 'package' -%}
-                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><rect x="3" y="7" width="22" height="18" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13h22M10 7V5a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 18h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'silicone' -%}
-                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M10 4h8v9l4 9A2 2 0 0120.3 25H7.7A2 2 0 016 22.3l4-9V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 16h8M8 21h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'water' -%}
-                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M14 4C10 9 7 13 7 17a7 7 0 0014 0c0-4-3-8-7-13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 19c.5 2 2 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              {%- when 'warranty' -%}
-                <svg class="lbs-sp-gallery__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="color:{{ default_icon_col[i] }}"><path d="M14 3l10 4v8c0 6-4.5 10.5-10 11.5C8.5 25.5 4 21 4 15V7l10-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 14l3 3 5.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            {%- endcase -%}
-            <div class="lbs-sp-gallery__text">
-              <p class="lbs-sp-gallery__title">{{ default_titles[i] }}</p>
-              <p class="lbs-sp-gallery__sub">{{ default_subs[i] }}</p>
-            </div>
-          </div>
+        <article class="product-sp-gallery__item" role="listitem">
+          {%- render 'lbs-sp-gallery-card',
+              image: blank, icon: d_icons[i],
+              title: d_titles[i], subtitle: d_subs[i],
+              grad_top: d_grad_top[i], grad_bottom: d_grad_bot[i], accent: d_accent[i] -%}
         </article>
       {%- endfor -%}
-
     {%- endif -%}
-
   </div>
-</section>
+
+  {%- comment -%} ===== MOBILE CAROUSEL ===== {%- endcomment -%}
+  <div class="product-sp-gallery__mobile">
+    <div class="product-sp-gallery__track" data-gallery-track>
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <article class="product-sp-gallery__slide">
+            {%- render 'lbs-sp-gallery-card',
+                image: block.settings.image, icon: block.settings.icon,
+                title: block.settings.title, subtitle: block.settings.subtitle,
+                grad_top: block.settings.grad_top, grad_bottom: '#ffffff', accent: block.settings.accent -%}
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (0..3) -%}
+          <article class="product-sp-gallery__slide">
+            {%- render 'lbs-sp-gallery-card',
+                image: blank, icon: d_icons[i],
+                title: d_titles[i], subtitle: d_subs[i],
+                grad_top: d_grad_top[i], grad_bottom: d_grad_bot[i], accent: d_accent[i] -%}
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="product-sp-gallery__dots" role="tablist" aria-label="Gallery pagination">
+      {%- if section.blocks.size > 0 -%}{%- assign dot_count = section.blocks.size -%}{%- else -%}{%- assign dot_count = 4 -%}{%- endif -%}
+      {%- for i in (1..dot_count) -%}
+        <button type="button" class="product-sp-gallery__dot{% if forloop.first %} is-active{% endif %}" data-gallery-dot="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" role="tab"></button>
+      {%- endfor -%}
+    </div>
+  </div>
+
+</product-sp-gallery>
+
+<style>
+#shopify-section-{{ section.id }} { padding-bottom: 60px; }
+@media screen and (min-width: 750px) {
+  body.template-product #shopify-section-{{ section.id }} { padding-top: 60px; }
+}
+@media screen and (max-width: 749px) {
+  body.template-product #shopify-section-{{ section.id }} { padding-bottom: 0; }
+}
+
+#product-sp-gallery-{{ section.id }} {
+  --spg-dot: #c4c3f2;
+  --spg-dot-active: var(--blue);
+  display: block;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__desktop {
+  display: flex;
+  gap: clamp(20px, 2vw, 40px);
+  background-color: var(--cream);
+  padding: 32px 24px;
+  max-width: 85vw;
+  margin: 0 auto;
+  border-radius: 20px;
+  justify-content: space-evenly;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__mobile {
+  display: none;
+  background-color: var(--cream);
+  border-radius: 12px;
+  padding: 20px;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__item,
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__slide { text-align: center; flex: 1; min-width: 0; }
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 18px;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__image {
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__title-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  max-width: 100%;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__icon { display: inline-flex; width: 24px; height: 24px; flex-shrink: 0; }
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__icon svg { width: 24px; height: 24px; }
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__title {
+  margin: 0;
+  color: var(--blue);
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+#product-sp-gallery-{{ section.id }} .product-sp-gallery__subtitle {
+  color: #333;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  width: min(100%, 297px);
+  max-width: 297px;
+  margin-inline: auto;
+}
+
+@media screen and (max-width: 749px) {
+  #shopify-section-{{ section.id }} { padding-bottom: 24px; }
+  #product-sp-gallery-{{ section.id }} { padding: 0 20px 20px; display: block; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__desktop { display: none; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__mobile { display: block; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__track {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__track::-webkit-scrollbar { display: none; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__slide { min-width: 100%; scroll-snap-align: start; flex: 0 0 100%; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__image-wrap { margin-bottom: 16px; }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 20px;
+  }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__dot {
+    min-width: 8px; height: 8px; max-width: 8px;
+    border: 0; border-radius: 999px;
+    background: var(--spg-dot);
+    cursor: pointer; padding: 0;
+    transition: background-color 200ms ease;
+  }
+  #product-sp-gallery-{{ section.id }} .product-sp-gallery__dot.is-active { background: var(--spg-dot-active); }
+}
+</style>
+
+<script>
+(() => {
+  class ProductSpGallery extends HTMLElement {
+    connectedCallback() {
+      this.track = this.querySelector('[data-gallery-track]');
+      this.dots = Array.from(this.querySelectorAll('[data-gallery-dot]'));
+      this.scrollStopTimer = null;
+      if (!this.track || this.dots.length < 2) return;
+
+      this.enableInfiniteMobile = this.dataset.mobileInfinite === 'true';
+      this.realSlideCount = this.dots.length;
+      if (this.enableInfiniteMobile) this.setupInfiniteTrack();
+
+      this.onDotClick = this.handleDotClick.bind(this);
+      this.onTrackScrollEnd = this.handleTrackScrollEnd.bind(this);
+      this.onTrackScroll = this.handleTrackScroll.bind(this);
+
+      this.dots.forEach((dot) => dot.addEventListener('click', this.onDotClick));
+      this.track.addEventListener('scrollend', this.onTrackScrollEnd);
+      this.track.addEventListener('scroll', this.onTrackScroll, { passive: true });
+    }
+    disconnectedCallback() {
+      if (!this.track || !this.dots.length) return;
+      this.dots.forEach((dot) => dot.removeEventListener('click', this.onDotClick));
+      this.track.removeEventListener('scrollend', this.onTrackScrollEnd);
+      this.track.removeEventListener('scroll', this.onTrackScroll);
+      if (this.scrollStopTimer) { window.clearTimeout(this.scrollStopTimer); this.scrollStopTimer = null; }
+    }
+    handleDotClick(event) {
+      const index = Number.parseInt(event.currentTarget.dataset.galleryDot, 10);
+      if (Number.isNaN(index)) return;
+      this.scrollToSlide(index);
+    }
+    handleTrackScroll() {
+      this.updateActiveDot();
+      if (this.scrollStopTimer) window.clearTimeout(this.scrollStopTimer);
+      this.scrollStopTimer = window.setTimeout(() => this.handleTrackScrollEnd(), 120);
+    }
+    handleTrackScrollEnd() {
+      if (this.enableInfiniteMobile) this.correctLoopPosition();
+      this.updateActiveDot();
+    }
+    scrollToSlide(index) {
+      const slideWidth = this.track.clientWidth;
+      const targetVirtualIndex = this.enableInfiniteMobile ? index + 1 : index;
+      this.track.scrollTo({ left: slideWidth * targetVirtualIndex, behavior: 'smooth' });
+    }
+    updateActiveDot() {
+      const slideWidth = this.track.clientWidth || 1;
+      const virtualIndex = Math.round(this.track.scrollLeft / slideWidth);
+      const index = this.enableInfiniteMobile ? this.getRealIndexFromVirtual(virtualIndex) : virtualIndex;
+      this.dots.forEach((dot, dotIndex) => {
+        const active = dotIndex === index;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    }
+    setupInfiniteTrack() {
+      const slides = Array.from(this.track.querySelectorAll('.product-sp-gallery__slide'));
+      if (slides.length < 2) return;
+      const firstClone = slides[0].cloneNode(true);
+      const lastClone = slides[slides.length - 1].cloneNode(true);
+      firstClone.setAttribute('data-gallery-clone', 'true');
+      lastClone.setAttribute('data-gallery-clone', 'true');
+      this.track.insertBefore(lastClone, slides[0]);
+      this.track.appendChild(firstClone);
+      requestAnimationFrame(() => {
+        const slideWidth = this.track.clientWidth || 1;
+        this.track.scrollTo({ left: slideWidth, behavior: 'auto' });
+      });
+    }
+    correctLoopPosition() {
+      const slideWidth = this.track.clientWidth || 1;
+      const virtualIndex = Math.round(this.track.scrollLeft / slideWidth);
+      if (virtualIndex === 0) { this.track.scrollTo({ left: slideWidth * this.realSlideCount, behavior: 'auto' }); return; }
+      if (virtualIndex === this.realSlideCount + 1) { this.track.scrollTo({ left: slideWidth, behavior: 'auto' }); }
+    }
+    getRealIndexFromVirtual(virtualIndex) {
+      return (virtualIndex - 1 + this.realSlideCount) % this.realSlideCount;
+    }
+  }
+  if (!customElements.get('product-sp-gallery')) {
+    customElements.define('product-sp-gallery', ProductSpGallery);
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -98,21 +278,21 @@
       "type": "column",
       "name": "Gallery column",
       "settings": [
-        { "type": "image_picker", "id": "image",      "label": "Image (overrides colour block)" },
-        { "type": "color",        "id": "bg_color",   "label": "Background colour",  "default": "#C4C3F2" },
-        { "type": "color",        "id": "icon_color", "label": "Icon colour",         "default": "#0029FF" },
+        { "type": "image_picker", "id": "image", "label": "Photo (overrides illustration)" },
         {
-          "type": "select", "id": "icon", "label": "Icon",
+          "type": "select", "id": "icon", "label": "Icon / illustration",
           "options": [
             { "value": "package",  "label": "Box / Packaging" },
-            { "value": "silicone", "label": "Flask / Silicone" },
+            { "value": "silicone", "label": "Drop / Silicone" },
             { "value": "water",    "label": "Drop / Waterproof" },
             { "value": "warranty", "label": "Shield / Warranty" }
           ],
           "default": "package"
         },
-        { "type": "text", "id": "title",    "label": "Title",    "default": "Feature title" },
-        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Short description." }
+        { "type": "color", "id": "grad_top", "label": "Illustration background", "default": "#efe9fb" },
+        { "type": "color", "id": "accent",   "label": "Illustration accent",     "default": "#0029FF" },
+        { "type": "text",     "id": "title",    "label": "Title",    "default": "Discreet Packaging" },
+        { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "No more — “…”" }
       ]
     }
   ],
@@ -120,10 +300,10 @@
     {
       "name": "LBS SP Gallery",
       "blocks": [
-        { "type": "column", "settings": { "icon": "package",  "title": "Discreet Packaging",      "subtitle": "Plain box — no brand name outside.", "bg_color": "#C4C3F2", "icon_color": "#0029FF" } },
-        { "type": "column", "settings": { "icon": "silicone", "title": "Medical Grade Silicone",   "subtitle": "100% body-safe & hypoallergenic.",   "bg_color": "#DEF1EE", "icon_color": "#3B898B" } },
-        { "type": "column", "settings": { "icon": "water",    "title": "Waterproof",               "subtitle": "Bath or shower — no worries.",        "bg_color": "#E8EEFF", "icon_color": "#0029FF" } },
-        { "type": "column", "settings": { "icon": "warranty", "title": "1-Year Warranty",          "subtitle": "Full coverage for peace of mind.",    "bg_color": "#F9E1D5", "icon_color": "#E56B4E" } }
+        { "type": "column", "settings": { "icon": "package",  "grad_top": "#efe9fb", "accent": "#0029FF", "title": "Discreet Packaging",        "subtitle": "No more — “I was traveling and didn’t want a box left on my porch.”" } },
+        { "type": "column", "settings": { "icon": "silicone", "grad_top": "#e3f3ef", "accent": "#2f8f8a", "title": "MEDICAL GRADE SILICONE",     "subtitle": "No more — “I kept wondering if the material was really safe to use on my body.”" } },
+        { "type": "column", "settings": { "icon": "water",    "grad_top": "#e6ecff", "accent": "#0029FF", "title": "WATERPROOF CHARGING PORT",   "subtitle": "No more — “I wanted to use it in the shower but wasn’t sure if it was really safe.”" } },
+        { "type": "column", "settings": { "icon": "warranty", "grad_top": "#fdeee6", "accent": "#e0673f", "title": "3-YEAR WARRANTY",            "subtitle": "No more — “I didn’t want to invest in something that might break too soon.”" } }
       ]
     }
   ]

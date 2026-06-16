@@ -1,0 +1,69 @@
+{%- comment -%}
+  Renders one SP-gallery card's inner content (image + icon title + subtitle).
+  Used by both the desktop grid and the mobile carousel so markup stays in sync.
+  Params: image, icon (package|silicone|water|warranty), title, subtitle,
+          grad_top, grad_bottom, accent
+{%- endcomment -%}
+
+<div class="product-sp-gallery__image-wrap">
+  {%- if image != blank -%}
+    <img src="{{ image | image_url: width: 900 }}"
+         alt="{{ title | escape }}"
+         srcset="{{ image | image_url: width: 400 }} 400w, {{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w"
+         width="900" height="1090" loading="lazy"
+         sizes="(min-width: 750px) 24vw, 100vw"
+         class="product-sp-gallery__image">
+  {%- else -%}
+    <svg class="product-sp-gallery__image" viewBox="0 0 460 560" role="img" aria-label="{{ title | escape }}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="spg-bg-{{ icon }}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="{{ grad_top }}"/>
+          <stop offset="1" stop-color="{{ grad_bottom }}"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="460" height="560" rx="26" fill="url(#spg-bg-{{ icon }})"/>
+      <circle cx="230" cy="250" r="150" fill="#ffffff" opacity="0.55"/>
+
+      {%- case icon -%}
+        {%- when 'package' -%}
+          <g fill="none" stroke="{{ accent }}" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M230 150 L330 200 L330 320 L230 370 L130 320 L130 200 Z" fill="#ffffff"/>
+            <path d="M130 200 L230 250 L330 200"/>
+            <path d="M230 250 L230 370"/>
+            <path d="M230 130 C210 110 180 112 180 138 C180 156 210 158 230 152 C250 158 280 156 280 138 C280 112 250 110 230 130 Z" fill="{{ accent }}" stroke="none"/>
+            <path d="M230 152 L230 250" stroke-width="7"/>
+          </g>
+
+        {%- when 'silicone' -%}
+          <g>
+            <path d="M230 140 C300 230 330 270 330 320 A100 100 0 0 1 130 320 C130 270 160 230 230 140 Z" fill="#ffffff" stroke="{{ accent }}" stroke-width="9"/>
+            <circle cx="290" cy="180" r="34" fill="{{ accent }}"/>
+            <path d="M290 164 L290 196 M274 180 L306 180" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+            <path d="M180 300 q30 30 70 12" fill="none" stroke="{{ accent }}" stroke-width="7" stroke-linecap="round" opacity="0.55"/>
+          </g>
+
+        {%- when 'water' -%}
+          <g>
+            <path d="M230 150 C290 230 320 268 320 318 A90 90 0 0 1 140 318 C140 268 170 230 230 150 Z" fill="#ffffff" stroke="{{ accent }}" stroke-width="9"/>
+            <path d="M195 300 c4 22 18 34 38 36" fill="none" stroke="{{ accent }}" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="230" cy="430" r="6" fill="{{ accent }}" opacity="0.5"/>
+            <circle cx="190" cy="455" r="5" fill="{{ accent }}" opacity="0.35"/>
+            <circle cx="272" cy="455" r="5" fill="{{ accent }}" opacity="0.35"/>
+          </g>
+
+        {%- when 'warranty' -%}
+          <g>
+            <path d="M230 140 L320 175 L320 280 C320 345 280 388 230 405 C180 388 140 345 140 280 L140 175 Z" fill="#ffffff" stroke="{{ accent }}" stroke-width="9" stroke-linejoin="round"/>
+            <path d="M192 270 L222 300 L286 236" fill="none" stroke="{{ accent }}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+      {%- endcase -%}
+    </svg>
+  {%- endif -%}
+</div>
+
+<div class="product-sp-gallery__title-wrap">
+  {%- render 'lbs-sp-icon', icon: icon, color: '' -%}
+  <h3 class="product-sp-gallery__title">{{ title }}</h3>
+</div>
+
+<p class="product-sp-gallery__subtitle">{{ subtitle }}</p>
