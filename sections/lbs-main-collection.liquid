@@ -1,68 +1,243 @@
-<section class="lbs coll-section">
-  <div class="coll-banner">
-    <div class="wrap">
-      <h1>{{ collection.title | default: 'All products' }}</h1>
-      {%- if collection.description != blank -%}
-        <div class="coll-banner__desc rte">{{ collection.description }}</div>
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+
+<div class="lbs lbs-coll-dame">
+
+  <!-- ── HERO BANNER ── -->
+  <div class="lbs-coll-dame__banner">
+    {%- if section.settings.banner_image != blank -%}
+      <img class="lbs-coll-dame__banner-img lbs-coll-dame__banner-img--desktop"
+           src="{{ section.settings.banner_image | image_url: width: 2400 }}"
+           alt="{{ collection.title | escape }}"
+           loading="eager" fetchpriority="high">
+    {%- else -%}
+      <div class="lbs-coll-dame__banner-placeholder"></div>
+    {%- endif -%}
+
+    {%- if section.settings.banner_image_mobile != blank -%}
+      <img class="lbs-coll-dame__banner-img lbs-coll-dame__banner-img--mobile"
+           src="{{ section.settings.banner_image_mobile | image_url: width: 768 }}"
+           alt="{{ collection.title | escape }}"
+           loading="eager" fetchpriority="high">
+    {%- elsif section.settings.banner_image != blank -%}
+      <img class="lbs-coll-dame__banner-img lbs-coll-dame__banner-img--mobile"
+           src="{{ section.settings.banner_image | image_url: width: 768 }}"
+           alt="{{ collection.title | escape }}"
+           loading="eager" fetchpriority="high">
+    {%- endif -%}
+
+    <div class="lbs-coll-dame__banner-text">
+      <h1 class="lbs-coll-dame__banner-title">
+        {{ section.settings.heading | default: collection.title }}
+      </h1>
+      {%- if section.settings.banner_subtitle != blank -%}
+        <p class="lbs-coll-dame__banner-subtitle">{{ section.settings.banner_subtitle }}</p>
       {%- endif -%}
     </div>
+
+    {%- if section.settings.caption_product != blank -%}
+      <div class="lbs-coll-dame__banner-caption">
+        <strong>{{ section.settings.caption_product }}</strong>
+        <span>{{ section.settings.caption_label }}</span>
+      </div>
+    {%- endif -%}
   </div>
 
-  <div class="wrap">
-    <div class="coll-toolbar">
-      <span class="coll-count">{{ collection.products_count }} products</span>
-      {%- if section.settings.enable_sorting -%}
-        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-        <div class="coll-sort">
-          <label for="coll-sort-{{ section.id }}">Sort by</label>
-          <select id="coll-sort-{{ section.id }}" data-coll-sort>
-            {%- for option in collection.sort_options -%}
-              <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
-            {%- endfor -%}
-          </select>
-        </div>
-      {%- endif -%}
+  <!-- ── DESCRIPTION ── -->
+  {%- assign desc = section.settings.description | default: collection.description -%}
+  {%- if desc != blank -%}
+    <div class="lbs-coll-dame__desc">
+      <div class="wrap">{{ desc }}</div>
     </div>
+  {%- endif -%}
 
-    {%- paginate collection.products by section.settings.products_per_page -%}
-      <div class="col-grid" style="--cols:{{ section.settings.columns_desktop }}">
-        {%- for product in collection.products -%}
-          {%- render 'lbs-product-card', product: product -%}
-        {%- else -%}
-          <p class="coll-empty">No products found in this collection yet.</p>
+  <!-- ── FILTER + SORT BAR ── -->
+  <div class="lbs-coll-dame__toolbar wrap">
+
+    <div class="lbs-coll-dame__filter-wrap" id="lbsFilterWrap">
+      <button class="lbs-coll-dame__filter-toggle" id="lbsFilterToggle" type="button" aria-expanded="false">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M1 2h16M4 7h10M7 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span id="lbsFilterLabel">Filter</span>
+        <svg class="lbs-coll-dame__caret" width="10" height="6" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
+      </button>
+
+      <div class="lbs-coll-dame__filter-dropdown" id="lbsFilterDropdown">
+        <a class="lbs-coll-dame__filter-opt{% unless current_tags.size > 0 %} is-active{% endunless %}"
+           href="{{ collection.url }}">
+          <span class="lbs-coll-dame__dot"></span>Shop All
+        </a>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'filter_tag' -%}
+            <a class="lbs-coll-dame__filter-opt{% if current_tags contains block.settings.tag_handle %} is-active{% endif %}"
+               href="{{ collection.url }}/{{ block.settings.tag_handle }}"
+               {{ block.shopify_attributes }}>
+              <span class="lbs-coll-dame__dot"></span>{{ block.settings.label }}
+            </a>
+          {%- endif -%}
         {%- endfor -%}
       </div>
+    </div>
 
-      {%- if paginate.pages > 1 -%}
-        <nav class="coll-pagination" role="navigation" aria-label="Pagination">
-          {%- if paginate.previous -%}<a class="coll-page" href="{{ paginate.previous.url }}" aria-label="Previous">←</a>{%- endif -%}
-          {%- for part in paginate.parts -%}
-            {%- if part.is_link -%}
-              <a class="coll-page" href="{{ part.url }}">{{ part.title }}</a>
-            {%- elsif part.title == paginate.current_page -%}
-              <span class="coll-page coll-page--current">{{ part.title }}</span>
-            {%- else -%}
-              <span class="coll-page">{{ part.title }}</span>
-            {%- endif -%}
-          {%- endfor -%}
-          {%- if paginate.next -%}<a class="coll-page" href="{{ paginate.next.url }}" aria-label="Next">→</a>{%- endif -%}
-        </nav>
-      {%- endif -%}
-    {%- endpaginate -%}
+    <div class="lbs-coll-dame__sort-wrap">
+      <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M1 2h16M5 7h8M9 12h0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <select class="lbs-coll-dame__sort-select" data-coll-sort aria-label="Sort products">
+        {%- for option in collection.sort_options -%}
+          <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+        {%- endfor -%}
+      </select>
+      <svg class="lbs-coll-dame__caret" width="10" height="6" viewBox="0 0 10 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/></svg>
+    </div>
+
   </div>
-</section>
+
+  <!-- ── PRODUCT GRID ── -->
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="lbs-coll-dame__grid wrap">
+      {%- for product in collection.products -%}
+        {%- liquid
+          assign is_sold_out = true
+          for variant in product.variants
+            if variant.available
+              assign is_sold_out = false
+              break
+            endif
+          endfor
+          assign first_variant = nil
+          for variant in product.variants
+            if variant.available
+              assign first_variant = variant
+              break
+            endif
+          endfor
+          if first_variant == nil
+            assign first_variant = product.variants.first
+          endif
+        -%}
+
+        <div class="lbs-coll-dame__card{% if is_sold_out %} lbs-coll-dame__card--sold-out{% endif %}">
+
+          <!-- Badges -->
+          <div class="lbs-coll-dame__badges">
+            {%- if is_sold_out -%}
+              <span class="lbs-coll-dame__badge lbs-coll-dame__badge--sold-out">Sold Out</span>
+            {%- else -%}
+              {%- if product.tags contains 'bestseller' or product.tags contains 'Best Seller' or product.tags contains 'best-seller' -%}
+                <span class="lbs-coll-dame__badge lbs-coll-dame__badge--bestseller">Best Seller</span>
+              {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
+                <span class="lbs-coll-dame__badge lbs-coll-dame__badge--new">New</span>
+              {%- endif -%}
+              {%- if product.compare_at_price > product.price -%}
+                <span class="lbs-coll-dame__badge lbs-coll-dame__badge--sale">Sale</span>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+
+          <!-- Image (with hover swap) -->
+          <a class="lbs-coll-dame__img-link" href="{{ product.url }}">
+            <div class="lbs-coll-dame__img-wrap">
+              {%- if product.featured_image -%}
+                <img class="lbs-coll-dame__img lbs-coll-dame__img--default"
+                     src="{{ product.featured_image | image_url: width: 600 }}"
+                     alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                     loading="lazy" width="600" height="800">
+              {%- endif -%}
+              {%- if product.images[1] -%}
+                <img class="lbs-coll-dame__img lbs-coll-dame__img--hover"
+                     src="{{ product.images[1] | image_url: width: 600 }}"
+                     alt="{{ product.images[1].alt | default: product.title | escape }}"
+                     loading="lazy" width="600" height="800">
+              {%- endif -%}
+            </div>
+          </a>
+
+          <!-- Card body -->
+          <div class="lbs-coll-dame__card-body">
+            <a class="lbs-coll-dame__card-title" href="{{ product.url }}">{{ product.title }}</a>
+
+            <p class="lbs-coll-dame__card-meta">
+              {%- if product.variants.size > 1 -%}
+                {{ product.variants.size }} Options
+              {%- else -%}
+                {{ product.variants.first.title }}
+              {%- endif -%}
+            </p>
+
+            {%- if is_sold_out -%}
+              <a href="{{ product.url }}" class="lbs-coll-dame__btn lbs-coll-dame__btn--sold-out">
+                Sold Out
+              </a>
+            {%- else -%}
+              <form action="/cart/add" method="post" class="lbs-coll-dame__atc-form">
+                <input type="hidden" name="id" value="{{ first_variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="lbs-coll-dame__btn">
+                  <span class="lbs-coll-dame__btn-label">Add to Cart</span>
+                  <span class="lbs-coll-dame__btn-sep">|</span>
+                  <span class="lbs-coll-dame__btn-price">
+                    {%- if product.compare_at_price > product.price -%}
+                      <s class="lbs-coll-dame__btn-was">{{ product.compare_at_price | money }}</s>
+                    {%- endif -%}
+                    {{ product.price | money }}
+                  </span>
+                </button>
+              </form>
+            {%- endif -%}
+          </div>
+
+        </div>
+      {%- else -%}
+        <p class="lbs-coll-dame__empty">No products found in this collection yet.</p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="coll-pagination wrap" role="navigation" aria-label="Pagination">
+        {%- if paginate.previous -%}<a class="coll-page" href="{{ paginate.previous.url }}">←</a>{%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}<a class="coll-page" href="{{ part.url }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}<span class="coll-page coll-page--current">{{ part.title }}</span>
+          {%- else -%}<span class="coll-page">{{ part.title }}</span>{%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}<a class="coll-page" href="{{ paginate.next.url }}">→</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+
+</div>
 
 <script>
-  (function () {
-    var sel = document.querySelector('[data-coll-sort]');
-    if (!sel) return;
+(function () {
+  /* Filter toggle */
+  var wrap = document.getElementById('lbsFilterWrap');
+  var btn  = document.getElementById('lbsFilterToggle');
+  var drop = document.getElementById('lbsFilterDropdown');
+  if (btn && drop) {
+    btn.addEventListener('click', function () {
+      var open = wrap.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function (e) {
+      if (!wrap.contains(e.target)) wrap.classList.remove('is-open');
+    });
+    /* Set label from active filter */
+    var active = drop.querySelector('.lbs-coll-dame__filter-opt.is-active');
+    if (active) {
+      var label = active.textContent.trim();
+      if (label !== 'Shop All') document.getElementById('lbsFilterLabel').textContent = label;
+    }
+  }
+  /* Sort by URL */
+  var sel = document.querySelector('[data-coll-sort]');
+  if (sel) {
     sel.addEventListener('change', function () {
       var url = new URL(window.location.href);
       url.searchParams.set('sort_by', sel.value);
       url.searchParams.delete('page');
       window.location.href = url.toString();
     });
-  })();
+  }
+})();
 </script>
 
 {% schema %}
@@ -71,9 +246,38 @@
   "tag": "section",
   "class": "section-lbs-collection",
   "settings": [
-    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 16 },
-    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 4 },
-    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true }
+    { "type": "header", "content": "Hero banner" },
+    { "type": "image_picker", "id": "banner_image", "label": "Desktop banner image" },
+    { "type": "image_picker", "id": "banner_image_mobile", "label": "Mobile banner image (optional)" },
+    { "type": "text", "id": "heading", "label": "Banner heading", "info": "Defaults to collection title." },
+    { "type": "text", "id": "banner_subtitle", "label": "Banner subtitle" },
+    { "type": "text", "id": "caption_product", "label": "Featured product name (pill)", "info": "Shows a caption pill at bottom-right of banner, e.g. \"Eva\"." },
+    { "type": "text", "id": "caption_label", "label": "Caption pill subtitle", "default": "Wearable Couples Vibe" },
+    { "type": "header", "content": "Collection" },
+    { "type": "richtext", "id": "description", "label": "Collection description override", "info": "Defaults to Shopify collection description." },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 16 }
+  ],
+  "blocks": [
+    {
+      "type": "filter_tag",
+      "name": "Filter tag",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Solo Toys" },
+        { "type": "text", "id": "tag_handle", "label": "Tag handle", "info": "Must match Shopify product tag exactly (lowercase, hyphenated).", "default": "solo" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Collection",
+      "blocks": [
+        { "type": "filter_tag", "settings": { "label": "Solo Toys", "tag_handle": "solo" } },
+        { "type": "filter_tag", "settings": { "label": "Couple's Toys", "tag_handle": "couples" } },
+        { "type": "filter_tag", "settings": { "label": "Internal Vibes", "tag_handle": "internal" } },
+        { "type": "filter_tag", "settings": { "label": "External Vibes", "tag_handle": "external" } },
+        { "type": "filter_tag", "settings": { "label": "Under $100", "tag_handle": "under-100" } }
+      ]
+    }
   ]
 }
 {% endschema %}
