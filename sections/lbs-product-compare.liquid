@@ -1,0 +1,241 @@
+{%- liquid
+  assign vib_coll = collections['vibrators']
+-%}
+
+{%- comment -%} Build JSON for all other vibrators in the collection {%- endcomment -%}
+{%- capture compare_json -%}
+[
+{%- assign json_first = true -%}
+{%- for p in vib_coll.products -%}
+  {%- if p.id != product.id -%}
+    {%- unless json_first -%},{%- endunless -%}
+    {%- assign json_first = false -%}
+    {
+      "id": {{ p.id }},
+      "title": {{ p.title | json }},
+      "url": {{ p.url | json }},
+      "price": {{ p.price_min | money | json }},
+      "image": {{ p.featured_image | image_url: width: 400 | json }},
+      "variants": [
+        {%- for v in p.variants -%}
+          {%- unless forloop.first -%},{%- endunless -%}
+          { "title": {{ v.title | json }}, "image": {%- if v.image -%}{{ v.image | image_url: width: 50 | json }}{%- else -%}null{%- endif -%} }
+        {%- endfor -%}
+      ],
+      "features": {
+        {%- assign feat_json_first = true -%}
+        {%- for i in (1..6) -%}
+          {%- assign fkey = 'compare-' | append: i -%}
+          {%- assign fcheck = fkey | append: ':' -%}
+          {%- for tag in p.tags -%}
+            {%- if tag contains fcheck -%}
+              {%- assign fval = tag | remove_first: fkey | remove_first: ':' | strip -%}
+              {%- unless feat_json_first -%},{%- endunless -%}
+              {%- assign feat_json_first = false -%}
+              {{ fkey | json }}: {{ fval | json }}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      }
+    }
+  {%- endif -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+
+{%- comment -%} Find first other product for initial right-column render {%- endcomment -%}
+{%- assign first_other = nil -%}
+{%- for p in vib_coll.products -%}
+  {%- if p.id != product.id and first_other == nil -%}
+    {%- assign first_other = p -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section class="lbs lbs-prod-compare">
+  <div class="lbs-prod-compare__container">
+
+    <div class="lbs-prod-compare__header">
+      <h2 class="lbs-prod-compare__heading">Compare every Libersens vibe</h2>
+      <p class="lbs-prod-compare__subheading">Browse our full collection or use the comparison chart below.</p>
+    </div>
+
+    <div class="lbs-prod-compare__table">
+
+      <!-- ── LEFT: current product (highlighted) ── -->
+      <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left">
+        <div class="lbs-prod-compare__product-summary">
+          <img
+            src="{{ product.featured_image | image_url: width: 400 }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="200" height="200" loading="eager"
+            class="lbs-prod-compare__img">
+          <p class="lbs-prod-compare__product-title">{{ product.title }}</p>
+        </div>
+        <div class="lbs-prod-compare__product-meta">
+          <p class="lbs-prod-compare__price">{{ product.price_min | money }}</p>
+          <div class="lbs-prod-compare__swatches">
+            {%- for variant in product.variants -%}
+              {%- if variant.image -%}
+                <span class="lbs-prod-compare__swatch" style="background-image:url('{{ variant.image | image_url: width: 50 }}')" title="{{ variant.title | escape }}"></span>
+              {%- else -%}
+                <span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="{{ variant.title | escape }}"></span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <span class="lbs-prod-compare__label">Currently viewing</span>
+        </div>
+      </div>
+
+      <!-- ── RIGHT: comparison product (JS-driven dropdown) ── -->
+      <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right">
+        {%- if first_other != nil -%}
+        <div class="lbs-prod-compare__product-summary">
+          <img
+            id="lbsCompareImg"
+            src="{{ first_other.featured_image | image_url: width: 400 }}"
+            alt="{{ first_other.featured_image.alt | default: first_other.title | escape }}"
+            width="200" height="200" loading="lazy"
+            class="lbs-prod-compare__img">
+          <div class="lbs-prod-compare__selector">
+            <button type="button" class="lbs-prod-compare__dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" id="lbsCompareToggle">
+              <span id="lbsCompareTitle">{{ first_other.title }}</span>
+              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.354.646a.5.5 0 00-.708 0L6 5.293 1.354.646a.5.5 0 00-.708.708l5 5a.5.5 0 00.708 0l5-5a.5.5 0 000-.708z" fill="currentColor"/></svg>
+            </button>
+            <ul class="lbs-prod-compare__dropdown" role="listbox" id="lbsCompareDropdown">
+              {%- assign idx = 0 -%}
+              {%- for p in vib_coll.products -%}
+                {%- if p.id != product.id -%}
+                  <li class="lbs-prod-compare__dropdown-item{% if idx == 0 %} is-selected{% endif %}"
+                      role="option"
+                      aria-selected="{% if idx == 0 %}true{% else %}false{% endif %}"
+                      data-idx="{{ idx }}">{{ p.title }}</li>
+                  {%- assign idx = idx | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+        <div class="lbs-prod-compare__product-meta">
+          <p class="lbs-prod-compare__price" id="lbsComparePrice">{{ first_other.price_min | money }}</p>
+          <div class="lbs-prod-compare__swatches" id="lbsCompareSwatches">
+            {%- for variant in first_other.variants -%}
+              {%- if variant.image -%}
+                <span class="lbs-prod-compare__swatch" style="background-image:url('{{ variant.image | image_url: width: 50 }}')" title="{{ variant.title | escape }}"></span>
+              {%- else -%}
+                <span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="{{ variant.title | escape }}"></span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <a class="lbs-prod-compare__link" href="{{ first_other.url }}" id="lbsCompareLink">Learn more</a>
+        </div>
+        {%- else -%}
+        <p class="lbs-prod-compare__empty">No other vibrators in the collection yet.</p>
+        {%- endif -%}
+      </div>
+
+      <!-- ── FEATURE ROWS (from product tags: compare-1:value … compare-6:value) ── -->
+      {%- for i in (1..6) -%}
+        {%- assign fkey = 'compare-' | append: i -%}
+        {%- assign fcheck = fkey | append: ':' -%}
+        {%- assign left_feat = '' -%}
+        {%- for tag in product.tags -%}
+          {%- if tag contains fcheck -%}
+            {%- assign left_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if left_feat != '' -%}
+          {%- assign right_feat = '' -%}
+          {%- if first_other != nil -%}
+            {%- for tag in first_other.tags -%}
+              {%- if tag contains fcheck -%}
+                {%- assign right_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left lbs-prod-compare__cell--feat{% if i == 1 %} lbs-prod-compare__cell--feat-first{% endif %}">
+            <svg class="lbs-prod-compare__feat-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l1.7 5.2H18l-4.6 3.3 1.8 5.4L10 12.5l-5.2 3.4 1.8-5.4L2 7.2h6.3L10 2z" fill="var(--blue)" opacity=".65"/></svg>
+            <p class="lbs-prod-compare__feat-text">{{ left_feat }}</p>
+          </div>
+          <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right lbs-prod-compare__cell--feat{% if i == 1 %} lbs-prod-compare__cell--feat-first{% endif %}" id="lbsRightFeat{{ i }}">
+            <svg class="lbs-prod-compare__feat-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l1.7 5.2H18l-4.6 3.3 1.8 5.4L10 12.5l-5.2 3.4 1.8-5.4L2 7.2h6.3L10 2z" fill="var(--blue)" opacity=".65"/></svg>
+            <p class="lbs-prod-compare__feat-text" data-right-feat="{{ i }}">{{ right_feat }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+
+    <a href="/collections/vibrators" class="lbs-prod-compare__cta">Shop all vibes</a>
+
+  </div>
+</section>
+
+<script type="application/json" id="lbsCompareData">{{ compare_json }}</script>
+
+<script>
+(function () {
+  var raw = document.getElementById('lbsCompareData');
+  if (!raw) return;
+  var data = JSON.parse(raw.textContent || raw.innerHTML);
+  if (!data || !data.length) return;
+
+  var toggle   = document.getElementById('lbsCompareToggle');
+  var dropdown = document.getElementById('lbsCompareDropdown');
+  var img      = document.getElementById('lbsCompareImg');
+  var titleEl  = document.getElementById('lbsCompareTitle');
+  var priceEl  = document.getElementById('lbsComparePrice');
+  var swatches = document.getElementById('lbsCompareSwatches');
+  var linkEl   = document.getElementById('lbsCompareLink');
+
+  function openDrop()  { dropdown.classList.add('is-open'); toggle.setAttribute('aria-expanded', 'true'); }
+  function closeDrop() { dropdown.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
+
+  toggle.addEventListener('click', function () {
+    dropdown.classList.contains('is-open') ? closeDrop() : openDrop();
+  });
+  document.addEventListener('click', function (e) {
+    if (!toggle.contains(e.target) && !dropdown.contains(e.target)) closeDrop();
+  });
+
+  function selectProduct(idx) {
+    var p = data[idx];
+    if (!p) return;
+    img.src = p.image; img.alt = p.title;
+    titleEl.textContent = p.title;
+    priceEl.textContent = p.price;
+    linkEl.href = p.url;
+    swatches.innerHTML = (p.variants || []).map(function (v) {
+      return v.image
+        ? '<span class="lbs-prod-compare__swatch" style="background-image:url(\'' + v.image + '\')" title="' + v.title + '"></span>'
+        : '<span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="' + v.title + '"></span>';
+    }).join('');
+    var features = p.features || {};
+    for (var i = 1; i <= 6; i++) {
+      var cell = document.getElementById('lbsRightFeat' + i);
+      if (!cell) continue;
+      var textEl = cell.querySelector('[data-right-feat]');
+      if (textEl) textEl.textContent = features['compare-' + i] || '';
+    }
+    dropdown.querySelectorAll('.lbs-prod-compare__dropdown-item').forEach(function (item, j) {
+      var sel = j === idx;
+      item.classList.toggle('is-selected', sel);
+      item.setAttribute('aria-selected', sel ? 'true' : 'false');
+    });
+    closeDrop();
+  }
+
+  dropdown.querySelectorAll('.lbs-prod-compare__dropdown-item').forEach(function (item) {
+    item.addEventListener('click', function () { selectProduct(parseInt(item.dataset.idx, 10)); });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "LBS Product Compare",
+  "tag": "section",
+  "class": "section-lbs-product-compare",
+  "settings": [],
+  "presets": [{ "name": "LBS Product Compare" }]
+}
+{% endschema %}

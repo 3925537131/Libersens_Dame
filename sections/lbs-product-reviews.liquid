@@ -1,0 +1,24 @@
+<section class="lbs lbs-prod-reviews">
+  <div class="lbs-prod-reviews__wrap">
+    {%- render 'judgeme_widgets',
+        widget_type: 'judgeme_review_widget',
+        concierge_install: true,
+        product: product,
+        show_write_review_button: true,
+        show_avatar: true,
+        show_display_name: true,
+        show_verified_badge: true,
+        show_helpful_display: true,
+        hide_if_no_reviews: false -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LBS Product Reviews",
+  "tag": "section",
+  "class": "section-lbs-product-reviews",
+  "settings": [],
+  "presets": [{ "name": "LBS Product Reviews" }]
+}
+{% endschema %}
