@@ -1,274 +1,290 @@
+{%- comment -%}
+  Compare every Libersens vibe — follows dame.com's product-comparison-component
+  structure exactly (2-column table: current product vs. a dropdown-selectable
+  product, with 8 icon feature rows). Content is Libersens's own, pulled from the
+  vibrators collection. Per-product feature values come from tags compare-1: …
+  compare-8:, falling back to sensible defaults that vary by product.
+{%- endcomment -%}
+
 {%- liquid
   assign vib_coll = collections['vibrators']
 -%}
 
-{%- comment -%} Build JSON for all other vibrators in the collection {%- endcomment -%}
-{%- capture compare_json -%}
+{%- comment -%} ===== Feature default sets (vary by product id, so left ≠ right) ===== {%- endcomment -%}
+{%- assign set_a = 'Best for couples — hands-free clitoral stimulation during penetrative sex|||External (clitoral, hands-free)|||Couples|||3 Intensity Levels|||1 Steady Pattern|||Quiet|||4h Charge Time|||1.3" W (body) / 2.4" W (wings) x 1.7" H x 1.1" D' | split: '|||' -%}
+{%- assign set_b = 'Best for users wanting G-spot + clitoral stimulation in one toy|||Internal (G-spot) + External|||Solo or Couples|||5 Intensity Levels|||5 Vibration Patterns|||Low hum|||2h Charge Time|||7.5" L, bulb 1.4" W' | split: '|||' -%}
+{%- assign set_c = 'Best for solo external play in a travel-friendly design|||External (clitoral)|||Solo|||10 Intensity Levels|||8 Vibration Patterns|||Whisper Quiet|||1.5h Charge Time|||4.2" L x 1.2" W' | split: '|||' -%}
+
+{%- comment -%} Resolve the 8 feature values for a given product into feat_resolved {%- endcomment -%}
+{%- capture noop -%}{%- endcapture -%}
+
+{%- comment -%} ===== Build JSON of all OTHER vibrators for the dropdown / JS ===== {%- endcomment -%}
+{%- capture comparison_json -%}
 [
 {%- assign json_first = true -%}
 {%- for p in vib_coll.products -%}
   {%- if p.id != product.id -%}
-    {%- unless json_first -%},{%- endunless -%}
-    {%- assign json_first = false -%}
+    {%- unless json_first -%},{%- endunless -%}{%- assign json_first = false -%}
+    {%- assign pmod = p.id | modulo: 3 -%}
+    {%- if pmod == 0 -%}{%- assign pset = set_a -%}{%- elsif pmod == 1 -%}{%- assign pset = set_b -%}{%- else -%}{%- assign pset = set_c -%}{%- endif -%}
     {
-      "id": {{ p.id }},
       "title": {{ p.title | json }},
       "url": {{ p.url | json }},
       "price": {{ p.price_min | money | json }},
       "image": {{ p.featured_image | image_url: width: 400 | json }},
-      "variants": [
+      "swatches": [
         {%- for v in p.variants -%}
           {%- unless forloop.first -%},{%- endunless -%}
           { "title": {{ v.title | json }}, "image": {%- if v.image -%}{{ v.image | image_url: width: 50 | json }}{%- else -%}null{%- endif -%} }
         {%- endfor -%}
       ],
-      "features": {
-        {%- assign p_mod = p.id | modulo: 3 -%}
-        {%- if p_mod == 0 -%}
-          {%- assign cjf_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
-        {%- elsif p_mod == 1 -%}
-          {%- assign cjf_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
-        {%- else -%}
-          {%- assign cjf_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
-        {%- endif -%}
-        {%- for i in (1..6) -%}
+      "features": [
+        {%- for i in (1..8) -%}
           {%- unless forloop.first -%},{%- endunless -%}
-          {%- assign cjf_key    = 'compare-' | append: i -%}
-          {%- assign cjf_check  = cjf_key | append: ':' -%}
-          {%- assign cjf_val    = cjf_defaults[forloop.index0] -%}
-          {%- for tag in p.tags -%}
-            {%- if tag contains cjf_check -%}
-              {%- assign cjf_val = tag | remove_first: cjf_key | remove_first: ':' | strip -%}
-            {%- endif -%}
-          {%- endfor -%}
-          {{ cjf_key | json }}: {{ cjf_val | json }}
+          {%- assign fkey = 'compare-' | append: i | append: ':' -%}
+          {%- assign fval = pset[forloop.index0] -%}
+          {%- for tag in p.tags -%}{%- if tag contains fkey -%}{%- assign fval = tag | remove_first: fkey | strip -%}{%- endif -%}{%- endfor -%}
+          {{ fval | json }}
         {%- endfor -%}
-      }
+      ]
     }
   {%- endif -%}
 {%- endfor -%}
 ]
 {%- endcapture -%}
 
-{%- comment -%} Find first other product for initial right-column render {%- endcomment -%}
+{%- comment -%} First other product (initial right column) {%- endcomment -%}
 {%- assign first_other = nil -%}
 {%- for p in vib_coll.products -%}
-  {%- if p.id != product.id and first_other == nil -%}
-    {%- assign first_other = p -%}
-  {%- endif -%}
+  {%- if p.id != product.id and first_other == nil -%}{%- assign first_other = p -%}{%- endif -%}
 {%- endfor -%}
 
-<section class="lbs lbs-prod-compare">
-  <div class="lbs-prod-compare__container">
+{%- comment -%} Resolve current product (left) feature values {%- endcomment -%}
+{%- assign lmod = product.id | modulo: 3 -%}
+{%- if lmod == 0 -%}{%- assign lset = set_a -%}{%- elsif lmod == 1 -%}{%- assign lset = set_b -%}{%- else -%}{%- assign lset = set_c -%}{%- endif -%}
 
-    <div class="lbs-prod-compare__header">
-      <h2 class="lbs-prod-compare__heading">Compare every Libersens vibe</h2>
-      <p class="lbs-prod-compare__subheading">Browse our full collection or use the comparison chart below.</p>
+{%- comment -%} Resolve first_other (right) feature values {%- endcomment -%}
+{%- if first_other != nil -%}
+  {%- assign rmod = first_other.id | modulo: 3 -%}
+  {%- if rmod == 0 -%}{%- assign rset = set_a -%}{%- elsif rmod == 1 -%}{%- assign rset = set_b -%}{%- else -%}{%- assign rset = set_c -%}{%- endif -%}
+{%- endif -%}
+
+<product-comparison-component id="comparison-{{ section.id }}" class="lbs product-comparison">
+  <div class="comparison__container">
+
+    <div class="comparison__header">
+      <h2 class="comparison__heading">Compare every <em class="comparison__heading-brand">Libersens</em> vibe</h2>
+      <p class="comparison__subheading">Take our short quiz to find out more or use the handy comparison chart below.</p>
     </div>
 
-    <div class="lbs-prod-compare__table">
+    <div class="comparison__table">
 
-      <!-- ── LEFT: current product (highlighted) ── -->
-      <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left">
-        <div class="lbs-prod-compare__product-summary">
-          <img
-            src="{{ product.featured_image | image_url: width: 400 }}"
-            alt="{{ product.featured_image.alt | default: product.title | escape }}"
-            width="200" height="200" loading="eager"
-            class="lbs-prod-compare__img">
-          <p class="lbs-prod-compare__product-title">{{ product.title }}</p>
+      {%- comment -%} ===== Left: current product ===== {%- endcomment -%}
+      <div class="comparison__cell comparison__cell--left">
+        <div class="comparison__product-summary">
+          <img src="{{ product.featured_image | image_url: width: 400 }}" width="315" height="300" loading="lazy" class="comparison__product-img comparison__product-img--left" alt="{{ product.title | escape }}">
+          <p class="comparison__product-title">{{ product.title }}</p>
         </div>
-        <div class="lbs-prod-compare__product-meta">
-          <p class="lbs-prod-compare__price">{{ product.price_min | money }}</p>
-          <div class="lbs-prod-compare__swatches">
-            {%- for variant in product.variants -%}
-              {%- if variant.image -%}
-                <span class="lbs-prod-compare__swatch" style="background-image:url('{{ variant.image | image_url: width: 50 }}')" title="{{ variant.title | escape }}"></span>
+        <div class="comparison__product-meta">
+          <p class="comparison__product-price">{{ product.price_min | money }}</p>
+          <div class="comparison__swatches">
+            {%- for v in product.variants -%}
+              {%- if v.image -%}
+                <span class="comparison__swatch" style="background-image:url('{{ v.image | image_url: width: 50 }}')" title="{{ v.title | escape }}"></span>
               {%- else -%}
-                <span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="{{ variant.title | escape }}"></span>
+                <span class="comparison__swatch comparison__swatch--no-img" title="{{ v.title | escape }}"></span>
               {%- endif -%}
             {%- endfor -%}
           </div>
-          <span class="lbs-prod-compare__label">Currently viewing</span>
+          <span class="comparison__product-label">Currently viewing</span>
         </div>
       </div>
 
-      <!-- ── RIGHT: comparison product (JS-driven dropdown) ── -->
-      <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right">
+      {%- comment -%} ===== Right: dropdown-selectable product ===== {%- endcomment -%}
+      <div class="comparison__cell comparison__cell--right">
         {%- if first_other != nil -%}
-        <div class="lbs-prod-compare__product-summary">
-          <img
-            id="lbsCompareImg"
-            src="{{ first_other.featured_image | image_url: width: 400 }}"
-            alt="{{ first_other.featured_image.alt | default: first_other.title | escape }}"
-            width="200" height="200" loading="lazy"
-            class="lbs-prod-compare__img">
-          <div class="lbs-prod-compare__selector">
-            <button type="button" class="lbs-prod-compare__dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" id="lbsCompareToggle">
-              <span id="lbsCompareTitle">{{ first_other.title }}</span>
-              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.354.646a.5.5 0 00-.708 0L6 5.293 1.354.646a.5.5 0 00-.708.708l5 5a.5.5 0 00.708 0l5-5a.5.5 0 000-.708z" fill="currentColor"/></svg>
+        <div class="comparison__product-summary">
+          <img src="{{ first_other.featured_image | image_url: width: 400 }}" width="279" height="300" loading="lazy" class="comparison__product-img comparison__product-img--right" alt="{{ first_other.title | escape }}" data-comparison-right-img>
+          <div class="comparison__product-selector">
+            <button type="button" class="comparison__dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" data-comparison-dropdown-toggle>
+              <span data-comparison-right-title>{{ first_other.title }}</span>
+              <svg width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.871.23a.79.79 0 00-1.11 0L7.05 5.943 1.34.23A.785.785 0 10.23 1.34l6.266 6.265a.78.78 0 001.11 0L13.87 1.34a.79.79 0 000-1.11z" fill="var(--blue)"/></svg>
             </button>
-            <ul class="lbs-prod-compare__dropdown" role="listbox" id="lbsCompareDropdown">
+            <ul class="comparison__dropdown" role="listbox" data-comparison-dropdown>
               {%- assign idx = 0 -%}
               {%- for p in vib_coll.products -%}
                 {%- if p.id != product.id -%}
-                  <li class="lbs-prod-compare__dropdown-item{% if idx == 0 %} is-selected{% endif %}"
-                      role="option"
-                      aria-selected="{% if idx == 0 %}true{% else %}false{% endif %}"
-                      data-idx="{{ idx }}">{{ p.title }}</li>
+                  <li class="comparison__dropdown-item{% if idx == 0 %} is-selected{% endif %}" role="option" aria-selected="{% if idx == 0 %}true{% else %}false{% endif %}" data-product-index="{{ idx }}">{{ p.title }}</li>
                   {%- assign idx = idx | plus: 1 -%}
                 {%- endif -%}
               {%- endfor -%}
             </ul>
           </div>
         </div>
-        <div class="lbs-prod-compare__product-meta">
-          <p class="lbs-prod-compare__price" id="lbsComparePrice">{{ first_other.price_min | money }}</p>
-          <div class="lbs-prod-compare__swatches" id="lbsCompareSwatches">
-            {%- for variant in first_other.variants -%}
-              {%- if variant.image -%}
-                <span class="lbs-prod-compare__swatch" style="background-image:url('{{ variant.image | image_url: width: 50 }}')" title="{{ variant.title | escape }}"></span>
+        <div class="comparison__product-meta">
+          <p class="comparison__product-price" data-comparison-right-price>{{ first_other.price_min | money }}</p>
+          <div class="comparison__swatches" data-comparison-right-swatches>
+            {%- for v in first_other.variants -%}
+              {%- if v.image -%}
+                <span class="comparison__swatch" style="background-image:url('{{ v.image | image_url: width: 50 }}')" title="{{ v.title | escape }}"></span>
               {%- else -%}
-                <span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="{{ variant.title | escape }}"></span>
+                <span class="comparison__swatch comparison__swatch--no-img" title="{{ v.title | escape }}"></span>
               {%- endif -%}
             {%- endfor -%}
           </div>
-          <a class="lbs-prod-compare__link" href="{{ first_other.url }}" id="lbsCompareLink">Learn more</a>
+          <a class="comparison__product-link" href="{{ first_other.url }}" data-comparison-right-link>Learn more</a>
         </div>
         {%- else -%}
-        <p class="lbs-prod-compare__empty">No other vibrators in the collection yet.</p>
+          <p class="comparison__empty">No other vibrators in the collection yet.</p>
         {%- endif -%}
       </div>
 
-      <!-- ── FEATURE ROWS
-           Labels are hardcoded; values come from product tags compare-1: through compare-6:.
-           If no tag is set, a sensible default is shown.
-           Override per product by adding tags like: compare-1:Clitoral + G-spot
-      ── -->
-      {%- assign feat_labels = 'Stimulation,Intensity Levels,Waterproof,Material,Vibration Patterns,Noise Level' | split: ',' -%}
+      {%- comment -%} ===== Feature rows: left cell + right cell per feature ===== {%- endcomment -%}
+      {%- for i in (0..7) -%}
+        {%- assign fkey = 'compare-' | append: forloop.index | append: ':' -%}
 
-      {%- comment -%} Left-column defaults: vary by current product ID modulo 3 {%- endcomment -%}
-      {%- assign lmod = product.id | modulo: 3 -%}
-      {%- if lmod == 0 -%}
-        {%- assign feat_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
-      {%- elsif lmod == 1 -%}
-        {%- assign feat_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
-      {%- else -%}
-        {%- assign feat_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
-      {%- endif -%}
+        {%- comment -%} left value {%- endcomment -%}
+        {%- assign lval = lset[i] -%}
+        {%- for tag in product.tags -%}{%- if tag contains fkey -%}{%- assign lval = tag | remove_first: fkey | strip -%}{%- endif -%}{%- endfor -%}
 
-      {%- comment -%} Right-column defaults: vary by first_other product ID modulo 3 {%- endcomment -%}
-      {%- if first_other != nil -%}
-        {%- assign rmod = first_other.id | modulo: 3 -%}
-        {%- if rmod == 0 -%}
-          {%- assign right_defaults = 'Clitoral,5 intensity levels,IPX7 Waterproof,Medical-grade Silicone,1 steady pattern,Whisper Quiet' | split: ',' -%}
-        {%- elsif rmod == 1 -%}
-          {%- assign right_defaults = 'G-spot + Clitoral,10 intensity levels,IPX7 Waterproof,Medical-grade Silicone,5 vibration patterns,Ultra Quiet' | split: ',' -%}
-        {%- else -%}
-          {%- assign right_defaults = 'Dual: Clit + G-spot,7 intensity levels,IPX7 Waterproof,Medical-grade Silicone,9 vibration patterns,Virtually Silent' | split: ',' -%}
-        {%- endif -%}
-      {%- endif -%}
-
-      {%- for i in (1..6) -%}
-        {%- assign fidx    = forloop.index0 -%}
-        {%- assign fkey    = 'compare-' | append: i -%}
-        {%- assign fcheck  = fkey | append: ':' -%}
-        {%- assign flabel  = feat_labels[fidx] -%}
-        {%- assign fdefault = feat_defaults[fidx] -%}
-
-        {%- assign left_feat = '' -%}
-        {%- for tag in product.tags -%}
-          {%- if tag contains fcheck -%}
-            {%- assign left_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if left_feat == '' -%}{%- assign left_feat = fdefault -%}{%- endif -%}
-
-        {%- assign right_feat = '' -%}
+        {%- comment -%} right value (first_other) {%- endcomment -%}
+        {%- assign rval = '' -%}
         {%- if first_other != nil -%}
-          {%- for tag in first_other.tags -%}
-            {%- if tag contains fcheck -%}
-              {%- assign right_feat = tag | remove_first: fkey | remove_first: ':' | strip -%}
-            {%- endif -%}
-          {%- endfor -%}
+          {%- assign rval = rset[i] -%}
+          {%- for tag in first_other.tags -%}{%- if tag contains fkey -%}{%- assign rval = tag | remove_first: fkey | strip -%}{%- endif -%}{%- endfor -%}
         {%- endif -%}
-        {%- if right_feat == '' -%}{%- assign right_feat = right_defaults[fidx] -%}{%- endif -%}
 
-        <!-- Full-width row label -->
-        <div class="lbs-prod-compare__row-label">{{ flabel }}</div>
-
-        <div class="lbs-prod-compare__cell lbs-prod-compare__cell--left lbs-prod-compare__cell--feat" id="lbsLeftFeat{{ i }}">
-          <p class="lbs-prod-compare__feat-text">{{ left_feat }}</p>
+        <div class="comparison__cell comparison__cell--left comparison__cell--feature{% if forloop.first %} comparison__cell--feature-first{% endif %}">
+          {%- render 'lbs-compare-icon', i: i -%}
+          <p class="comparison__feature-text" data-comparison-left-feature="{{ i }}">{{ lval }}</p>
         </div>
-        <div class="lbs-prod-compare__cell lbs-prod-compare__cell--right lbs-prod-compare__cell--feat" id="lbsRightFeat{{ i }}">
-          <p class="lbs-prod-compare__feat-text" data-right-feat="{{ i }}">{{ right_feat }}</p>
+        <div class="comparison__cell comparison__cell--right comparison__cell--feature{% if forloop.first %} comparison__cell--feature-first{% endif %}">
+          {%- render 'lbs-compare-icon', i: i -%}
+          <p class="comparison__feature-text" data-comparison-right-feature="{{ i }}">{{ rval }}</p>
         </div>
       {%- endfor -%}
 
     </div>
-
-    <a href="/collections/vibrators" class="lbs-prod-compare__cta">Shop all vibes</a>
-
   </div>
-</section>
 
-<script type="application/json" id="lbsCompareData">{{ compare_json }}</script>
+  <script type="application/json" data-comparison-data>{{ comparison_json }}</script>
+</product-comparison-component>
+
+<style>
+#comparison-{{ section.id }} { display: block; padding: 56px 0 72px; }
+#comparison-{{ section.id }} .comparison__container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+#comparison-{{ section.id }} .comparison__header { text-align: center; max-width: 620px; margin: 0 auto 38px; }
+#comparison-{{ section.id }} .comparison__heading {
+  font-family: var(--sans); font-weight: 400;
+  font-size: clamp(22px, 3vw, 40px); color: var(--blue); line-height: 1.1; margin: 0 0 14px;
+}
+#comparison-{{ section.id }} .comparison__heading-brand { font-style: normal; font-weight: 700; }
+#comparison-{{ section.id }} .comparison__subheading { color: var(--grey); font-size: 16px; margin: 0; }
+
+#comparison-{{ section.id }} .comparison__table {
+  display: grid; grid-template-columns: 1fr 1fr;
+  max-width: 760px; margin: 0 auto;
+  border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+}
+#comparison-{{ section.id }} .comparison__cell { padding: 20px 18px; }
+#comparison-{{ section.id }} .comparison__cell--left { background: var(--cream); border-right: 1px solid var(--line); }
+#comparison-{{ section.id }} .comparison__cell--feature { border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+
+#comparison-{{ section.id }} .comparison__product-summary { text-align: center; }
+#comparison-{{ section.id }} .comparison__product-img { width: auto; max-width: 100%; height: 200px; object-fit: contain; margin: 0 auto 10px; display: block; mix-blend-mode: multiply; }
+#comparison-{{ section.id }} .comparison__product-title { font-family: var(--serif); font-size: 22px; color: var(--ink); margin: 0; }
+#comparison-{{ section.id }} .comparison__product-meta { text-align: center; margin-top: 14px; }
+#comparison-{{ section.id }} .comparison__product-price { font-weight: 700; font-size: 16px; margin: 0 0 8px; color: var(--ink); }
+#comparison-{{ section.id }} .comparison__swatches { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
+#comparison-{{ section.id }} .comparison__swatch { width: 18px; height: 18px; border-radius: 50%; background-size: cover; background-position: center; border: 1px solid rgba(0,0,0,.1); }
+#comparison-{{ section.id }} .comparison__swatch--no-img { background: var(--lavender); }
+#comparison-{{ section.id }} .comparison__product-label { font-size: 12px; color: var(--grey); }
+
+#comparison-{{ section.id }} .comparison__product-selector { position: relative; display: inline-block; }
+#comparison-{{ section.id }} .comparison__dropdown-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--serif); font-size: 22px; color: var(--ink);
+  background: none; border: 0; cursor: pointer; padding: 0;
+}
+#comparison-{{ section.id }} .comparison__dropdown {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  margin-top: 8px; min-width: 160px; max-height: 240px; overflow-y: auto;
+  list-style: none; padding: 6px; background: #fff;
+  border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,.1);
+  z-index: 20; display: none;
+}
+#comparison-{{ section.id }} .comparison__dropdown.is-open { display: block; }
+#comparison-{{ section.id }} .comparison__dropdown-item { padding: 8px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+#comparison-{{ section.id }} .comparison__dropdown-item:hover,
+#comparison-{{ section.id }} .comparison__dropdown-item.is-selected { background: var(--cream); color: var(--blue); }
+#comparison-{{ section.id }} .comparison__product-link { font-size: 13px; color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+
+#comparison-{{ section.id }} .comparison__feature-icon { color: var(--blue); display: inline-flex; }
+#comparison-{{ section.id }} .comparison__feature-text { font-family: var(--sans); font-size: 14px; line-height: 1.4; color: #333; margin: 0; }
+
+@media screen and (max-width: 749px) {
+  #comparison-{{ section.id }} .comparison__cell { padding: 14px 10px; }
+  #comparison-{{ section.id }} .comparison__product-img { height: 150px; }
+  #comparison-{{ section.id }} .comparison__product-title,
+  #comparison-{{ section.id }} .comparison__dropdown-toggle { font-size: 18px; }
+  #comparison-{{ section.id }} .comparison__feature-text { font-size: 13px; }
+}
+</style>
 
 <script>
-(function () {
-  var raw = document.getElementById('lbsCompareData');
-  if (!raw) return;
-  var data = JSON.parse(raw.textContent || raw.innerHTML);
-  if (!data || !data.length) return;
+(() => {
+  class ProductComparison extends HTMLElement {
+    connectedCallback() {
+      const dataEl = this.querySelector('[data-comparison-data]');
+      if (!dataEl) return;
+      try { this.data = JSON.parse(dataEl.textContent); } catch (e) { return; }
+      if (!this.data || !this.data.length) return;
 
-  var toggle   = document.getElementById('lbsCompareToggle');
-  var dropdown = document.getElementById('lbsCompareDropdown');
-  var img      = document.getElementById('lbsCompareImg');
-  var titleEl  = document.getElementById('lbsCompareTitle');
-  var priceEl  = document.getElementById('lbsComparePrice');
-  var swatches = document.getElementById('lbsCompareSwatches');
-  var linkEl   = document.getElementById('lbsCompareLink');
+      this.toggle   = this.querySelector('[data-comparison-dropdown-toggle]');
+      this.dropdown = this.querySelector('[data-comparison-dropdown]');
+      this.img      = this.querySelector('[data-comparison-right-img]');
+      this.titleEl  = this.querySelector('[data-comparison-right-title]');
+      this.priceEl  = this.querySelector('[data-comparison-right-price]');
+      this.swatchEl = this.querySelector('[data-comparison-right-swatches]');
+      this.linkEl   = this.querySelector('[data-comparison-right-link]');
+      if (!this.toggle || !this.dropdown) return;
 
-  function openDrop()  { dropdown.classList.add('is-open'); toggle.setAttribute('aria-expanded', 'true'); }
-  function closeDrop() { dropdown.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
-
-  toggle.addEventListener('click', function () {
-    dropdown.classList.contains('is-open') ? closeDrop() : openDrop();
-  });
-  document.addEventListener('click', function (e) {
-    if (!toggle.contains(e.target) && !dropdown.contains(e.target)) closeDrop();
-  });
-
-  function selectProduct(idx) {
-    var p = data[idx];
-    if (!p) return;
-    img.src = p.image; img.alt = p.title;
-    titleEl.textContent = p.title;
-    priceEl.textContent = p.price;
-    linkEl.href = p.url;
-    swatches.innerHTML = (p.variants || []).map(function (v) {
-      return v.image
-        ? '<span class="lbs-prod-compare__swatch" style="background-image:url(\'' + v.image + '\')" title="' + v.title + '"></span>'
-        : '<span class="lbs-prod-compare__swatch lbs-prod-compare__swatch--no-img" title="' + v.title + '"></span>';
-    }).join('');
-    var features = p.features || {};
-    for (var i = 1; i <= 6; i++) {
-      var cell = document.getElementById('lbsRightFeat' + i);
-      if (!cell) continue;
-      var textEl = cell.querySelector('[data-right-feat]');
-      if (textEl) textEl.textContent = features['compare-' + i] || '';
+      this.toggle.addEventListener('click', () => this.dropdown.classList.toggle('is-open'));
+      document.addEventListener('click', (e) => {
+        if (!this.toggle.contains(e.target) && !this.dropdown.contains(e.target)) this.dropdown.classList.remove('is-open');
+      });
+      this.dropdown.querySelectorAll('.comparison__dropdown-item').forEach((item) => {
+        item.addEventListener('click', () => this.select(parseInt(item.dataset.productIndex, 10)));
+      });
     }
-    dropdown.querySelectorAll('.lbs-prod-compare__dropdown-item').forEach(function (item, j) {
-      var sel = j === idx;
-      item.classList.toggle('is-selected', sel);
-      item.setAttribute('aria-selected', sel ? 'true' : 'false');
-    });
-    closeDrop();
-  }
 
-  dropdown.querySelectorAll('.lbs-prod-compare__dropdown-item').forEach(function (item) {
-    item.addEventListener('click', function () { selectProduct(parseInt(item.dataset.idx, 10)); });
-  });
+    select(index) {
+      const p = this.data[index];
+      if (!p) return;
+      if (this.img)     { this.img.src = p.image; this.img.alt = p.title; }
+      if (this.titleEl) this.titleEl.textContent = p.title;
+      if (this.priceEl) this.priceEl.textContent = p.price;
+      if (this.linkEl)  this.linkEl.href = p.url;
+      if (this.swatchEl) {
+        this.swatchEl.innerHTML = (p.swatches || []).map((s) => s.image
+          ? '<span class="comparison__swatch" style="background-image:url(\'' + s.image + '\')" title="' + s.title + '"></span>'
+          : '<span class="comparison__swatch comparison__swatch--no-img" title="' + s.title + '"></span>').join('');
+      }
+      (p.features || []).forEach((val, i) => {
+        const el = this.querySelector('[data-comparison-right-feature="' + i + '"]');
+        if (el) el.textContent = val;
+      });
+      this.dropdown.querySelectorAll('.comparison__dropdown-item').forEach((item, j) => {
+        const sel = j === index;
+        item.classList.toggle('is-selected', sel);
+        item.setAttribute('aria-selected', sel ? 'true' : 'false');
+      });
+      this.dropdown.classList.remove('is-open');
+    }
+  }
+  if (!customElements.get('product-comparison-component')) {
+    customElements.define('product-comparison-component', ProductComparison);
+  }
 })();
 </script>
 

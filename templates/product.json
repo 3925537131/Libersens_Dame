@@ -8,10 +8,6 @@
       "type": "lbs-product-sp-gallery",
       "settings": {}
     },
-    "also-like": {
-      "type": "lbs-product-also-like",
-      "settings": {}
-    },
     "compare": {
       "type": "lbs-product-compare",
       "settings": {}
@@ -21,5 +17,5 @@
       "settings": {}
     }
   },
-  "order": ["main", "sp-gallery", "also-like", "compare", "reviews"]
+  "order": ["main", "sp-gallery", "compare", "reviews"]
 }
