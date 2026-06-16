@@ -1,23 +1,85 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header",
   "type": "header",
   "sections": {
     "lbs-announcement": {
       "type": "lbs-announcement",
-      "settings": {}
+      "settings": {
+        "text": "✦ Free intimate care mini with every order over $75 — this month only",
+        "link_label": "Shop now",
+        "link_url": ""
+      }
     },
     "lbs-header": {
       "type": "lbs-header",
       "blocks": {
-        "l1": { "type": "mega_collection", "settings": { "label": "Vibrators", "collection": "best-sellers", "products_count": 5 } },
-        "l2": { "type": "mega_menu", "settings": { "label": "Shop All", "menu": "main-menu", "link": "/collections/all" } },
-        "l3": { "type": "link", "settings": { "label": "Journal", "link": "/blogs/news" } },
-        "l4": { "type": "link", "settings": { "label": "About", "link": "/pages/about-us" } },
-        "l5": { "type": "link", "settings": { "label": "Find Your Vibe", "link": "/#quiz", "accent": true } }
+        "l1": {
+          "type": "mega_collection",
+          "settings": {
+            "label": "Vibrators",
+            "collection": "frontpage",
+            "products_count": 5,
+            "link": "",
+            "accent": false
+          }
+        },
+        "l2": {
+          "type": "mega_menu",
+          "settings": {
+            "label": "Shop All",
+            "menu": "main-menu",
+            "link": "/collections/all",
+            "accent": false
+          }
+        },
+        "l3": {
+          "type": "link",
+          "settings": {
+            "label": "Journal",
+            "link": "/blogs/news",
+            "accent": false
+          }
+        },
+        "l4": {
+          "type": "link",
+          "settings": {
+            "label": "About",
+            "link": "/pages/about-us",
+            "accent": false
+          }
+        },
+        "l5": {
+          "type": "link",
+          "settings": {
+            "label": "Find Your Vibe",
+            "link": "/#quiz",
+            "accent": true
+          }
+        }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5"],
-      "settings": {}
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ],
+      "settings": {
+        "logo_text": "Libersens"
+      }
     }
   },
-  "order": ["lbs-announcement", "lbs-header"]
+  "order": [
+    "lbs-announcement",
+    "lbs-header"
+  ]
 }
