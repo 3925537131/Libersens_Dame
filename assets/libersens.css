@@ -738,15 +738,18 @@
 /* Info panel */
 .pdp-dame__info{display:flex;flex-direction:column;gap:20px}
 
+/* Top bar: bestseller badge + star rating */
+.pdp-dame__top-bar{display:flex;flex-direction:column;gap:6px}
+.pdp-dame__top-badges{display:flex;align-items:center;gap:10px}
+.pdp-dame__bestseller-badge{display:inline-flex;align-items:center;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding:5px 12px;border-radius:6px;background:var(--lavender)}
+.pdp-dame__badge{line-height:1}
+
 /* Title + price row */
 .pdp-dame__title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.pdp-dame__title{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.8vw,38px);color:var(--ink);line-height:1.15;margin:0;flex:1}
+.pdp-dame__title{font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.5vw,32px);color:var(--blue);line-height:1.2;margin:0;flex:1;letter-spacing:-.02em}
 .pdp-dame__price{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:4px;padding-top:4px}
-.pdp-dame__price-now{font-family:var(--sans);font-weight:700;font-size:clamp(16px,1.6vw,22px);color:var(--blue)}
+.pdp-dame__price-now{font-family:var(--sans);font-weight:600;font-size:clamp(16px,1.6vw,22px);color:var(--blue)}
 .pdp-dame__price-was{font-family:var(--sans);font-size:14px;font-weight:400;color:var(--grey);text-decoration:line-through}
-
-/* Judge.me badge */
-.pdp-dame__badge{line-height:1}
 
 /* Feature icon strip */
 .pdp-dame__feats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -777,21 +780,26 @@
 .pdp-dame__pill input:checked + span{border-color:var(--blue);background:var(--blue);color:#fff}
 
 /* Add to Cart button */
-.pdp-dame__atc{display:flex;align-items:center;justify-content:center;width:100%;padding:17px 24px;border:none;border-radius:14px;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background .15s;white-space:nowrap;flex-wrap:wrap;gap:0}
+.pdp-dame__atc{display:flex;align-items:center;justify-content:center;width:100%;padding:16px 24px;border:none;border-radius:12px;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background .15s;white-space:nowrap;flex-wrap:wrap;gap:0}
 .pdp-dame__atc:hover:not(:disabled){background:#001fcc}
 .pdp-dame__atc:disabled{background:#c9c5be;cursor:not-allowed}
 .pdp-dame__atc-sep{font-weight:400;opacity:.85}
 
-/* Quiz card */
-.pdp-dame__quiz{background:var(--mint);border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.pdp-dame__quiz-text{display:flex;flex-direction:column;gap:6px}
-.pdp-dame__quiz-heading{font-family:var(--serif);font-size:clamp(15px,1.6vw,20px);color:var(--ink);margin:0;line-height:1.2}
-.pdp-dame__quiz-sub{font-family:var(--sans);font-size:12px;color:var(--grey);margin:0;line-height:1.4}
-.pdp-dame__quiz-btn{display:inline-flex;align-items:center;margin-top:6px;padding:10px 18px;border-radius:999px;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .15s}
-.pdp-dame__quiz-btn:hover{background:#001fcc}
-.pdp-dame__quiz-imgs{display:flex;gap:4px;flex-shrink:0}
-.pdp-dame__quiz-imgs img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-left:-12px}
-.pdp-dame__quiz-imgs img:first-child{margin-left:0}
+/* Trust text below ATC */
+.pdp-dame__trust{font-family:var(--sans);font-size:11px;text-align:center;color:var(--grey);margin:0;letter-spacing:.02em}
+
+/* Quiz card — matches dame.com exactly: cream bg, coral CTA, 166px height */
+.pdp-dame__quiz{display:flex;flex-direction:column;justify-content:space-between;padding:16px;height:166px;border-radius:12px;background-color:#EFE9E6;background-size:cover;background-position:center right;box-sizing:border-box}
+.pdp-dame__quiz-text{display:flex;flex-direction:column;gap:8px}
+.pdp-dame__quiz-heading{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.35;letter-spacing:.01em;color:var(--blue);margin:0}
+.pdp-dame__quiz-sub{font-family:var(--sans);font-size:13px;font-weight:400;line-height:1.4;color:var(--grey);margin:0;max-width:200px}
+.pdp-dame__quiz-btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 21px;border-radius:10px;background:#FF7B58;color:#fff;font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.03em;text-transform:uppercase;text-decoration:none;transition:background .15s;align-self:flex-start;margin-top:auto}
+.pdp-dame__quiz-btn:hover{background:#e8664a}
+@media(min-width:750px){
+  .pdp-dame__quiz{height:175px;padding:16px 21px}
+  .pdp-dame__quiz-heading{font-size:20px}
+  .pdp-dame__quiz-text{gap:12px}
+}
 
 /* Accordions */
 .pdp-dame__accs{display:flex;flex-direction:column;border-top:1px solid var(--line)}
@@ -810,9 +818,7 @@
   .pdp-dame__feats{grid-template-columns:repeat(2,1fr);gap:16px}
 }
 @media(max-width:479px){
-  .pdp-dame__quiz{flex-direction:column;align-items:flex-start}
-  .pdp-dame__quiz-imgs{display:none}
-  .pdp-dame__title-row{flex-direction:column;gap:8px}
+  .pdp-dame__title-row{flex-direction:column;gap:6px}
   .pdp-dame__price{align-items:flex-start}
 }
 

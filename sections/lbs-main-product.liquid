@@ -74,6 +74,27 @@
       <!-- ══ RIGHT: INFO ══ -->
       <div class="pdp-dame__info">
 
+        <!-- TOP BAR: collection badge + star rating (matches dame order) -->
+        <div class="pdp-dame__top-bar">
+          <div class="pdp-dame__top-badges">
+            {%- assign is_bestseller = false -%}
+            {%- for tag in product.tags -%}
+              {%- assign tag_low = tag | downcase -%}
+              {%- if tag_low == 'bestseller' or tag_low == 'best-seller' or tag_low == 'best seller' -%}
+                {%- assign is_bestseller = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if is_bestseller -%}
+              <span class="pdp-dame__bestseller-badge">Bestseller</span>
+            {%- elsif collection != blank -%}
+              <span class="pdp-dame__bestseller-badge">{{ collection.title }}</span>
+            {%- endif -%}
+          </div>
+          <div class="pdp-dame__badge">
+            {%- render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product -%}
+          </div>
+        </div>
+
         <!-- TITLE + PRICE -->
         <div class="pdp-dame__title-row">
           <h1 class="pdp-dame__title">{{ product.title }}</h1>
@@ -83,11 +104,6 @@
               <span class="pdp-dame__price-was">{{ v.compare_at_price | money }}</span>
             {%- endif -%}
           </div>
-        </div>
-
-        <!-- STAR BADGE (Judge.me) -->
-        <div class="pdp-dame__badge">
-          {%- render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product -%}
         </div>
 
         <!-- 4-ICON FEATURE STRIP -->
@@ -188,19 +204,15 @@
           </button>
         </form>
 
-        <!-- QUIZ CARD -->
+        <!-- TRUST TEXT (below ATC, matches dame's "60 Day Returns + Discreet Shipping") -->
+        <p class="pdp-dame__trust">60-Day Returns &middot; Discreet Packaging</p>
+
+        <!-- QUIZ CARD (matches dame.com: cream bg, coral CTA, "TAKE A QUIZ") -->
         <div class="pdp-dame__quiz">
           <div class="pdp-dame__quiz-text">
             <p class="pdp-dame__quiz-heading">Not sure which one's right?</p>
             <p class="pdp-dame__quiz-sub">Get a personalised recommendation in under 2 minutes.</p>
-            <a href="/#quiz" class="pdp-dame__quiz-btn">Take the quiz</a>
-          </div>
-          <div class="pdp-dame__quiz-imgs" aria-hidden="true">
-            {%- for qp in collections['vibrators'].products limit: 3 -%}
-              {%- if qp.featured_image != nil -%}
-                <img src="{{ qp.featured_image | image_url: width: 200 }}" alt="" width="80" height="80" loading="lazy">
-              {%- endif -%}
-            {%- endfor -%}
+            <a href="/#quiz" class="pdp-dame__quiz-btn">TAKE A QUIZ</a>
           </div>
         </div>
 
