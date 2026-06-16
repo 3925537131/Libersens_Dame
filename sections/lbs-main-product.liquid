@@ -1,173 +1,356 @@
-<section class="lbs pdp-section" id="pdp-{{ section.id }}">
-  <div class="wrap">
-    <nav class="pdp-crumbs">
-      <a href="{{ routes.root_url }}">Home</a> /
-      {%- if collection.url -%}<a href="{{ collection.url }}">{{ collection.title }}</a> / {% endif -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+-%}
+
+{%- comment -%} Feature strip: tags feat-1: through feat-4:, or defaults {%- endcomment -%}
+{%- assign feat1 = '' -%}
+{%- assign feat2 = '' -%}
+{%- assign feat3 = '' -%}
+{%- assign feat4 = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'feat-1:' -%}{%- assign feat1 = tag | remove_first: 'feat-1:' | strip -%}{%- endif -%}
+  {%- if tag contains 'feat-2:' -%}{%- assign feat2 = tag | remove_first: 'feat-2:' | strip -%}{%- endif -%}
+  {%- if tag contains 'feat-3:' -%}{%- assign feat3 = tag | remove_first: 'feat-3:' | strip -%}{%- endif -%}
+  {%- if tag contains 'feat-4:' -%}{%- assign feat4 = tag | remove_first: 'feat-4:' | strip -%}{%- endif -%}
+{%- endfor -%}
+{%- if feat1 == '' -%}{%- assign feat1 = 'Body-safe Silicone' -%}{%- endif -%}
+{%- if feat2 == '' -%}{%- assign feat2 = 'Rechargeable' -%}{%- endif -%}
+{%- if feat3 == '' -%}{%- assign feat3 = 'Waterproof' -%}{%- endif -%}
+{%- if feat4 == '' -%}{%- assign feat4 = 'Multiple Modes' -%}{%- endif -%}
+
+{%- comment -%} Accordion content from metafields or hardcoded defaults {%- endcomment -%}
+{%- assign mf_how    = product.metafields.lbs.how_to_use -%}
+{%- assign mf_specs  = product.metafields.lbs.specifications -%}
+{%- assign mf_manual = product.metafields.lbs.manual_url -%}
+{%- capture how_to_use -%}
+  {%- if mf_how != blank -%}{{ mf_how }}{%- else -%}Turn on with a single button press. Cycle through intensity levels by pressing the button again. To switch off, hold for 2 seconds. Apply to the body as desired. Clean with water and mild soap after each use. Charge fully before first use using the included magnetic USB cable.{%- endif -%}
+{%- endcapture -%}
+{%- capture specifications -%}
+  {%- if mf_specs != blank -%}{{ mf_specs }}{%- else -%}Material: 100% Medical-grade silicone · Charging: Magnetic USB · Waterproof: IPX7 · Intensity levels: Multiple · Vibration modes: Multiple · Charge time: ~2 hours · Battery life: ~1 hour{%- endif -%}
+{%- endcapture -%}
+
+<section class="lbs pdp-dame" id="pdp-{{ section.id }}">
+  <div class="pdp-dame__outer">
+
+    <nav class="pdp-dame__crumbs">
+      <a href="{{ routes.root_url }}">Home</a>
+      {%- if collection != blank -%}
+        <span aria-hidden="true">/</span>
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+      {%- endif -%}
+      <span aria-hidden="true">/</span>
       <span>{{ product.title }}</span>
     </nav>
 
-    <div class="pdp">
-      <div class="pdp__gallery">
-        <div class="pdp__main">
+    <div class="pdp-dame__layout">
+
+      <!-- ══ LEFT: GALLERY ══ -->
+      <div class="pdp-dame__gallery">
+        <div class="pdp-dame__main-wrap">
           {%- if product.featured_media -%}
-            <img data-pdp-main src="{{ product.featured_media | image_url: width: 1000 }}" alt="{{ product.featured_media.alt | escape }}" width="700" height="700">
+            <img class="pdp-dame__main-img" data-pdp-main
+              src="{{ product.featured_media | image_url: width: 900 }}"
+              alt="{{ product.featured_media.alt | default: product.title | escape }}"
+              width="900" height="900">
           {%- else -%}
-            {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg pdp-dame__main-img' }}
           {%- endif -%}
         </div>
         {%- if product.media.size > 1 -%}
-          <div class="pdp__thumbs">
+          <div class="pdp-dame__thumbs">
             {%- for media in product.media -%}
-              <button type="button" class="pdp__thumb{% if forloop.first %} active{% endif %}" data-pdp-thumb data-src="{{ media | image_url: width: 1000 }}">
-                <img src="{{ media | image_url: width: 160 }}" alt="{{ media.alt | escape }}" width="72" height="72" loading="lazy">
+              <button type="button"
+                class="pdp-dame__thumb{% if forloop.first %} is-active{% endif %}"
+                data-pdp-thumb
+                data-src="{{ media | image_url: width: 900 }}"
+                aria-label="{{ media.alt | default: product.title | escape }}">
+                <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" width="100" height="100" loading="lazy">
               </button>
             {%- endfor -%}
           </div>
         {%- endif -%}
       </div>
 
-      <div class="pdp__info">
-        {%- if product.vendor != blank and section.settings.show_vendor -%}<div class="pdp__vendor">{{ product.vendor }}</div>{%- endif -%}
-        <h1 class="pdp__title">{{ product.title }}</h1>
+      <!-- ══ RIGHT: INFO ══ -->
+      <div class="pdp-dame__info">
 
-        {%- if product.metafields.reviews.rating.value != blank -%}
-          <div class="pdp__rating">
-            <span class="stars">★★★★★</span>
-            <span>{{ product.metafields.reviews.rating.value.rating | round: 1 }} · {{ product.metafields.reviews.rating_count }} reviews</span>
+        <!-- TITLE + PRICE -->
+        <div class="pdp-dame__title-row">
+          <h1 class="pdp-dame__title">{{ product.title }}</h1>
+          <div class="pdp-dame__price" data-pdp-price>
+            <span class="pdp-dame__price-now">{{ v.price | money }}</span>
+            {%- if v.compare_at_price > v.price -%}
+              <span class="pdp-dame__price-was">{{ v.compare_at_price | money }}</span>
+            {%- endif -%}
           </div>
-        {%- endif -%}
-
-        <div class="pdp__price" data-pdp-price>
-          {%- assign v = product.selected_or_first_available_variant -%}
-          <span class="now">{{ v.price | money }}</span>
-          {%- if v.compare_at_price > v.price -%}<span class="was">{{ v.compare_at_price | money }}</span>{%- endif -%}
         </div>
 
-        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="pdp__form" data-pdp-form>
+        <!-- STAR BADGE (Judge.me) -->
+        <div class="pdp-dame__badge">
+          {%- render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: true, product: product -%}
+        </div>
+
+        <!-- 4-ICON FEATURE STRIP -->
+        <div class="pdp-dame__feats">
+          <div class="pdp-dame__feat">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 5C11 10 8 14 8 18a8 8 0 0016 0c0-4-3-8-8-13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 19c.5 2 1.8 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>{{ feat1 }}</span>
+          </div>
+          <div class="pdp-dame__feat">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M10 15V10a6 6 0 0112 0v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="15" width="18" height="13" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/></svg>
+            <span>{{ feat2 }}</span>
+          </div>
+          <div class="pdp-dame__feat">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M11 21h10M9 17h14M7 13h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 7v2M7 25h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>{{ feat3 }}</span>
+          </div>
+          <div class="pdp-dame__feat">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4l10 4v8C26 22 21.5 27 16 28 10.5 27 6 22 6 16V8l10-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16l3 3L21 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ feat4 }}</span>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        {%- if product.description != blank -%}
+          <div class="pdp-dame__desc rte">{{ product.description }}</div>
+        {%- endif -%}
+
+        <!-- FORM: VARIANT OPTIONS + ATC -->
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="pdp-dame__form" data-pdp-form>
           {%- unless product.has_only_default_variant -%}
             {%- for option in product.options_with_values -%}
-              <div class="pdp__option">
-                <div class="pdp__option-label">{{ option.name }}</div>
-                <div class="pdp__pills">
-                  {%- for value in option.values -%}
-                    <label class="pdp__pill">
-                      <input type="radio" name="option{{ forloop.parentloop.index }}" value="{{ value | escape }}" data-pdp-option{% if option.selected_value == value %} checked{% endif %}>
-                      <span>{{ value }}</span>
-                    </label>
-                  {%- endfor -%}
+              {%- assign opt_lower = option.name | downcase -%}
+              {%- if opt_lower == 'color' or opt_lower == 'colour' -%}
+                <div class="pdp-dame__opt">
+                  <p class="pdp-dame__opt-label">{{ option.name }}: <strong data-swatch-label>{{ option.selected_value }}</strong></p>
+                  <div class="pdp-dame__swatches">
+                    {%- for value in option.values -%}
+                      {%- assign swatch_src = nil -%}
+                      {%- assign vo = option.position | minus: 1 -%}
+                      {%- for var in product.variants -%}
+                        {%- if var.options[vo] == value and var.image != nil -%}
+                          {%- assign swatch_src = var.image | image_url: width: 100 -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- assign val_low = value | downcase -%}
+                      {%- case val_low -%}
+                        {%- when 'rose','coral','blush' -%}{%- assign fb_color = '#E56B4E' -%}
+                        {%- when 'teal','sage','green' -%}{%- assign fb_color = '#3B898B' -%}
+                        {%- when 'lavender','lilac','purple','violet' -%}{%- assign fb_color = '#C4C3F2' -%}
+                        {%- when 'mint' -%}{%- assign fb_color = '#DEF1EE' -%}
+                        {%- when 'pink','fuchsia','magenta' -%}{%- assign fb_color = '#F9A8C9' -%}
+                        {%- when 'black','noir','obsidian' -%}{%- assign fb_color = '#0c0c2b' -%}
+                        {%- when 'white','ivory','cream' -%}{%- assign fb_color = '#FBF9F8' -%}
+                        {%- when 'blue','navy','cobalt' -%}{%- assign fb_color = '#0029FF' -%}
+                        {%- when 'gold','yellow','amber' -%}{%- assign fb_color = '#F5C842' -%}
+                        {%- when 'red','ruby','crimson' -%}{%- assign fb_color = '#CC3333' -%}
+                        {%- else -%}{%- assign fb_color = '#C4C3F2' -%}
+                      {%- endcase -%}
+                      <label class="pdp-dame__swatch-label" title="{{ value | escape }}">
+                        <input type="radio" name="option{{ option.position }}" value="{{ value | escape }}"
+                          data-pdp-option style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none"
+                          {%- if option.selected_value == value %} checked{%- endif -%}>
+                        <span class="pdp-dame__swatch-dot"
+                          {%- if swatch_src != nil -%}
+                            style="background-image:url('{{ swatch_src }}');background-size:cover;background-position:center"
+                          {%- else -%}
+                            style="background-color:{{ fb_color }}"
+                          {%- endif -%}>
+                        </span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
                 </div>
-              </div>
+              {%- else -%}
+                <div class="pdp-dame__opt">
+                  <p class="pdp-dame__opt-label">{{ option.name }}</p>
+                  <div class="pdp-dame__pills">
+                    {%- for value in option.values -%}
+                      <label class="pdp-dame__pill">
+                        <input type="radio" name="option{{ option.position }}" value="{{ value | escape }}"
+                          data-pdp-option style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none"
+                          {%- if option.selected_value == value %} checked{%- endif -%}>
+                        <span>{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endif -%}
             {%- endfor -%}
           {%- endunless -%}
 
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-pdp-variant-id>
+          <input type="hidden" name="id" value="{{ v.id }}" data-pdp-variant-id>
 
-          <div class="pdp__buy">
-            <div class="pdp__qty">
-              <button type="button" data-pdp-qty="-1" aria-label="Decrease quantity">−</button>
-              <input type="number" name="quantity" value="1" min="1" data-pdp-qty-input aria-label="Quantity">
-              <button type="button" data-pdp-qty="1" aria-label="Increase quantity">+</button>
-            </div>
-            <button type="submit" class="pdp__atc" data-pdp-atc{% unless product.available %} disabled{% endunless %}>
-              <span data-pdp-atc-text>{% if product.available %}Add to cart{% else %}Sold out{% endif %}</span>
-            </button>
-          </div>
+          <button type="submit" class="pdp-dame__atc" data-pdp-atc{%- unless product.available %} disabled{%- endunless -%}>
+            <span data-pdp-atc-text>{%- if product.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}</span>
+            <span class="pdp-dame__atc-sep" data-pdp-atc-price-wrap> &middot; <span data-pdp-atc-price>{{ v.price | money }}</span></span>
+          </button>
         </form>
 
-        {%- if product.description != blank -%}
-          <div class="pdp__desc rte">{{ product.description }}</div>
-        {%- endif -%}
+        <!-- QUIZ CARD -->
+        <div class="pdp-dame__quiz">
+          <div class="pdp-dame__quiz-text">
+            <p class="pdp-dame__quiz-heading">Not sure which one's right?</p>
+            <p class="pdp-dame__quiz-sub">Get a personalised recommendation in under 2 minutes.</p>
+            <a href="/#quiz" class="pdp-dame__quiz-btn">Take the quiz</a>
+          </div>
+          <div class="pdp-dame__quiz-imgs" aria-hidden="true">
+            {%- for qp in collections['vibrators'].products limit: 3 -%}
+              {%- if qp.featured_image != nil -%}
+                <img src="{{ qp.featured_image | image_url: width: 200 }}" alt="" width="80" height="80" loading="lazy">
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
 
-        {%- if section.settings.show_perks -%}
-          <ul class="pdp__perks">
-            <li>Medical-grade, body-safe silicone</li>
-            <li>Discreet packaging &amp; shipping</li>
-            <li>60-night trial &amp; free returns</li>
-          </ul>
-        {%- endif -%}
-      </div>
-    </div>
+        <!-- ACCORDIONS -->
+        <div class="pdp-dame__accs">
+          <details class="pdp-dame__acc">
+            <summary class="pdp-dame__acc-head">
+              How to use
+              <svg class="pdp-dame__acc-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="pdp-dame__acc-body"><p>{{ how_to_use }}</p></div>
+          </details>
+          <details class="pdp-dame__acc">
+            <summary class="pdp-dame__acc-head">
+              Specifications
+              <svg class="pdp-dame__acc-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="pdp-dame__acc-body"><p>{{ specifications }}</p></div>
+          </details>
+          <details class="pdp-dame__acc">
+            <summary class="pdp-dame__acc-head">
+              Manual
+              <svg class="pdp-dame__acc-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="pdp-dame__acc-body">
+              {%- if mf_manual != blank -%}
+                <a href="{{ mf_manual }}" target="_blank" rel="noopener" class="pdp-dame__acc-link">Download PDF manual &rarr;</a>
+              {%- else -%}
+                <a href="/pages/manual" class="pdp-dame__acc-link">Download product manual &rarr;</a>
+              {%- endif -%}
+            </div>
+          </details>
+        </div>
+
+      </div><!-- /pdp-dame__info -->
+    </div><!-- /pdp-dame__layout -->
   </div>
 </section>
 
-<script type="application/json" data-pdp-variants-{{ section.id }}>
+<script type="application/json" data-pdp-variants="{{ section.id }}">
 [
-  {%- for variant in product.variants -%}
-    {
-      "id": {{ variant.id }},
-      "available": {{ variant.available }},
-      "options": {{ variant.options | json }},
-      "price": {{ variant.price | money | json }},
-      "compare_at": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %}
-    }{%- unless forloop.last -%},{%- endunless -%}
+  {%- for var in product.variants -%}
+  {
+    "id": {{ var.id }},
+    "available": {{ var.available }},
+    "options": {{ var.options | json }},
+    "price": {{ var.price | money | json }},
+    "compare_at": {% if var.compare_at_price > var.price %}{{ var.compare_at_price | money | json }}{% else %}null{% endif %},
+    "image": {% if var.image %}{{ var.image | image_url: width: 900 | json }}{% else %}null{% endif %}
+  }{%- unless forloop.last -%},{%- endunless -%}
   {%- endfor -%}
 ]
 </script>
 
 <script>
-  (function () {
-    var root = document.getElementById('pdp-{{ section.id }}');
-    if (!root) return;
-    var dataEl = document.querySelector('[data-pdp-variants-{{ section.id }}]');
-    var variants = [];
-    try { variants = JSON.parse(dataEl.textContent); } catch (e) {}
+(function () {
+  var root = document.getElementById('pdp-{{ section.id }}');
+  if (!root) return;
+  var dataEl = document.querySelector('[data-pdp-variants="{{ section.id }}"]');
+  var variants = [];
+  try { variants = JSON.parse(dataEl.textContent); } catch (e) {}
 
-    var idInput = root.querySelector('[data-pdp-variant-id]');
-    var priceEl = root.querySelector('[data-pdp-price]');
-    var atc = root.querySelector('[data-pdp-atc]');
-    var atcText = root.querySelector('[data-pdp-atc-text]');
-    var mainImg = root.querySelector('[data-pdp-main]');
-    var qtyInput = root.querySelector('[data-pdp-qty-input]');
+  var idInput      = root.querySelector('[data-pdp-variant-id]');
+  var priceEl      = root.querySelector('[data-pdp-price]');
+  var atcBtn       = root.querySelector('[data-pdp-atc]');
+  var atcText      = root.querySelector('[data-pdp-atc-text]');
+  var atcPrice     = root.querySelector('[data-pdp-atc-price]');
+  var atcPriceWrap = root.querySelector('[data-pdp-atc-price-wrap]');
+  var mainImg      = root.querySelector('[data-pdp-main]');
+  var swatchLabel  = root.querySelector('[data-swatch-label]');
 
-    function selectedOptions() {
-      var opts = [];
-      root.querySelectorAll('.pdp__option').forEach(function (group) {
-        var checked = group.querySelector('input[type=radio]:checked');
-        if (checked) opts.push(checked.value);
-      });
-      return opts;
-    }
-    function eq(a, b) { return a.length === b.length && a.every(function (x, i) { return x === b[i]; }); }
-    function currentVariant() {
-      var sel = selectedOptions();
-      if (sel.length === 0) return variants[0];
-      for (var i = 0; i < variants.length; i++) {
-        if (eq(variants[i].options.slice(0, sel.length), sel)) return variants[i];
-      }
-      return null;
-    }
-    function refresh() {
-      var v = currentVariant();
-      if (!v) { if (atc) { atc.disabled = true; } if (atcText) atcText.textContent = 'Unavailable'; return; }
-      if (idInput) idInput.value = v.id;
-      if (priceEl) {
-        var html = '<span class="now">' + v.price + '</span>';
-        if (v.compare_at) html += '<span class="was">' + v.compare_at + '</span>';
-        priceEl.innerHTML = html;
-      }
-      if (atc) atc.disabled = !v.available;
-      if (atcText) atcText.textContent = v.available ? 'Add to cart' : 'Sold out';
-    }
-
-    root.querySelectorAll('[data-pdp-option]').forEach(function (r) { r.addEventListener('change', refresh); });
-
-    root.querySelectorAll('[data-pdp-thumb]').forEach(function (t) {
-      t.addEventListener('click', function () {
-        if (mainImg) mainImg.src = t.getAttribute('data-src');
-        root.querySelectorAll('[data-pdp-thumb]').forEach(function (x) { x.classList.remove('active'); });
-        t.classList.add('active');
-      });
+  function selectedOptions() {
+    var result = [];
+    root.querySelectorAll('[data-pdp-option]').forEach(function (r) {
+      if (r.checked) result.push(r.value);
     });
+    return result;
+  }
 
-    root.querySelectorAll('[data-pdp-qty]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var d = parseInt(b.getAttribute('data-pdp-qty'), 10);
-        qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) + d);
-      });
+  function currentVariant() {
+    var sel = selectedOptions();
+    if (!sel.length) return variants[0];
+    for (var i = 0; i < variants.length; i++) {
+      var v = variants[i];
+      var match = sel.every(function (val, idx) { return v.options[idx] === val; });
+      if (match) return v;
+    }
+    return null;
+  }
+
+  function refresh() {
+    var v = currentVariant();
+    if (!v) {
+      if (atcBtn) atcBtn.disabled = true;
+      if (atcText) atcText.textContent = 'Unavailable';
+      if (atcPriceWrap) atcPriceWrap.style.display = 'none';
+      return;
+    }
+    if (idInput) idInput.value = v.id;
+    if (priceEl) {
+      priceEl.innerHTML = '<span class="pdp-dame__price-now">' + v.price + '</span>' +
+        (v.compare_at ? '<span class="pdp-dame__price-was">' + v.compare_at + '</span>' : '');
+    }
+    if (atcPrice) atcPrice.textContent = v.price;
+    if (atcPriceWrap) atcPriceWrap.style.display = '';
+    if (atcBtn) atcBtn.disabled = !v.available;
+    if (atcText) atcText.textContent = v.available ? 'Add to Cart' : 'Sold Out';
+    if (mainImg && v.image) mainImg.src = v.image;
+
+    root.querySelectorAll('.pdp-dame__swatch-label').forEach(function (lbl) {
+      var inp = lbl.querySelector('input');
+      var dot = lbl.querySelector('.pdp-dame__swatch-dot');
+      if (!inp || !dot) return;
+      if (inp.checked) {
+        dot.classList.add('is-selected');
+      } else {
+        dot.classList.remove('is-selected');
+      }
     });
+  }
 
-    refresh();
-  })();
+  root.querySelectorAll('[data-pdp-option]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      if (swatchLabel && r.closest('.pdp-dame__swatches')) {
+        swatchLabel.textContent = r.value;
+      }
+      refresh();
+    });
+  });
+
+  root.querySelectorAll('[data-pdp-thumb]').forEach(function (t) {
+    t.addEventListener('click', function () {
+      if (mainImg) mainImg.src = t.getAttribute('data-src');
+      root.querySelectorAll('[data-pdp-thumb]').forEach(function (x) { x.classList.remove('is-active'); });
+      t.classList.add('is-active');
+    });
+  });
+
+  root.querySelectorAll('.pdp-dame__swatch-label').forEach(function (lbl) {
+    lbl.addEventListener('click', function () {
+      var inp = lbl.querySelector('input');
+      if (inp) {
+        inp.checked = true;
+        inp.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  });
+
+  refresh();
+})();
 </script>
 
 {% schema %}
@@ -176,8 +359,7 @@
   "tag": "section",
   "class": "section-lbs-product",
   "settings": [
-    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
-    { "type": "checkbox", "id": "show_perks", "label": "Show perks list", "default": true }
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false }
   ]
 }
 {% endschema %}

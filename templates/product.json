@@ -2,10 +2,15 @@
   "sections": {
     "main": {
       "type": "lbs-main-product",
-      "settings": {
-        "show_vendor": false,
-        "show_perks": true
-      }
+      "settings": { "show_vendor": false }
+    },
+    "sp-gallery": {
+      "type": "lbs-product-sp-gallery",
+      "settings": {}
+    },
+    "also-like": {
+      "type": "lbs-product-also-like",
+      "settings": {}
     },
     "compare": {
       "type": "lbs-product-compare",
@@ -16,5 +21,5 @@
       "settings": {}
     }
   },
-  "order": ["main", "compare", "reviews"]
+  "order": ["main", "sp-gallery", "also-like", "compare", "reviews"]
 }

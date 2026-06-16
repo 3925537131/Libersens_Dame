@@ -1,0 +1,49 @@
+{%- assign vib_coll  = collections['vibrators'] -%}
+{%- assign also_count = 0 -%}
+
+{%- comment -%} Only render if there are other products {%- endcomment -%}
+{%- assign has_others = false -%}
+{%- for p in vib_coll.products -%}
+  {%- if p.id != product.id -%}{%- assign has_others = true -%}{%- break -%}{%- endif -%}
+{%- endfor -%}
+
+{%- if has_others -%}
+<section class="lbs lbs-also-like">
+  <div class="lbs-also-like__wrap">
+    <h2 class="lbs-also-like__heading">You may also like</h2>
+    <div class="lbs-also-like__grid">
+      {%- for p in vib_coll.products -%}
+        {%- if p.id != product.id and also_count < 4 -%}
+          <a href="{{ p.url }}" class="lbs-coll-dame__card">
+            <div class="lbs-coll-dame__img-wrap">
+              {%- if p.featured_image -%}
+                <img class="lbs-coll-dame__img"
+                  src="{{ p.featured_image | image_url: width: 600 }}"
+                  alt="{{ p.featured_image.alt | default: p.title | escape }}"
+                  width="300" height="380" loading="lazy">
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg lbs-coll-dame__img' }}
+              {%- endif -%}
+            </div>
+            <div class="lbs-coll-dame__card-body">
+              <p class="lbs-coll-dame__card-title">{{ p.title }}</p>
+              <p class="lbs-coll-dame__card-meta">{{ p.price_min | money }}</p>
+            </div>
+          </a>
+          {%- assign also_count = also_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LBS Also Like",
+  "tag": "section",
+  "class": "section-lbs-also-like",
+  "settings": [],
+  "presets": [{ "name": "LBS Also Like" }]
+}
+{% endschema %}
