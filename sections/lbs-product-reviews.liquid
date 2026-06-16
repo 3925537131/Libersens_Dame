@@ -20,16 +20,8 @@
     {%- endif -%}
 
     {%- comment -%} ===== TEMP DIAGNOSTIC — remove after debugging ===== {%- endcomment -%}
-    <pre style="background:#111;color:#0f0;padding:16px;font-size:12px;white-space:pre-wrap;border-radius:8px">JUDGE.ME DIAGNOSTIC
-product.id ............... {{ product.id }}
-judgeme.widget size ...... {{ product.metafields.judgeme.widget | size }}
-judgeme.badge size ....... {{ product.metafields.judgeme.badge | size }}
-judgeme namespace keys ... {% for m in product.metafields.judgeme %}[{{ m[0] }}] {% endfor %}
-reviews.rating ........... {{ product.metafields.reviews.rating.value }}
-reviews.rating_count ..... {{ product.metafields.reviews.rating_count.value }}
-shop public_token size ... {{ shop.metafields.judgeme.public_token | size }}
-shop featured_carousel ... {{ shop.metafields.judgeme.featured_carousel | size }}
-shop judgeme keys ........ {% for m in shop.metafields.judgeme %}[{{ m[0] }}] {% endfor %}</pre>
+    <pre style="background:#111;color:#0f0;padding:16px;font-size:11px;white-space:pre-wrap;word-break:break-all;border-radius:8px;max-height:500px;overflow:auto">FIRST 2500 CHARS OF judgeme.widget:
+{{ product.metafields.judgeme.widget | escape | truncate: 2500 }}</pre>
     {%- comment -%} ===== END DIAGNOSTIC ===== {%- endcomment -%}
 
     {%- if jm_widget != blank -%}
