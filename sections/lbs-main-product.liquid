@@ -32,16 +32,6 @@
 <section class="lbs pdp-dame" id="pdp-{{ section.id }}">
   <div class="pdp-dame__outer">
 
-    <nav class="pdp-dame__crumbs">
-      <a href="{{ routes.root_url }}">Home</a>
-      {%- if collection != blank -%}
-        <span aria-hidden="true">/</span>
-        <a href="{{ collection.url }}">{{ collection.title }}</a>
-      {%- endif -%}
-      <span aria-hidden="true">/</span>
-      <span>{{ product.title }}</span>
-    </nav>
-
     <div class="pdp-dame__layout">
 
       <!-- ══ LEFT: GALLERY ══ -->

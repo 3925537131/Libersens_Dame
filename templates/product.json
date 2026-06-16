@@ -15,7 +15,11 @@
     "reviews": {
       "type": "lbs-product-reviews",
       "settings": {}
+    },
+    "faq": {
+      "type": "lbs-product-faq",
+      "settings": {}
     }
   },
-  "order": ["main", "sp-gallery", "compare", "reviews"]
+  "order": ["main", "sp-gallery", "compare", "reviews", "faq"]
 }

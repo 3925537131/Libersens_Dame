@@ -1,0 +1,117 @@
+{%- comment -%}
+  FAQs — follows dame.com's custom-faq accordion structure (faq-wrapper /
+  faq-accordion / faq-item / faq-question button / faq-answer). Questions &
+  answers come from editable blocks; generic Libersens defaults are shown when
+  no blocks are configured, so it works on every product page out of the box.
+{%- endcomment -%}
+
+{%- assign q_defaults = 'How do I use my Libersens vibrator for the first time?|||Is my Libersens vibrator waterproof?|||What is it made of?|||How do I charge it and how long does the battery last?|||How do I clean and store it?|||Is the packaging discreet?|||What does the warranty cover?|||How do I choose the right vibrator for me?' | split: '|||' -%}
+{%- assign a_defaults = 'Take a little time to explore on your own first. Charge it fully, then start on the lowest intensity and work your way up to find what feels best. Everyone’s body is different, so there’s no single “right” way — go at your own pace.|||Yes. Every Libersens vibrator is fully waterproof (IPX7), so you can enjoy it in the bath or shower and rinse it clean afterwards. The charging port is sealed for complete peace of mind.|||Body-safe, medical-grade silicone that is hypoallergenic, non-porous and phthalate-free — smooth, skin-soft and completely safe for intimate use.|||Charge it with the included magnetic USB cable. A full charge takes 1.5–4 hours depending on the model and lasts up to 1–2 hours of continuous use. A blinking light means it’s running low.|||Wash with warm water and a mild, fragrance-free soap (or a dedicated toy cleaner), pat dry, and store it in the discreet pouch provided, away from direct sunlight and other silicone toys.|||Always. Orders ship in a plain, unbranded box with no mention of the contents or our name on the outside — nothing on the label gives it away.|||Every Libersens vibrator is covered by a 1-year warranty against manufacturing defects. If anything goes wrong, reach out to our support team and we’ll make it right.|||Use the comparison chart above or take our short quiz. Think about whether you want external (clitoral), internal (G-spot) or dual stimulation, how much intensity you like, and whether it’s for solo or partnered play.' | split: '|||' -%}
+
+<section id="faq-{{ section.id }}" class="lbs lbs-faq-section">
+  <div class="faq-wrapper">
+    <div class="lbs-faq__head">
+      <h2 class="lbs-faq__heading"><span>{{ section.settings.heading | default: 'FAQs' }}</span></h2>
+    </div>
+
+    <div class="faq-accordion">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="faq-item" {{ block.shopify_attributes }}>
+            <h3 class="faq-question">
+              <button type="button" aria-expanded="false" aria-controls="faq-{{ section.id }}-{{ forloop.index }}-ans" id="faq-{{ section.id }}-{{ forloop.index }}">
+                <span>{{ block.settings.question }}</span>
+                <span class="faq-question__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div id="faq-{{ section.id }}-{{ forloop.index }}-ans" class="faq-answer" hidden>
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for q in q_defaults -%}
+          <div class="faq-item">
+            <h3 class="faq-question">
+              <button type="button" aria-expanded="false" aria-controls="faq-{{ section.id }}-{{ forloop.index }}-ans" id="faq-{{ section.id }}-{{ forloop.index }}">
+                <span>{{ q }}</span>
+                <span class="faq-question__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div id="faq-{{ section.id }}-{{ forloop.index }}-ans" class="faq-answer" hidden>
+              <p>{{ a_defaults[forloop.index0] }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+#faq-{{ section.id }} { padding: 48px 0 72px; }
+#faq-{{ section.id }} .faq-wrapper { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+#faq-{{ section.id }} .lbs-faq__head { text-align: center; margin-bottom: 28px; }
+#faq-{{ section.id }} .lbs-faq__heading { font-family: var(--serif); font-size: clamp(28px, 4vw, 42px); color: var(--ink); margin: 0; }
+
+#faq-{{ section.id }} .faq-item { border-bottom: 1px solid var(--line); }
+#faq-{{ section.id }} .faq-question { margin: 0; }
+#faq-{{ section.id }} .faq-question button {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: none; border: 0; cursor: pointer; padding: 22px 0;
+  font-family: var(--sans); font-size: clamp(15px, 1.6vw, 18px); font-weight: 600; color: var(--ink);
+  text-align: left; line-height: 1.4;
+}
+#faq-{{ section.id }} .faq-question__icon { position: relative; flex-shrink: 0; width: 18px; height: 18px; }
+#faq-{{ section.id }} .faq-question__icon::before,
+#faq-{{ section.id }} .faq-question__icon::after {
+  content: ''; position: absolute; background: var(--blue); border-radius: 2px;
+  transition: transform .25s ease, opacity .25s ease;
+}
+#faq-{{ section.id }} .faq-question__icon::before { top: 8px; left: 0; width: 18px; height: 2px; }
+#faq-{{ section.id }} .faq-question__icon::after  { top: 0; left: 8px; width: 2px; height: 18px; }
+#faq-{{ section.id }} .faq-question button[aria-expanded="true"] .faq-question__icon::after { transform: scaleY(0); opacity: 0; }
+
+#faq-{{ section.id }} .faq-answer { padding: 0 0 22px; }
+#faq-{{ section.id }} .faq-answer[hidden] { display: none; }
+#faq-{{ section.id }} .faq-answer p { font-family: var(--sans); font-size: 15px; line-height: 1.65; color: #444; margin: 0 0 12px; }
+#faq-{{ section.id }} .faq-answer p:last-child { margin-bottom: 0; }
+#faq-{{ section.id }} .faq-answer a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('faq-{{ section.id }}');
+  if (!root) return;
+  root.querySelectorAll('.faq-question button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (panel) panel.hidden = expanded;
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "LBS Product FAQ",
+  "tag": "section",
+  "class": "section-lbs-product-faq",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "FAQs" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Your question here?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Your answer here.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LBS Product FAQ" }]
+}
+{% endschema %}
