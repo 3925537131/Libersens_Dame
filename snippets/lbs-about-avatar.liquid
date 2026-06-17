@@ -1,0 +1,13 @@
+{%- comment -%}
+  Aesthetic placeholder portrait for an advisory-board member.
+  Soft pastel background + clean monochrome bust silhouette.
+  Param: tint (background colour). Replaced by a real photo when one is uploaded.
+{%- endcomment -%}
+<svg class="lba-avatar" viewBox="0 0 200 200" role="img" aria-label="Advisor portrait placeholder" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <rect width="200" height="200" fill="{{ tint | default: '#e2d1dd' }}"/>
+  <circle cx="100" cy="120" r="78" fill="#ffffff" opacity="0.22"/>
+  <g fill="#ffffff" opacity="0.92">
+    <circle cx="100" cy="76" r="33"/>
+    <path d="M42 184c0-34 26-54 58-54s58 20 58 54z"/>
+  </g>
+</svg>

@@ -69,7 +69,15 @@
         {%- if s.mission_image != blank -%}
           <img src="{{ s.mission_image | image_url: width: 900 }}" alt="{{ s.mission_image.alt | escape }}" loading="lazy">
         {%- else -%}
-          <div class="lba-ph" style="background:var(--peach)"></div>
+          <svg class="lba-ph" viewBox="0 0 640 800" role="img" aria-label="Abstract illustration" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="640" height="800" fill="#f6efe9"/>
+            <path d="M0 540c120-40 200 40 330 10s230-120 310-70v320H0z" fill="var(--peach)" opacity="0.85"/>
+            <path d="M0 620c150-20 230 60 360 30s200-90 280-50v200H0z" fill="var(--lavender)" opacity="0.55"/>
+            <circle cx="430" cy="250" r="150" fill="var(--mint)" opacity="0.8"/>
+            <circle cx="240" cy="320" r="96" fill="#fff" opacity="0.55"/>
+            <circle cx="430" cy="250" r="62" fill="var(--blue)" opacity="0.9"/>
+            <path d="M408 250l14 14 26-30" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         {%- endif -%}
       </div>
     </div>
@@ -88,7 +96,7 @@
                 {%- if block.settings.image != blank -%}
                   <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.name | escape }}" loading="lazy">
                 {%- else -%}
-                  <div class="lba-ph" style="background:{{ block.settings.tint | default: '#e2d1dd' }}"></div>
+                  {%- render 'lbs-about-avatar', tint: block.settings.tint -%}
                 {%- endif -%}
               </div>
               <h3 class="lba-board__name">{{ block.settings.name }}</h3>
@@ -107,17 +115,21 @@
       {%- assign bar_women  = s.bar_women  | default: '39|||23' | split: '|||' -%}
       {%- assign bar_men    = s.bar_men    | default: '91|||11' | split: '|||' -%}
       {%- for label in bar_labels -%}
+        {%- assign w_pct = bar_women[forloop.index0] | default: 0 -%}
+        {%- assign m_pct = bar_men[forloop.index0] | default: 0 -%}
         <div class="lba-stat">
           <h3 class="lba-stat__title">{{ label }}</h3>
           <div class="lba-stat__bar">
             <span class="lba-stat__bar-label">Women</span>
-            <div class="lba-stat__track"><div class="lba-stat__fill lba-stat__fill--women" data-pct="{{ bar_women[forloop.index0] }}"></div></div>
-            <span class="lba-stat__pct">{{ bar_women[forloop.index0] }}%</span>
+            <div class="lba-stat__track">
+              <div class="lba-stat__fill lba-stat__fill--women" style="--pct:{{ w_pct }}%"><span class="lba-stat__pct">{{ w_pct }}%</span></div>
+            </div>
           </div>
           <div class="lba-stat__bar">
             <span class="lba-stat__bar-label">Men</span>
-            <div class="lba-stat__track"><div class="lba-stat__fill lba-stat__fill--men" data-pct="{{ bar_men[forloop.index0] }}"></div></div>
-            <span class="lba-stat__pct">{{ bar_men[forloop.index0] }}%</span>
+            <div class="lba-stat__track">
+              <div class="lba-stat__fill lba-stat__fill--men" style="--pct:{{ m_pct }}%"><span class="lba-stat__pct">{{ m_pct }}%</span></div>
+            </div>
           </div>
         </div>
       {%- endfor -%}
@@ -134,9 +146,9 @@
 #lba-{{ section.id }} .lba-hero{padding:64px 0 48px;text-align:center}
 #lba-{{ section.id }} .lba-hero__title{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5vw,64px);line-height:1.08;color:var(--ink);max-width:14em;margin:0 auto 40px}
 #lba-{{ section.id }} .lba-hero__title em{font-style:italic;color:var(--blue)}
-#lba-{{ section.id }} .lba-hero__values{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:left;max-width:1100px;margin:0 auto}
-#lba-{{ section.id }} .lba-hero__values li{display:flex;gap:10px;align-items:flex-start;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink)}
-#lba-{{ section.id }} .lba-hero__values svg{width:22px;height:22px;flex-shrink:0;margin-top:1px}
+#lba-{{ section.id }} .lba-hero__values{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:left;max-width:1100px;margin:0 auto}
+#lba-{{ section.id }} .lba-hero__values li{display:flex;gap:12px;align-items:flex-start;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink);background:var(--cream);border-radius:14px;padding:20px 18px}
+#lba-{{ section.id }} .lba-hero__values svg{width:24px;height:24px;flex-shrink:0;margin-top:-1px}
 
 /* Statement */
 #lba-{{ section.id }} .lba-statement{padding:48px 0;background:var(--cream)}
@@ -172,17 +184,22 @@
 #lba-{{ section.id }} .lba-board__name{font-family:var(--serif);font-size:20px;color:var(--ink);margin:0 0 6px}
 #lba-{{ section.id }} .lba-board__role{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--grey);margin:0;max-width:18em;margin-inline:auto}
 
-/* Stat bars */
-#lba-{{ section.id }} .lba-stats{padding:48px 0 80px;background:var(--cream)}
+/* Stat bars — Women vs Men comparison graph */
+#lba-{{ section.id }} .lba-stats{padding:56px 0 84px;background:var(--cream)}
 #lba-{{ section.id }} .lba-stats__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:48px}
-#lba-{{ section.id }} .lba-stat__title{font-family:var(--sans);font-weight:600;font-size:18px;line-height:1.4;color:var(--ink);margin:0 0 22px;max-width:20em}
+#lba-{{ section.id }} .lba-stat{background:#fff;border-radius:18px;padding:28px 26px 30px}
+#lba-{{ section.id }} .lba-stat__title{font-family:var(--sans);font-weight:600;font-size:17px;line-height:1.4;color:var(--ink);margin:0 0 24px;max-width:22em}
 #lba-{{ section.id }} .lba-stat__bar{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-#lba-{{ section.id }} .lba-stat__bar-label{font-family:var(--sans);font-size:14px;color:var(--ink);width:56px;flex-shrink:0}
-#lba-{{ section.id }} .lba-stat__track{flex:1;height:22px;background:#fff;border-radius:999px;overflow:hidden}
-#lba-{{ section.id }} .lba-stat__fill{height:100%;width:0;border-radius:999px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+#lba-{{ section.id }} .lba-stat__bar:last-child{margin-bottom:0}
+#lba-{{ section.id }} .lba-stat__bar-label{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink);width:58px;flex-shrink:0}
+/* track with faint 25/50/75% gridlines so it reads as a chart */
+#lba-{{ section.id }} .lba-stat__track{flex:1;height:30px;background:var(--cream);border-radius:999px;overflow:hidden;position:relative;background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(25% - 1px),rgba(12,12,43,.10) 25%,transparent calc(25% + 1px))}
+#lba-{{ section.id }} .lba-stat__fill{height:100%;width:var(--pct);min-width:38px;border-radius:999px;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;box-sizing:border-box;animation:lba-grow 1.1s cubic-bezier(.4,0,.2,1) both}
 #lba-{{ section.id }} .lba-stat__fill--women{background:var(--coral)}
 #lba-{{ section.id }} .lba-stat__fill--men{background:var(--blue)}
-#lba-{{ section.id }} .lba-stat__pct{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--ink);width:44px;flex-shrink:0;text-align:right}
+#lba-{{ section.id }} .lba-stat__pct{font-family:var(--sans);font-weight:700;font-size:14px;color:#fff;line-height:1}
+@keyframes lba-grow{from{width:0}to{width:var(--pct)}}
+@media (prefers-reduced-motion:reduce){#lba-{{ section.id }} .lba-stat__fill{animation:none}}
 
 @media (max-width:900px){
   #lba-{{ section.id }} .lba-hero__values{grid-template-columns:repeat(2,1fr)}
@@ -196,24 +213,6 @@
   #lba-{{ section.id }} .lba-hero__values{grid-template-columns:1fr}
 }
 </style>
-
-<script>
-(() => {
-  const root = document.getElementById('lba-{{ section.id }}');
-  if (!root) return;
-  const fills = root.querySelectorAll('.lba-stat__fill');
-  if (!fills.length) return;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.style.width = (e.target.dataset.pct || 0) + '%';
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  fills.forEach((f) => io.observe(f));
-})();
-</script>
 
 {% schema %}
 {
