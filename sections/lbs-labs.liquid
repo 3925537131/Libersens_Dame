@@ -81,12 +81,16 @@
       </div>
       <div class="lbl-bloom__form">
         <h3 class="lbl-bloom__form-heading">{{ s.form_heading | default: 'Newsletter Sign Up' }}</h3>
-        {%- if s.klaviyo_form_id != blank -%}
-          {%- comment -%} Klaviyo embedded form — renders via the Klaviyo onsite script (Klaviyo app embed must be enabled) {%- endcomment -%}
-          <div class="klaviyo-form-{{ s.klaviyo_form_id }}"></div>
-        {%- else -%}
-          <p class="lbl-bloom__note">Add your Klaviyo form ID in the theme editor (it looks like <code>LzZktx</code>) — find it in Klaviyo → Sign-up Forms → your form → Embed. The Klaviyo app embed must also be enabled under Theme → Customize → App embeds.</p>
-        {%- endif -%}
+        {%- comment -%} Same Klaviyo embed as the homepage "Find your vibe" newsletter {%- endcomment -%}
+        <div class="klaviyo-form-{{ s.klaviyo_form_id | default: 'Xerejc' }}"></div>
+        <script>
+          if (!document.querySelector('script[src*="static.klaviyo.com/onsite"]')) {
+            var klScript = document.createElement('script');
+            klScript.async = true;
+            klScript.src = 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=WRqsLJ';
+            document.head.appendChild(klScript);
+          }
+        </script>
       </div>
     </div>
   </section>
@@ -170,7 +174,7 @@
     { "type": "text", "id": "hub_name", "label": "Content hub name", "default": "Bloom", "info": "Shown as “Dive into …”." },
     { "type": "textarea", "id": "hub_text", "label": "Content hub text", "default": "Where we explore all things sexual wellness: from education to expert advice, and most things in between." },
     { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Newsletter Sign Up" },
-    { "type": "text", "id": "klaviyo_form_id", "label": "Klaviyo form ID", "info": "From Klaviyo → Sign-up Forms → Embed (e.g. LzZktx). Requires the Klaviyo app embed to be enabled." }
+    { "type": "text", "id": "klaviyo_form_id", "label": "Klaviyo form ID", "default": "Xerejc", "info": "Defaults to the same form as the homepage newsletter. Change it in Klaviyo → Sign-up Forms → Embed." }
   ],
   "blocks": [
     {
