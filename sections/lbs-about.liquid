@@ -20,15 +20,25 @@
         {{ s.hero_pre | default: 'Libersens is creating a world where' }}
         <em>{{ s.hero_em | default: 'wellness is a pleasure.' }}</em>
       </h1>
-      <ul class="lba-hero__values">
-        {%- assign vals = s.values | default: 'People-centred research with our community of real women|||Doctor-approved products made from 100% body-safe materials|||Exceptional service with hassle-free returns and warranties|||Supportive resources — guides, content and a judgement-free space' | split: '|||' -%}
+    </div>
+    {%- comment -%} Rotating value-prop marquee (same technique as the homepage ticker) {%- endcomment -%}
+    {%- assign vals = s.values | default: 'People-centred research with our community of real women|||Doctor-approved products made from 100% body-safe materials|||Exceptional service with hassle-free returns and warranties|||Supportive resources — guides, content and a judgement-free space' | split: '|||' -%}
+    <div class="lba-marquee">
+      <div class="lba-marquee__track">
         {%- for v in vals -%}
-          <li>
+          <span class="lba-value">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--blue)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>{{ v }}</span>
-          </li>
+            {{ v }}
+          </span>
         {%- endfor -%}
-      </ul>
+        {%- comment -%} duplicate for a seamless loop {%- endcomment -%}
+        {%- for v in vals -%}
+          <span class="lba-value" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--blue)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ v }}
+          </span>
+        {%- endfor -%}
+      </div>
     </div>
   </section>
 
@@ -146,9 +156,14 @@
 #lba-{{ section.id }} .lba-hero{padding:64px 0 48px;text-align:center}
 #lba-{{ section.id }} .lba-hero__title{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5vw,64px);line-height:1.08;color:var(--ink);max-width:14em;margin:0 auto 40px}
 #lba-{{ section.id }} .lba-hero__title em{font-style:italic;color:var(--blue)}
-#lba-{{ section.id }} .lba-hero__values{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:left;max-width:1100px;margin:0 auto}
-#lba-{{ section.id }} .lba-hero__values li{display:flex;gap:12px;align-items:flex-start;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink);background:var(--cream);border-radius:14px;padding:20px 18px}
-#lba-{{ section.id }} .lba-hero__values svg{width:24px;height:24px;flex-shrink:0;margin-top:-1px}
+/* Rotating value-prop marquee */
+#lba-{{ section.id }} .lba-marquee{overflow:hidden;padding:6px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+#lba-{{ section.id }} .lba-marquee__track{display:flex;gap:18px;width:max-content;animation:lba-marquee 34s linear infinite}
+#lba-{{ section.id }} .lba-marquee:hover .lba-marquee__track{animation-play-state:paused}
+#lba-{{ section.id }} .lba-value{display:inline-flex;align-items:center;gap:12px;background:var(--cream);border-radius:14px;padding:18px 24px;font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--ink);white-space:nowrap}
+#lba-{{ section.id }} .lba-value svg{width:24px;height:24px;flex-shrink:0}
+@keyframes lba-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){#lba-{{ section.id }} .lba-marquee__track{animation:none;flex-wrap:wrap;justify-content:center}}
 
 /* Statement */
 #lba-{{ section.id }} .lba-statement{padding:48px 0;background:var(--cream)}
@@ -186,7 +201,7 @@
 
 /* Stat bars — Women vs Men comparison graph */
 #lba-{{ section.id }} .lba-stats{padding:56px 0 84px;background:var(--cream)}
-#lba-{{ section.id }} .lba-stats__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:48px}
+#lba-{{ section.id }} .lba-stats__grid{display:grid;grid-template-columns:1fr;gap:28px}
 #lba-{{ section.id }} .lba-stat{background:#fff;border-radius:18px;padding:28px 26px 30px}
 #lba-{{ section.id }} .lba-stat__title{font-family:var(--sans);font-weight:600;font-size:17px;line-height:1.4;color:var(--ink);margin:0 0 24px;max-width:22em}
 #lba-{{ section.id }} .lba-stat__bar{display:flex;align-items:center;gap:14px;margin-bottom:16px}
