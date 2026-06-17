@@ -5,23 +5,51 @@
       <div class="lbs-footer2__news">
         <p class="lbs-footer2__news-label">{{ section.settings.newsletter_heading }}</p>
         <div class="lbs-footer2__news-field">
-          {%- form 'customer' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter">
+          <form class="lbs-footer2__news-kl" id="lbs-news-{{ section.id }}"
+                data-kl-list="{{ section.settings.klaviyo_list_id | default: 'UjUwc5' }}"
+                data-kl-company="{{ section.settings.klaviyo_company_id | default: 'WRqsLJ' }}" novalidate>
             <div class="lbs-footer2__news-form">
               <input id="NewsletterFormEmail--footer" class="lbs-footer2__news-input"
-                     type="email" name="contact[email]" placeholder="Email" aria-label="Email"
-                     autocorrect="off" autocapitalize="off" autocomplete="email"
-                     value="{% if form.email %}{{ form.email }}{% endif %}" required>
-              <button type="submit" class="lbs-footer2__news-submit" name="commit" aria-label="Subscribe">Submit</button>
+                     type="email" name="email" placeholder="Email" aria-label="Email"
+                     autocorrect="off" autocapitalize="off" autocomplete="email" required>
+              <button type="submit" class="lbs-footer2__news-submit" aria-label="Subscribe">Submit</button>
             </div>
             <div class="lbs-footer2__news-msgs" aria-live="polite">
-              {%- if form.posted_successfully? -%}
-                <p class="lbs-footer2__news-msg lbs-footer2__news-msg--ok">Great! You’re on our list.</p>
-              {%- elsif form.errors -%}
-                <p class="lbs-footer2__news-msg lbs-footer2__news-msg--err">Oops! That didn’t work. Please try again.</p>
-              {%- endif -%}
+              <p class="lbs-footer2__news-msg lbs-footer2__news-msg--ok" hidden>Great! You’re on our list.</p>
+              <p class="lbs-footer2__news-msg lbs-footer2__news-msg--err" hidden>Oops! That didn’t work. Please try again.</p>
             </div>
-          {%- endform -%}
+          </form>
+          <script>
+          (function () {
+            var form = document.getElementById('lbs-news-{{ section.id }}');
+            if (!form) return;
+            var input  = form.querySelector('input[type="email"]');
+            var okMsg  = form.querySelector('.lbs-footer2__news-msg--ok');
+            var errMsg = form.querySelector('.lbs-footer2__news-msg--err');
+            var btn    = form.querySelector('.lbs-footer2__news-submit');
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+              okMsg.hidden = true; errMsg.hidden = true;
+              if (!input.value || !form.checkValidity()) { errMsg.hidden = false; input.focus(); return; }
+              btn.disabled = true;
+              fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + form.dataset.klCompany, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'revision': '2024-10-15' },
+                body: JSON.stringify({
+                  data: {
+                    type: 'subscription',
+                    attributes: { profile: { data: { type: 'profile', attributes: { email: input.value.trim() } } } },
+                    relationships: { list: { data: { type: 'list', id: form.dataset.klList } } }
+                  }
+                })
+              }).then(function (r) {
+                if (r.ok) { okMsg.hidden = false; form.reset(); }
+                else { errMsg.hidden = false; }
+              }).catch(function () { errMsg.hidden = false; })
+                .finally(function () { btn.disabled = false; });
+            });
+          })();
+          </script>
         </div>
       </div>
     {%- endif -%}
@@ -78,6 +106,8 @@
     { "type": "header", "content": "Newsletter" },
     { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter signup", "default": true },
     { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Subscribe to our emails" },
+    { "type": "text", "id": "klaviyo_list_id", "label": "Klaviyo list ID", "default": "UjUwc5", "info": "Footer signups subscribe directly to this Klaviyo list." },
+    { "type": "text", "id": "klaviyo_company_id", "label": "Klaviyo company / site ID", "default": "WRqsLJ" },
     { "type": "header", "content": "Copyright column" },
     { "type": "text", "id": "logo_text", "label": "Brand name", "default": "Libersens" },
     { "type": "text", "id": "copyright_heading", "label": "Column heading", "default": "Copyright" },
