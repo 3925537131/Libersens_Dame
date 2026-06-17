@@ -1,0 +1,142 @@
+{%- comment -%}
+  Search results — products only (strict match), plus an Articles section
+  populated from the sexual-wellness blog. Pages and loose fuzzy matches are
+  excluded: a product only shows if every search word appears in its
+  title / type / vendor / tags.
+{%- endcomment -%}
+
+{%- assign q = search.terms | downcase | strip -%}
+{%- assign qwords = q | split: ' ' -%}
+{%- assign articles_blog = blogs['sexual-wellness'] -%}
+
+<div class="lbs lsearch" id="lsearch-{{ section.id }}">
+  <div class="lsearch__wrap">
+
+    <header class="lsearch__head">
+      <h1 class="lsearch__title">
+        {%- if search.terms != blank -%}Search results for “{{ search.terms }}”{%- else -%}Search{%- endif -%}
+      </h1>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="lsearch__form">
+        <input type="hidden" name="type" value="product">
+        <input type="hidden" name="options[prefix]" value="last">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products" aria-label="Search" class="lsearch__input">
+        <button type="submit" class="lsearch__btn" aria-label="Search">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="7"/><path d="M19 19l-5-5"/></svg>
+        </button>
+      </form>
+    </header>
+
+    {%- comment -%} ===== PRODUCTS ===== {%- endcomment -%}
+    {%- assign matches = '' -%}
+    {%- if search.performed -%}
+      <section class="lsearch__section">
+        <h2 class="lsearch__section-title">Products</h2>
+        <div class="lsearch__grid">
+          {%- assign shown = 0 -%}
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {%- capture hay -%}{{ item.title }} {{ item.product_type }} {{ item.vendor }} {{ item.tags | join: ' ' }}{%- endcapture -%}
+              {%- assign hay = hay | downcase -%}
+              {%- assign ok = true -%}
+              {%- for w in qwords -%}{%- unless hay contains w -%}{%- assign ok = false -%}{%- endunless -%}{%- endfor -%}
+              {%- if ok -%}
+                {%- assign shown = shown | plus: 1 -%}
+                <a class="lsearch-card" href="{{ item.url }}">
+                  <div class="lsearch-card__img">
+                    {%- if item.featured_image -%}
+                      <img src="{{ item.featured_image | image_url: width: 500 }}" alt="{{ item.title | escape }}" loading="lazy">
+                    {%- else -%}<div class="lsearch-card__ph"></div>{%- endif -%}
+                  </div>
+                  <p class="lsearch-card__title">{{ item.title }}</p>
+                  <p class="lsearch-card__price">{{ item.price_min | money }}</p>
+                </a>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if shown == 0 -%}
+          <p class="lsearch__empty">No products match “{{ search.terms }}”. Try another word.</p>
+        {%- endif -%}
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} ===== ARTICLES (from the sexual-wellness blog) ===== {%- endcomment -%}
+    {%- if articles_blog != blank and articles_blog.articles_count > 0 -%}
+      <section class="lsearch__section">
+        <div class="lsearch__section-head">
+          <h2 class="lsearch__section-title">Articles</h2>
+          <a class="lsearch__more" href="{{ articles_blog.url }}">View all →</a>
+        </div>
+        <div class="lsearch__articles">
+          {%- for a in articles_blog.articles limit: 4 -%}
+            <a class="lsearch-art" href="{{ a.url }}">
+              <div class="lsearch-art__img">
+                {%- if a.image -%}<img src="{{ a.image | image_url: width: 320 }}" alt="{{ a.title | escape }}" loading="lazy">{%- else -%}<div class="lsearch-art__ph"></div>{%- endif -%}
+              </div>
+              <div class="lsearch-art__info">
+                <p class="lsearch-art__title">{{ a.title }}</p>
+                <time class="lsearch-art__date">{{ a.published_at | date: '%B %d, %Y' }}</time>
+                <p class="lsearch-art__excerpt">{{ a.excerpt_or_content | strip_html | truncatewords: 24 }}</p>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </section>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<style>
+#lsearch-{{ section.id }}{padding:48px 0 80px}
+#lsearch-{{ section.id }} .lsearch__wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px}
+#lsearch-{{ section.id }} .lsearch__head{text-align:center;max-width:640px;margin:0 auto 48px}
+#lsearch-{{ section.id }} .lsearch__title{font-family:var(--serif);font-size:clamp(28px,4vw,44px);color:var(--ink);margin:0 0 22px}
+#lsearch-{{ section.id }} .lsearch__form{position:relative}
+#lsearch-{{ section.id }} .lsearch__input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--ink);border-radius:0;padding:8px 40px 10px 4px;font-family:var(--sans);font-size:18px;color:var(--ink);outline:none}
+#lsearch-{{ section.id }} .lsearch__input::placeholder{color:var(--ink);opacity:.45}
+#lsearch-{{ section.id }} .lsearch__btn{position:absolute;right:0;top:6px;background:none;border:none;cursor:pointer;color:var(--ink)}
+
+#lsearch-{{ section.id }} .lsearch__section{margin-bottom:56px}
+#lsearch-{{ section.id }} .lsearch__section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px}
+#lsearch-{{ section.id }} .lsearch__section-title{font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 22px}
+#lsearch-{{ section.id }} .lsearch__section-head .lsearch__section-title{margin:0}
+#lsearch-{{ section.id }} .lsearch__more{font-family:var(--sans);font-size:14px;color:var(--blue);text-decoration:none}
+#lsearch-{{ section.id }} .lsearch__empty{font-family:var(--sans);color:var(--grey);font-size:15px}
+
+/* Product grid */
+#lsearch-{{ section.id }} .lsearch__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+#lsearch-{{ section.id }} .lsearch-card{text-decoration:none;display:block}
+#lsearch-{{ section.id }} .lsearch-card__img{aspect-ratio:1;background:var(--cream);border-radius:14px;overflow:hidden;margin-bottom:12px}
+#lsearch-{{ section.id }} .lsearch-card__img img,#lsearch-{{ section.id }} .lsearch-card__ph{width:100%;height:100%;object-fit:cover}
+#lsearch-{{ section.id }} .lsearch-card__title{font-family:var(--serif);font-size:17px;color:var(--ink);margin:0 0 4px;line-height:1.2}
+#lsearch-{{ section.id }} .lsearch-card__price{font-family:var(--sans);font-size:14px;color:var(--grey);margin:0}
+
+/* Articles: image left, header + snippet right */
+#lsearch-{{ section.id }} .lsearch__articles{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px}
+#lsearch-{{ section.id }} .lsearch-art{display:flex;gap:18px;text-decoration:none;align-items:flex-start}
+#lsearch-{{ section.id }} .lsearch-art__img{flex:0 0 140px;width:140px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:var(--lavender)}
+#lsearch-{{ section.id }} .lsearch-art__img img,#lsearch-{{ section.id }} .lsearch-art__ph{width:100%;height:100%;object-fit:cover}
+#lsearch-{{ section.id }} .lsearch-art__title{font-family:var(--serif);font-size:18px;line-height:1.25;color:var(--ink);margin:0 0 4px}
+#lsearch-{{ section.id }} .lsearch-art__date{display:block;font-family:var(--sans);font-size:12.5px;color:var(--grey);margin-bottom:8px}
+#lsearch-{{ section.id }} .lsearch-art__excerpt{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--grey);margin:0}
+
+@media (max-width:900px){
+  #lsearch-{{ section.id }} .lsearch__wrap{padding:0 24px}
+  #lsearch-{{ section.id }} .lsearch__grid{grid-template-columns:repeat(2,1fr)}
+  #lsearch-{{ section.id }} .lsearch__articles{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  #lsearch-{{ section.id }} .lsearch__grid{grid-template-columns:1fr 1fr;gap:16px}
+  #lsearch-{{ section.id }} .lsearch-art__img{flex-basis:110px;width:110px}
+}
+</style>
+
+{% schema %}
+{
+  "name": "LBS Search",
+  "tag": "section",
+  "class": "section-lbs-search",
+  "settings": []
+}
+{% endschema %}

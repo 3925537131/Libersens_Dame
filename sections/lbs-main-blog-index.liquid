@@ -14,48 +14,23 @@
   <div class="wrap lbs-blog-index__wrap">
     {%- if blog.articles_count > 0 -%}
 
-      {%- assign featured = blog.articles.first -%}
-      {%- if paginate.current_page == 1 -%}
-        <div class="lbs-blog-index__featured">
-          <a href="{{ featured.url }}" class="lbs-blog-index__featured-img">
-            {%- if featured.image -%}
-              <img src="{{ featured.image | image_url: width: 1200 }}"
-                   alt="{{ featured.image.alt | default: featured.title | escape }}"
-                   loading="eager">
-            {%- else -%}
-              <div style="background:var(--peach);width:100%;height:100%"></div>
-            {%- endif -%}
-          </a>
-          <div class="lbs-blog-index__featured-copy">
-            {%- if featured.tags.size > 0 -%}
-              <span class="tag">{{ featured.tags.first }}</span>
-            {%- endif -%}
-            <h2><a href="{{ featured.url }}">{{ featured.title }}</a></h2>
-            <p>{{ featured.excerpt_or_content | strip_html | truncatewords: 28 }}</p>
-            <a href="{{ featured.url }}" class="btn btn--outline">Read article</a>
-          </div>
-        </div>
-      {%- endif -%}
-
-      <div class="blogs">
+      <div class="lbs-blog-rows">
         {%- assign bgs = 'var(--lavender),var(--peach),var(--mint),var(--lime)' | split: ',' -%}
         {%- for article in blog.articles -%}
-          {%- if paginate.current_page == 1 and forloop.first -%}{%- continue -%}{%- endif -%}
           {%- assign ci = forloop.index0 | modulo: bgs.size -%}
-          <article class="post">
-            <a href="{{ article.url }}">
-              <div class="post__img" style="background:{{ bgs[ci] | strip }}">
-                {%- if article.image -%}
-                  <img src="{{ article.image | image_url: width: 800 }}"
-                       alt="{{ article.image.alt | escape }}" loading="lazy">
-                {%- endif -%}
-              </div>
-            </a>
-            {%- if article.tags.size > 0 -%}<span class="tag">{{ article.tags.first }}</span>{%- endif -%}
-            <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
-            <p>{{ article.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
-            <a href="{{ article.url }}" class="read">Read more →</a>
-          </article>
+          <a class="lbs-blog-row" href="{{ article.url }}">
+            <div class="lbs-blog-row__img" style="background:{{ bgs[ci] | strip }}">
+              {%- if article.image -%}
+                <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="lbs-blog-row__info">
+              {%- if article.tags.size > 0 -%}<span class="lbs-blog-row__tag">{{ article.tags.first }}</span>{%- endif -%}
+              <h2 class="lbs-blog-row__title">{{ article.title }}</h2>
+              <time class="lbs-blog-row__date">{{ article.published_at | date: '%B %d, %Y' }}</time>
+              <p class="lbs-blog-row__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 34 }}</p>
+            </div>
+          </a>
         {%- endfor -%}
       </div>
 
