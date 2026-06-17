@@ -218,10 +218,10 @@
 .lbs .lbs-footer2__news-label{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(22px,2.5vw,34px);line-height:1.05;letter-spacing:-.01em}
 .lbs .lbs-footer2__news-field{position:relative}
 .lbs .lbs-footer2__news-form{position:relative;display:block}
-.lbs .lbs-footer2__news-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:0 4em 10px 0;font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,3vw,40px);font-weight:500;color:inherit;line-height:1.05}
+.lbs .lbs-footer2__news-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:0 4em 10px 0;font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,3vw,40px);font-weight:400;color:inherit;line-height:1.05}
 .lbs .lbs-footer2__news-input::placeholder{color:currentColor;opacity:.55}
 .lbs .lbs-footer2__news-input:focus{outline:none;border-bottom-color:var(--blue)}
-.lbs .lbs-footer2__news-submit{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-family:'Fraunces',Georgia,serif;font-size:clamp(20px,2.2vw,30px);font-weight:500;color:inherit;padding:0;transition:color .15s}
+.lbs .lbs-footer2__news-submit{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-family:'Fraunces',Georgia,serif;font-size:clamp(20px,2.2vw,30px);font-weight:400;color:inherit;padding:0;transition:color .15s}
 .lbs .lbs-footer2__news-submit:hover{color:var(--blue)}
 .lbs .lbs-footer2__news-msgs{min-height:1.2em;margin-top:10px}
 .lbs .lbs-footer2__news-msg{font-family:'Fraunces',Georgia,serif;font-size:14px;margin:0}

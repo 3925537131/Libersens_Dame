@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-main-article",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

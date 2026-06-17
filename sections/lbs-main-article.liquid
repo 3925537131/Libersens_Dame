@@ -1,111 +1,240 @@
-<div class="lbs lbs-article">
+{%- comment -%}
+  Article (blog post) — replicates dame.com's blog page:
+  hero (badge + title + read time + date), share bar, auto Table of Contents,
+  author box, rich body, tags, and a related-posts carousel.
+  Author role/bio are optional article metafields (custom.author_role / custom.author_bio).
+{%- endcomment -%}
 
-  {%- if article.image -%}
-    <div class="lbs-article__hero">
-      <img src="{{ article.image | image_url: width: 1600 }}"
-           alt="{{ article.image.alt | default: article.title | escape }}"
-           width="{{ article.image.width }}" height="{{ article.image.height }}"
-           loading="eager">
-    </div>
-  {%- else -%}
-    <div class="lbs-article__hero lbs-article__hero--blank" style="background:var(--peach)"></div>
-  {%- endif -%}
+{%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+{%- assign read_time = word_count | divided_by: 200 | at_least: 1 -%}
+{%- if article.tags.size > 0 -%}{%- assign badge = article.tags.first -%}{%- else -%}{%- assign badge = blog.title -%}{%- endif -%}
 
-  <div class="lbs-article__header">
-    <nav class="lbs-article__crumb" aria-label="Breadcrumb">
-      <a href="{{ blog.url }}">{{ blog.title }}</a>
-      {%- if article.tags.size > 0 -%}
-        <span aria-hidden="true"> / </span>
-        <span>{{ article.tags.first }}</span>
+<article class="lbs lart" id="lart-{{ section.id }}">
+
+  {%- comment -%} ===== HERO ===== {%- endcomment -%}
+  <header class="lart-hero">
+    <div class="lart-hero__media">
+      {%- if article.image -%}
+        <img src="{{ article.image | image_url: width: 1600 }}" alt="{{ article.image.alt | default: article.title | escape }}" width="1600" height="900" loading="eager">
+      {%- else -%}
+        <div class="lart-hero__ph" style="background:var(--peach)"></div>
       {%- endif -%}
-    </nav>
-    <h1 class="lbs-article__title">{{ article.title }}</h1>
-    <div class="lbs-article__meta">
-      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
-      {%- if article.author != blank -%}
-        <span class="lbs-article__sep" aria-hidden="true">·</span>
-        <span>By {{ article.author }}</span>
-      {%- endif -%}
-      {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
-      {%- assign read_time = word_count | divided_by: 200 | at_least: 1 -%}
-      <span class="lbs-article__sep" aria-hidden="true">·</span>
-      <span>{{ read_time }} min read</span>
     </div>
-  </div>
-
-  <div class="lbs-article__share-bar">
-    <span class="lbs-article__share-label">Share</span>
-    <a class="lbs-article__share-btn"
-       href="https://twitter.com/intent/tweet?url={{ shop.url | append: article.url | url_encode }}&text={{ article.title | url_encode }}"
-       target="_blank" rel="noopener noreferrer" aria-label="Share on X / Twitter">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
-      <span>Twitter</span>
-    </a>
-    <a class="lbs-article__share-btn"
-       href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: article.url | url_encode }}"
-       target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      <span>Facebook</span>
-    </a>
-    <a class="lbs-article__share-btn"
-       href="mailto:?subject={{ article.title | url_encode }}&body={{ shop.url | append: article.url | url_encode }}"
-       aria-label="Share via Email">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-      <span>Email</span>
-    </a>
-  </div>
-
-  <div class="lbs-article__body">
-    <div class="lbs-article__content rte">
-      {{ article.content }}
-    </div>
-  </div>
-
-  {%- if article.tags.size > 0 -%}
-    <div class="lbs-article__tags">
-      <span class="lbs-article__tags-label">Filed under</span>
-      {%- for tag in article.tags -%}
-        <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="lbs-article__tag-pill">{{ tag }}</a>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
-
-</div>
-
-{%- if blog.articles_count > 1 -%}
-  <section class="lbs lbs-article__related">
-    <div class="wrap">
-      <h2 class="lbs-article__related-title">More from the Journal</h2>
-      <div class="blogs">
-        {%- assign shown = 0 -%}
-        {%- assign bgs = 'var(--lavender),var(--peach),var(--mint)' | split: ',' -%}
-        {%- for a in blog.articles -%}
-          {%- if a.handle != article.handle and shown < 3 -%}
-            <article class="post">
-              <a href="{{ a.url }}">
-                <div class="post__img" style="background:{{ bgs[shown] | strip }}">
-                  {%- if a.image -%}
-                    <img src="{{ a.image | image_url: width: 800 }}" alt="{{ a.image.alt | escape }}" loading="lazy">
-                  {%- endif -%}
-                </div>
-              </a>
-              {%- if a.tags.size > 0 -%}<span class="tag">{{ a.tags.first }}</span>{%- endif -%}
-              <h3><a href="{{ a.url }}">{{ a.title }}</a></h3>
-              <p>{{ a.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
-              <a href="{{ a.url }}" class="read">Read more →</a>
-            </article>
-            {%- assign shown = shown | plus: 1 -%}
-          {%- endif -%}
-        {%- endfor -%}
+    <div class="lart-hero__bar">
+      {%- if badge != blank -%}<a class="lart-badge" href="{{ blog.url }}">{{ badge }}</a>{%- endif -%}
+      <h1 class="lart-hero__title">{{ article.title }}</h1>
+      <div class="lart-hero__meta">
+        <span>{{ read_time }} min read</span>
+        <span class="lart-dot">·</span>
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">Created on {{ article.published_at | date: '%d/%m/%Y' }}</time>
       </div>
     </div>
-  </section>
-{%- endif -%}
+  </header>
+
+  <div class="lart-wrap">
+
+    {%- comment -%} ===== SHARE ===== {%- endcomment -%}
+    <div class="lart-share">
+      <span class="lart-share__label">Share:</span>
+      <a class="lart-share__btn" href="https://twitter.com/intent/tweet?url={{ shop.url | append: article.url | url_encode }}&text={{ article.title | url_encode }}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+      </a>
+      <a class="lart-share__btn" href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: article.url | url_encode }}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <button type="button" class="lart-share__btn" data-copy-link aria-label="Copy link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+        <span class="lart-share__copied" hidden>Copied!</span>
+      </button>
+    </div>
+
+    <div class="lart-layout">
+
+      {%- comment -%} ===== TABLE OF CONTENTS (auto-generated) ===== {%- endcomment -%}
+      <aside class="lart-toc" data-toc hidden>
+        <p class="lart-toc__title">Table of contents</p>
+        <nav class="lart-toc__list" data-toc-list></nav>
+      </aside>
+
+      <div class="lart-main">
+
+        {%- comment -%} ===== AUTHOR BOX ===== {%- endcomment -%}
+        {%- if article.author != blank -%}
+          <div class="lart-author">
+            <span class="lart-author__avatar" aria-hidden="true">{{ article.author | slice: 0 }}</span>
+            <div class="lart-author__info">
+              <span class="lart-author__by">Written by</span>
+              <p class="lart-author__name">{{ article.author }}</p>
+              {%- assign a_role = article.metafields.custom.author_role -%}
+              {%- if a_role != blank -%}<p class="lart-author__role">{{ a_role }}</p>{%- endif -%}
+              {%- assign a_bio = article.metafields.custom.author_bio -%}
+              {%- if a_bio != blank -%}<p class="lart-author__bio">{{ a_bio }}</p>{%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="lart-body rte" data-article-body>
+          {{ article.content }}
+        </div>
+
+        {%- if article.tags.size > 0 -%}
+          <div class="lart-tags">
+            <span class="lart-tags__label">Filed under</span>
+            {%- for tag in article.tags -%}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="lart-tag">{{ tag }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ===== RELATED ===== {%- endcomment -%}
+  {%- if blog.articles_count > 1 -%}
+    <section class="lart-related">
+      <div class="lart-wrap">
+        <h2 class="lart-related__title">{{ section.settings.related_heading | default: 'Keep reading' }}</h2>
+        <div class="lart-related__grid">
+          {%- assign shown = 0 -%}
+          {%- assign bgs = 'var(--lavender),var(--peach),var(--mint)' | split: ',' -%}
+          {%- for a in blog.articles -%}
+            {%- if a.handle != article.handle and shown < 3 -%}
+              <article class="lart-card">
+                <a href="{{ a.url }}" class="lart-card__img" style="background:{{ bgs[shown] | strip }}">
+                  {%- if a.image -%}<img src="{{ a.image | image_url: width: 800 }}" alt="{{ a.image.alt | escape }}" loading="lazy">{%- endif -%}
+                </a>
+                {%- if a.tags.size > 0 -%}<span class="lart-card__tag">{{ a.tags.first }}</span>{%- endif -%}
+                <h3 class="lart-card__title"><a href="{{ a.url }}">{{ a.title }}</a></h3>
+                <p class="lart-card__excerpt">{{ a.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
+                <a href="{{ a.url }}" class="lart-card__read">Read more →</a>
+              </article>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+</article>
+
+<style>
+#lart-{{ section.id }}{display:block}
+#lart-{{ section.id }} .lart-wrap{max-width:820px;margin:0 auto;padding:0 24px}
+
+/* Hero */
+#lart-{{ section.id }} .lart-hero{max-width:1100px;margin:0 auto 36px;padding:24px 24px 0}
+#lart-{{ section.id }} .lart-hero__media{aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:var(--cream)}
+#lart-{{ section.id }} .lart-hero__media img,#lart-{{ section.id }} .lart-hero__ph{width:100%;height:100%;object-fit:cover;display:block}
+#lart-{{ section.id }} .lart-hero__bar{max-width:760px;margin:28px auto 0;text-align:center}
+#lart-{{ section.id }} .lart-badge{display:inline-block;background:var(--lavender);color:var(--blue);font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:999px;text-decoration:none;margin-bottom:18px}
+#lart-{{ section.id }} .lart-hero__title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);line-height:1.12;color:var(--ink);margin:0 0 16px}
+#lart-{{ section.id }} .lart-hero__meta{font-family:var(--sans);font-size:14px;color:var(--grey);display:flex;gap:8px;justify-content:center;align-items:center}
+
+/* Share */
+#lart-{{ section.id }} .lart-share{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);margin-bottom:32px}
+#lart-{{ section.id }} .lart-share__label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink)}
+#lart-{{ section.id }} .lart-share__btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+#lart-{{ section.id }} .lart-share__btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+#lart-{{ section.id }} .lart-share__copied{position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--sans);font-size:11px;padding:3px 8px;border-radius:6px;white-space:nowrap}
+
+/* Layout: TOC sidebar + main */
+#lart-{{ section.id }} .lart-layout{display:grid;grid-template-columns:230px 1fr;gap:48px;align-items:start}
+#lart-{{ section.id }} .lart-toc{position:sticky;top:96px;background:var(--cream);border-radius:14px;padding:22px 20px}
+#lart-{{ section.id }} .lart-toc__title{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:0 0 12px}
+#lart-{{ section.id }} .lart-toc__list{display:flex;flex-direction:column;gap:9px}
+#lart-{{ section.id }} .lart-toc__list a{font-family:var(--sans);font-size:13.5px;line-height:1.4;color:var(--grey);text-decoration:none}
+#lart-{{ section.id }} .lart-toc__list a:hover,#lart-{{ section.id }} .lart-toc__list a.is-active{color:var(--blue)}
+#lart-{{ section.id }} .lart-toc__list a.lvl-3{padding-left:12px;font-size:13px}
+
+/* Author */
+#lart-{{ section.id }} .lart-author{display:flex;gap:14px;align-items:flex-start;background:var(--cream);border-radius:14px;padding:20px;margin-bottom:28px}
+#lart-{{ section.id }} .lart-author__avatar{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;text-transform:uppercase}
+#lart-{{ section.id }} .lart-author__by{font-family:var(--sans);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--grey)}
+#lart-{{ section.id }} .lart-author__name{font-family:var(--serif);font-size:19px;color:var(--ink);margin:2px 0 0}
+#lart-{{ section.id }} .lart-author__role{font-family:var(--sans);font-size:13px;color:var(--blue);margin:2px 0 0}
+#lart-{{ section.id }} .lart-author__bio{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--grey);margin:10px 0 0}
+
+/* Body */
+#lart-{{ section.id }} .lart-body{font-family:var(--sans);font-size:17px;line-height:1.75;color:#2b2b3a}
+#lart-{{ section.id }} .lart-body h2{font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);line-height:1.2;color:var(--ink);margin:38px 0 14px;scroll-margin-top:90px}
+#lart-{{ section.id }} .lart-body h3{font-family:var(--serif);font-size:21px;color:var(--ink);margin:28px 0 10px;scroll-margin-top:90px}
+#lart-{{ section.id }} .lart-body p{margin:0 0 18px}
+#lart-{{ section.id }} .lart-body ul,#lart-{{ section.id }} .lart-body ol{margin:0 0 18px;padding-left:22px}
+#lart-{{ section.id }} .lart-body li{margin-bottom:8px}
+#lart-{{ section.id }} .lart-body a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+#lart-{{ section.id }} .lart-body img{max-width:100%;height:auto;border-radius:14px;margin:8px 0}
+#lart-{{ section.id }} .lart-body blockquote{border-left:3px solid var(--blue);margin:24px 0;padding:4px 0 4px 20px;font-family:var(--serif);font-size:21px;color:var(--ink)}
+
+/* Tags */
+#lart-{{ section.id }} .lart-tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+#lart-{{ section.id }} .lart-tags__label{font-family:var(--sans);font-size:13px;color:var(--grey);margin-right:4px}
+#lart-{{ section.id }} .lart-tag{font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--cream);padding:6px 14px;border-radius:999px;text-decoration:none}
+#lart-{{ section.id }} .lart-tag:hover{color:var(--blue)}
+
+/* Related */
+#lart-{{ section.id }} .lart-related{margin-top:72px;padding:56px 0;background:var(--cream)}
+#lart-{{ section.id }} .lart-related__title{font-family:var(--serif);font-size:clamp(24px,3vw,36px);text-align:center;color:var(--ink);margin:0 0 36px}
+#lart-{{ section.id }} .lart-related__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+#lart-{{ section.id }} .lart-card__img{display:block;aspect-ratio:4/3;border-radius:14px;overflow:hidden;margin-bottom:14px}
+#lart-{{ section.id }} .lart-card__img img{width:100%;height:100%;object-fit:cover}
+#lart-{{ section.id }} .lart-card__tag{font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700}
+#lart-{{ section.id }} .lart-card__title{font-family:var(--serif);font-size:20px;line-height:1.2;margin:8px 0 8px}
+#lart-{{ section.id }} .lart-card__title a{color:var(--ink);text-decoration:none}
+#lart-{{ section.id }} .lart-card__excerpt{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--grey);margin:0 0 10px}
+#lart-{{ section.id }} .lart-card__read{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--blue);text-decoration:none}
+
+@media (max-width:900px){
+  #lart-{{ section.id }} .lart-layout{grid-template-columns:1fr;gap:0}
+  #lart-{{ section.id }} .lart-toc{position:static;margin-bottom:28px}
+  #lart-{{ section.id }} .lart-related__grid{grid-template-columns:1fr;gap:32px}
+}
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('lart-{{ section.id }}');
+  if (!root) return;
+
+  /* Auto Table of Contents from H2/H3 in the article body */
+  const body = root.querySelector('[data-article-body]');
+  const toc  = root.querySelector('[data-toc]');
+  const list = root.querySelector('[data-toc-list]');
+  if (body && toc && list) {
+    const heads = body.querySelectorAll('h2, h3');
+    if (heads.length >= 2) {
+      heads.forEach((h, i) => {
+        if (!h.id) h.id = 'sec-' + i + '-' + (h.textContent || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        if (h.tagName === 'H3') a.className = 'lvl-3';
+        list.appendChild(a);
+      });
+      toc.hidden = false;
+    }
+  }
+
+  /* Copy link */
+  const copyBtn = root.querySelector('[data-copy-link]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard && navigator.clipboard.writeText(window.location.href);
+      const tip = copyBtn.querySelector('.lart-share__copied');
+      if (tip) { tip.hidden = false; setTimeout(() => { tip.hidden = true; }, 1500); }
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
   "name": "LBS Article",
   "tag": "section",
-  "class": "section-lbs-article"
+  "class": "section-lbs-article",
+  "settings": [
+    { "type": "text", "id": "related_heading", "label": "Related section heading", "default": "Keep reading" }
+  ]
 }
 {% endschema %}
