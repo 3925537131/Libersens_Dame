@@ -784,7 +784,7 @@
 .lbs-prod-reviews .jdgm-paginate{margin-top:24px;text-align:center;font-size:13px}
 
 /* ===== Product page — dame-style redesign (pdp-dame) ===== */
-.lbs.pdp-dame{padding:0 0 48px}
+.lbs.pdp-dame{padding:24px 0 48px}
 .pdp-dame__outer{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 .pdp-dame__crumbs{font-size:12px;letter-spacing:.04em;color:var(--grey);margin-bottom:28px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .pdp-dame__crumbs a:hover{color:var(--blue)}
@@ -815,7 +815,8 @@
 
 /* Title + price row */
 .pdp-dame__title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.pdp-dame__title{font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.5vw,32px);color:var(--blue);line-height:1.2;margin:0;flex:1;letter-spacing:-.02em}
+.pdp-dame__title-block{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pdp-dame__title{font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.5vw,32px);color:var(--blue);line-height:1.2;margin:0;letter-spacing:-.02em}
 .pdp-dame__price{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:4px;padding-top:4px}
 .pdp-dame__price-now{font-family:var(--sans);font-weight:600;font-size:clamp(16px,1.6vw,22px);color:var(--blue)}
 .pdp-dame__price-was{font-family:var(--sans);font-size:14px;font-weight:400;color:var(--grey);text-decoration:line-through}
@@ -831,6 +832,7 @@
 .pdp-dame__desc p{margin-bottom:10px}
 
 /* Form options */
+.pdp-dame__form{display:flex;flex-direction:column;gap:22px}
 .pdp-dame__opt{display:flex;flex-direction:column;gap:10px}
 .pdp-dame__opt-label{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0}
 .pdp-dame__opt-label strong{font-weight:400;text-transform:none;letter-spacing:0}

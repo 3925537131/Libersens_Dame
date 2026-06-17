@@ -80,13 +80,15 @@
               <span class="pdp-dame__bestseller-badge">{{ collection.title }}</span>
             {%- endif -%}
           </div>
-          <div class="pdp-dame__badge">
-            {%- comment -%} Star rating from Judge.me-synced review metafields. Always visible,
-                 rendered server-side so it never flashes/vanishes. Clicking the count jumps
-                 to the full Judge.me review widget at the bottom of the page. {%- endcomment -%}
-            {%- comment -%} reviews.rating is a rating-type metafield: .value is a Rating
-                 object whose .rating is the decimal. Fall back to the raw value if it's
-                 stored as a plain number. {%- endcomment -%}
+        </div>
+
+        <!-- TITLE + PRICE (stars sit directly under the title) -->
+        <div class="pdp-dame__title-row">
+          <div class="pdp-dame__title-block">
+            <h1 class="pdp-dame__title">{{ product.title }}</h1>
+            {%- comment -%} Star rating from Judge.me-synced review metafields, server-rendered
+                 so it never flashes. reviews.rating is a rating-type metafield whose .value is
+                 a Rating object (.rating = decimal); falls back to a plain number. {%- endcomment -%}
             {%- assign rating_obj = product.metafields.reviews.rating.value -%}
             {%- assign rv_num = rating_obj.rating | default: rating_obj | times: 1.0 -%}
             {%- assign rc = product.metafields.reviews.rating_count.value -%}
@@ -107,11 +109,6 @@
               </a>
             {%- endif -%}
           </div>
-        </div>
-
-        <!-- TITLE + PRICE -->
-        <div class="pdp-dame__title-row">
-          <h1 class="pdp-dame__title">{{ product.title }}</h1>
           <div class="pdp-dame__price" data-pdp-price>
             <span class="pdp-dame__price-now">{{ v.price | money }}</span>
             {%- if v.compare_at_price > v.price -%}

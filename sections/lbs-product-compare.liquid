@@ -8,7 +8,16 @@
 
 {%- liquid
   assign vib_coll = collections['vibrators']
+  assign in_vibrators = false
+  for c in product.collections
+    if c.handle == 'vibrators'
+      assign in_vibrators = true
+    endif
+  endfor
 -%}
+
+{%- comment -%} Only render this section on products that belong to the vibrators collection {%- endcomment -%}
+{%- if in_vibrators -%}
 
 {%- comment -%} ===== Feature default sets (vary by product id, so left ≠ right) ===== {%- endcomment -%}
 {%- assign set_a = 'Best for couples — hands-free clitoral stimulation during penetrative sex|||External (clitoral, hands-free)|||Couples|||3 Intensity Levels|||1 Steady Pattern|||Quiet|||4h Charge Time|||1.3" W (body) / 2.4" W (wings) x 1.7" H x 1.1" D' | split: '|||' -%}
@@ -287,6 +296,8 @@
   }
 })();
 </script>
+
+{%- endif -%}
 
 {% schema %}
 {
