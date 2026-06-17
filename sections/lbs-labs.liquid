@@ -1,0 +1,196 @@
+{%- comment -%}
+  Libersens Labs — replicates dame.com's Lab page, adapted to Libersens.
+  - Hero + rotating value-prop marquee
+  - "Innovating for pleasure" mission row
+  - Three "how to get involved" feature cards (blocks)
+  - Content hub + newsletter signup (Klaviyo embedded form)
+  (The "Join the Community" interest-checkbox form is intentionally omitted.
+   "Swell" is replaced with an editable content-hub name, default "Bloom".)
+{%- endcomment -%}
+
+{%- assign s = section.settings -%}
+
+<div class="lbs lbl" id="lbl-{{ section.id }}">
+
+  {%- comment -%} ===== HERO ===== {%- endcomment -%}
+  <section class="lbl-hero">
+    <div class="lbl-wrap lbl-wrap--narrow">
+      <span class="eyebrow">{{ s.eyebrow | default: 'Libersens Labs' }}</span>
+      <h1 class="lbl-hero__title">{{ s.hero_heading | default: 'People-Powered Pleasure' }}</h1>
+      <p class="lbl-hero__intro">{{ s.hero_intro | default: 'Libersens Labs is our hub of people-centred research, community-building and educational initiatives — touching all things sex and pleasure.' }}</p>
+    </div>
+    {%- assign vals = s.values | default: 'People-centred research with our community of 10k+ real humans|||Help us develop and design products, from ideation to prototype testing|||Discuss intimacy and pleasure with curiosity, respect and openness|||Share opinions and insights through surveys, our community group and more' | split: '|||' -%}
+    <div class="lbl-marquee">
+      <div class="lbl-marquee__track">
+        {%- for v in vals -%}<span class="lbl-value"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--blue)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ v }}</span>{%- endfor -%}
+        {%- for v in vals -%}<span class="lbl-value" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--blue)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ v }}</span>{%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== MISSION ===== {%- endcomment -%}
+  <section class="lbl-mission">
+    <div class="lbl-wrap lbl-mission__inner">
+      <div class="lbl-mission__img">
+        {%- if s.mission_image != blank -%}
+          <img src="{{ s.mission_image | image_url: width: 900 }}" alt="{{ s.mission_image.alt | escape }}" loading="lazy">
+        {%- else -%}
+          <svg viewBox="0 0 640 760" role="img" aria-label="Illustration" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="640" height="760" fill="#f1ecfb"/>
+            <circle cx="330" cy="300" r="170" fill="var(--lavender)" opacity="0.7"/>
+            <circle cx="250" cy="250" r="90" fill="#fff" opacity="0.6"/>
+            <path d="M0 520c150-50 240 40 360 10s200-110 280-60v290H0z" fill="var(--mint)" opacity="0.8"/>
+            <circle cx="430" cy="470" r="46" fill="var(--blue)" opacity="0.9"/>
+          </svg>
+        {%- endif -%}
+      </div>
+      <div class="lbl-mission__copy">
+        <span class="eyebrow">{{ s.mission_eyebrow | default: 'Innovating for pleasure' }}</span>
+        <h2>{{ s.mission_heading | default: 'Your pleasure is our purpose.' }}</h2>
+        <div class="rte">{{ s.mission_text | default: '<p>We gain invaluable inspiration, input and feedback from our community’s diverse personal experiences. Listening to your perspectives allows us to build and innovate in a far more intentional way.</p>' }}</div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== HOW TO GET INVOLVED — feature cards ===== {%- endcomment -%}
+  {%- assign features = section.blocks | where: 'type', 'feature' -%}
+  {%- if features.size > 0 -%}
+    <section class="lbl-features">
+      <div class="lbl-wrap">
+        {%- if s.features_heading != blank -%}<h2 class="lbl-features__heading">{{ s.features_heading }}</h2>{%- endif -%}
+        <div class="lbl-features__grid">
+          {%- for block in features -%}
+            <div class="lbl-feature" {{ block.shopify_attributes }}>
+              <span class="lbl-feature__num">{{ forloop.index }}</span>
+              <h3 class="lbl-feature__title">{{ block.settings.title }}</h3>
+              <p class="lbl-feature__text">{{ block.settings.text }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ===== CONTENT HUB + NEWSLETTER (Klaviyo) ===== {%- endcomment -%}
+  <section class="lbl-bloom">
+    <div class="lbl-wrap lbl-bloom__inner">
+      <div class="lbl-bloom__copy">
+        {%- assign hub = s.hub_name | default: 'Bloom' -%}
+        <h2 class="lbl-bloom__heading">Dive into {{ hub }}</h2>
+        <p class="lbl-bloom__text">{{ s.hub_text | default: 'Where we explore all things sexual wellness: from education to expert advice, and most things in between.' }}</p>
+      </div>
+      <div class="lbl-bloom__form">
+        <h3 class="lbl-bloom__form-heading">{{ s.form_heading | default: 'Newsletter Sign Up' }}</h3>
+        {%- if s.klaviyo_form_id != blank -%}
+          {%- comment -%} Klaviyo embedded form — renders via the Klaviyo onsite script (Klaviyo app embed must be enabled) {%- endcomment -%}
+          <div class="klaviyo-form-{{ s.klaviyo_form_id }}"></div>
+        {%- else -%}
+          <p class="lbl-bloom__note">Add your Klaviyo form ID in the theme editor (it looks like <code>LzZktx</code>) — find it in Klaviyo → Sign-up Forms → your form → Embed. The Klaviyo app embed must also be enabled under Theme → Customize → App embeds.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+#lbl-{{ section.id }} .lbl-wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+#lbl-{{ section.id }} .lbl-wrap--narrow{max-width:760px;text-align:center}
+
+/* Hero */
+#lbl-{{ section.id }} .lbl-hero{padding:64px 0 44px}
+#lbl-{{ section.id }} .lbl-hero .eyebrow{color:var(--blue);display:block;margin-bottom:14px}
+#lbl-{{ section.id }} .lbl-hero__title{font-family:var(--serif);font-size:clamp(34px,5vw,64px);line-height:1.06;color:var(--ink);margin:0 0 18px}
+#lbl-{{ section.id }} .lbl-hero__intro{font-family:var(--sans);font-size:clamp(16px,1.8vw,20px);line-height:1.6;color:var(--grey);margin:0}
+
+/* Marquee */
+#lbl-{{ section.id }} .lbl-marquee{overflow:hidden;margin-top:40px;padding:6px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+#lbl-{{ section.id }} .lbl-marquee__track{display:flex;gap:18px;width:max-content;animation:lbl-marquee 36s linear infinite}
+#lbl-{{ section.id }} .lbl-marquee:hover .lbl-marquee__track{animation-play-state:paused}
+#lbl-{{ section.id }} .lbl-value{display:inline-flex;align-items:center;gap:12px;background:var(--cream);border-radius:14px;padding:18px 24px;font-family:var(--sans);font-size:15px;line-height:1.4;color:var(--ink);white-space:nowrap}
+#lbl-{{ section.id }} .lbl-value svg{width:24px;height:24px;flex-shrink:0}
+@keyframes lbl-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){#lbl-{{ section.id }} .lbl-marquee__track{animation:none;flex-wrap:wrap;justify-content:center}}
+
+/* Mission */
+#lbl-{{ section.id }} .lbl-mission{padding:64px 0}
+#lbl-{{ section.id }} .lbl-mission__inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+#lbl-{{ section.id }} .lbl-mission__img{aspect-ratio:4/5;border-radius:18px;overflow:hidden}
+#lbl-{{ section.id }} .lbl-mission__img img,#lbl-{{ section.id }} .lbl-mission__img svg{width:100%;height:100%;object-fit:cover;display:block}
+#lbl-{{ section.id }} .lbl-mission__copy .eyebrow{color:var(--blue);display:block;margin-bottom:12px}
+#lbl-{{ section.id }} .lbl-mission__copy h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,44px);line-height:1.12;color:var(--ink);margin:0 0 16px}
+#lbl-{{ section.id }} .lbl-mission__copy .rte{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--grey)}
+
+/* Features */
+#lbl-{{ section.id }} .lbl-features{padding:32px 0 64px}
+#lbl-{{ section.id }} .lbl-features__heading{font-family:var(--serif);font-size:clamp(24px,3vw,38px);text-align:center;color:var(--ink);margin:0 0 40px}
+#lbl-{{ section.id }} .lbl-features__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+#lbl-{{ section.id }} .lbl-feature{background:var(--cream);border-radius:18px;padding:32px 28px}
+#lbl-{{ section.id }} .lbl-feature__num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:16px;margin-bottom:18px}
+#lbl-{{ section.id }} .lbl-feature__title{font-family:var(--serif);font-size:21px;line-height:1.25;color:var(--ink);margin:0 0 10px}
+#lbl-{{ section.id }} .lbl-feature__text{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--grey);margin:0}
+
+/* Content hub + newsletter */
+#lbl-{{ section.id }} .lbl-bloom{padding:56px 0 80px}
+#lbl-{{ section.id }} .lbl-bloom__inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;background:var(--lavender);border-radius:22px;padding:48px}
+#lbl-{{ section.id }} .lbl-bloom__heading{font-family:var(--serif);font-size:clamp(26px,3.2vw,40px);color:var(--ink);margin:0 0 14px}
+#lbl-{{ section.id }} .lbl-bloom__text{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink);margin:0;opacity:.85}
+#lbl-{{ section.id }} .lbl-bloom__form{background:#fff;border-radius:16px;padding:28px}
+#lbl-{{ section.id }} .lbl-bloom__form-heading{font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);margin:0 0 16px}
+#lbl-{{ section.id }} .lbl-bloom__note{font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--grey);margin:0}
+#lbl-{{ section.id }} .lbl-bloom__note code{background:var(--cream);padding:1px 6px;border-radius:5px;font-size:12px}
+
+@media (max-width:900px){
+  #lbl-{{ section.id }} .lbl-mission__inner{grid-template-columns:1fr;gap:32px}
+  #lbl-{{ section.id }} .lbl-mission__img{order:-1}
+  #lbl-{{ section.id }} .lbl-features__grid{grid-template-columns:1fr;gap:20px}
+  #lbl-{{ section.id }} .lbl-bloom__inner{grid-template-columns:1fr;gap:28px;padding:32px}
+}
+</style>
+
+{% schema %}
+{
+  "name": "LBS Labs",
+  "tag": "section",
+  "class": "section-lbs-labs",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Libersens Labs" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "People-Powered Pleasure" },
+    { "type": "textarea", "id": "hero_intro", "label": "Intro", "default": "Libersens Labs is our hub of people-centred research, community-building and educational initiatives — touching all things sex and pleasure." },
+    { "type": "textarea", "id": "values", "label": "Rotating value props (separate with |||)", "default": "People-centred research with our community of 10k+ real humans|||Help us develop and design products, from ideation to prototype testing|||Discuss intimacy and pleasure with curiosity, respect and openness|||Share opinions and insights through surveys, our community group and more" },
+    { "type": "header", "content": "Mission" },
+    { "type": "text", "id": "mission_eyebrow", "label": "Eyebrow", "default": "Innovating for pleasure" },
+    { "type": "text", "id": "mission_heading", "label": "Heading", "default": "Your pleasure is our purpose." },
+    { "type": "richtext", "id": "mission_text", "label": "Body", "default": "<p>We gain invaluable inspiration, input and feedback from our community’s diverse personal experiences. Listening to your perspectives allows us to build and innovate in a far more intentional way.</p>" },
+    { "type": "image_picker", "id": "mission_image", "label": "Mission image" },
+    { "type": "header", "content": "Get involved" },
+    { "type": "text", "id": "features_heading", "label": "Heading (optional)" },
+    { "type": "header", "content": "Content hub + newsletter" },
+    { "type": "text", "id": "hub_name", "label": "Content hub name", "default": "Bloom", "info": "Shown as “Dive into …”." },
+    { "type": "textarea", "id": "hub_text", "label": "Content hub text", "default": "Where we explore all things sexual wellness: from education to expert advice, and most things in between." },
+    { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Newsletter Sign Up" },
+    { "type": "text", "id": "klaviyo_form_id", "label": "Klaviyo form ID", "info": "From Klaviyo → Sign-up Forms → Embed (e.g. LzZktx). Requires the Klaviyo app embed to be enabled." }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Get-involved card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Help develop our products" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Be the first to try and give feedback on upcoming products, and enjoy exclusive discounts and offers." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Labs",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Help develop our products", "text": "Be the first to try and give feedback on upcoming products, from ideation to prototype testing — and enjoy exclusive offers." } },
+        { "type": "feature", "settings": { "title": "Explore intimacy openly", "text": "Join workshops, panels and other experiences — print and digital — to connect with other pleasure-seekers." } },
+        { "type": "feature", "settings": { "title": "Share your insights", "text": "Shape what we build by sharing opinions through surveys, our community group and more." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

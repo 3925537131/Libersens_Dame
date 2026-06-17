@@ -1,0 +1,104 @@
+{%- comment -%}
+  Find Your Vibe — a quiz-intro landing page. Hero + 3 steps + CTA.
+  Fully editable in the theme editor; link the CTA to your quiz when ready.
+{%- endcomment -%}
+
+{%- assign s = section.settings -%}
+
+<div class="lbs lfv" id="lfv-{{ section.id }}">
+
+  <section class="lfv-hero">
+    <div class="lfv-wrap">
+      <span class="eyebrow">{{ s.eyebrow | default: 'The 2-minute quiz' }}</span>
+      <h1 class="lfv-hero__title">{{ s.heading | default: 'Find your vibe' }}</h1>
+      <p class="lfv-hero__sub">{{ s.subheading | default: 'Answer a few quick questions and we’ll match you with the Libersens vibe made for your body and your pleasure style.' }}</p>
+      <a class="lfv-hero__btn" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | default: 'Start the quiz' }}</a>
+    </div>
+  </section>
+
+  <section class="lfv-steps">
+    <div class="lfv-wrap">
+      <div class="lfv-steps__grid">
+        {%- assign steps = section.blocks | where: 'type', 'step' -%}
+        {%- for block in steps -%}
+          <div class="lfv-step" {{ block.shopify_attributes }}>
+            <span class="lfv-step__num">{{ forloop.index }}</span>
+            <h3 class="lfv-step__title">{{ block.settings.title }}</h3>
+            <p class="lfv-step__text">{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="lfv-cta">
+    <div class="lfv-wrap lfv-cta__inner">
+      <h2 class="lfv-cta__heading">{{ s.cta2_heading | default: 'Ready to meet your match?' }}</h2>
+      <a class="lfv-hero__btn" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | default: 'Start the quiz' }}</a>
+    </div>
+  </section>
+
+</div>
+
+<style>
+#lfv-{{ section.id }} .lfv-wrap{max-width:880px;margin:0 auto;padding:0 24px;text-align:center}
+#lfv-{{ section.id }} .lfv-hero{padding:72px 0 48px;background:var(--cream)}
+#lfv-{{ section.id }} .lfv-hero .eyebrow{color:var(--blue);display:block;margin-bottom:14px}
+#lfv-{{ section.id }} .lfv-hero__title{font-family:var(--serif);font-size:clamp(36px,5vw,64px);line-height:1.05;color:var(--ink);margin:0 0 16px}
+#lfv-{{ section.id }} .lfv-hero__sub{font-family:var(--sans);font-size:clamp(16px,1.8vw,19px);line-height:1.6;color:var(--grey);max-width:34em;margin:0 auto 28px}
+#lfv-{{ section.id }} .lfv-hero__btn{display:inline-block;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;padding:15px 32px;border-radius:999px;transition:background .15s}
+#lfv-{{ section.id }} .lfv-hero__btn:hover{background:#001fcc}
+
+#lfv-{{ section.id }} .lfv-steps{padding:64px 0}
+#lfv-{{ section.id }} .lfv-steps__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+#lfv-{{ section.id }} .lfv-step{text-align:center;padding:8px}
+#lfv-{{ section.id }} .lfv-step__num{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:var(--lavender);color:var(--blue);font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:16px}
+#lfv-{{ section.id }} .lfv-step__title{font-family:var(--serif);font-size:21px;color:var(--ink);margin:0 0 8px}
+#lfv-{{ section.id }} .lfv-step__text{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--grey);margin:0;max-width:22em;margin-inline:auto}
+
+#lfv-{{ section.id }} .lfv-cta{padding:0 0 80px}
+#lfv-{{ section.id }} .lfv-cta__inner{background:var(--peach);border-radius:22px;padding:56px 24px}
+#lfv-{{ section.id }} .lfv-cta__heading{font-family:var(--serif);font-size:clamp(26px,3.4vw,42px);color:var(--ink);margin:0 0 24px}
+
+@media (max-width:760px){
+  #lfv-{{ section.id }} .lfv-steps__grid{grid-template-columns:1fr;gap:32px}
+}
+</style>
+
+{% schema %}
+{
+  "name": "LBS Find Your Vibe",
+  "tag": "section",
+  "class": "section-lbs-find-your-vibe",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The 2-minute quiz" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your vibe" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Answer a few quick questions and we’ll match you with the Libersens vibe made for your body and your pleasure style." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Start the quiz" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "text", "id": "cta2_heading", "label": "Heading", "default": "Ready to meet your match?" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Tell us about you" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "A few quick questions about what you like." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LBS Find Your Vibe",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Tell us about you", "text": "A few quick questions about your body and what you enjoy." } },
+        { "type": "step", "settings": { "title": "We do the matching", "text": "We pair your answers with the right stimulation, intensity and style." } },
+        { "type": "step", "settings": { "title": "Meet your vibe", "text": "Get a personalised recommendation — plus a little something off your first order." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

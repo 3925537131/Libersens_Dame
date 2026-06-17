@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-find-your-vibe",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Tell us about you", "text": "A few quick questions about your body and what you enjoy." } },
+        "s2": { "type": "step", "settings": { "title": "We do the matching", "text": "We pair your answers with the right stimulation, intensity and style." } },
+        "s3": { "type": "step", "settings": { "title": "Meet your vibe", "text": "Get a personalised recommendation — plus a little something off your first order." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

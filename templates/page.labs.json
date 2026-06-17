@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "lbs-labs",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "title": "Help develop our products", "text": "Be the first to try and give feedback on upcoming products, from ideation to prototype testing — and enjoy exclusive offers." } },
+        "f2": { "type": "feature", "settings": { "title": "Explore intimacy openly", "text": "Join workshops, panels and other experiences — print and digital — to connect with other pleasure-seekers." } },
+        "f3": { "type": "feature", "settings": { "title": "Share your insights", "text": "Shape what we build by sharing opinions through surveys, our community group and more." } }
+      },
+      "block_order": ["f1", "f2", "f3"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
