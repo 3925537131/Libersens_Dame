@@ -2,6 +2,13 @@
   "sections": {
     "main": {
       "type": "lbs-about",
+      "blocks": {
+        "advisor1": { "type": "advisor", "settings": { "tint": "#e2d1dd", "name": "Advisor name", "role": "Board-certified OB/GYN" } },
+        "advisor2": { "type": "advisor", "settings": { "tint": "#def1ee", "name": "Advisor name", "role": "Certified Sex Therapist (CST)" } },
+        "advisor3": { "type": "advisor", "settings": { "tint": "#e9f1b3", "name": "Advisor name", "role": "Pelvic Floor Physical Therapist" } },
+        "advisor4": { "type": "advisor", "settings": { "tint": "#c4c3f2", "name": "Advisor name", "role": "Naturopathic physician" } }
+      },
+      "block_order": ["advisor1", "advisor2", "advisor3", "advisor4"],
       "settings": {}
     }
   },

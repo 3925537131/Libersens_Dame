@@ -1,72 +1,219 @@
-<div class="lbs lbs-about">
+{%- comment -%}
+  About Us — replicates dame.com's about page structure, adapted to Libersens:
+  1. Hero headline + value-prop strip
+  2. Founder / mission statement
+  3. Timeline of milestones
+  4. "Pleasure Gap" mission narrative
+  5. Advisory board grid
+  6. Women-vs-Men comparison stat bars
+  All copy is editable in the theme editor; sensible defaults render out of the box.
+{%- endcomment -%}
 
-  <div class="lbs-about__hero">
-    <div class="lbs-about__hero-img">
-      {%- if section.settings.hero_image != blank -%}
-        <img src="{{ section.settings.hero_image | image_url: width: 1400 }}"
-             alt="{{ section.settings.hero_image.alt | default: 'About Libersens' | escape }}"
-             loading="eager">
-      {%- else -%}
-        <div class="lbs-about__hero-placeholder" style="background:var(--lavender)"></div>
-      {%- endif -%}
-    </div>
-    <div class="lbs-about__hero-copy">
-      <h1>{{ section.settings.hero_heading | default: "Libersens is creating a world where women's pleasure is celebrated, not whispered about." }}</h1>
-    </div>
-  </div>
+{%- assign s = section.settings -%}
 
-  <div class="lbs-about__pillars">
-    <div class="wrap">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'pillar' -%}
-          <div class="lbs-about__pillar" {{ block.shopify_attributes }}>
-            {%- if block.settings.icon != blank -%}
-              <div class="lbs-about__pillar-icon">{{ block.settings.icon }}</div>
-            {%- endif -%}
-            <h3>{{ block.settings.title }}</h3>
-            <p>{{ block.settings.text }}</p>
+<div class="lbs lba" id="lba-{{ section.id }}">
+
+  {%- comment -%} ===== 1. HERO ===== {%- endcomment -%}
+  <section class="lba-hero">
+    <div class="lba-wrap">
+      <h1 class="lba-hero__title">
+        {{ s.hero_pre | default: 'Libersens is creating a world where' }}
+        <em>{{ s.hero_em | default: 'wellness is a pleasure.' }}</em>
+      </h1>
+      <ul class="lba-hero__values">
+        {%- assign vals = s.values | default: 'People-centred research with our community of real women|||Doctor-approved products made from 100% body-safe materials|||Exceptional service with hassle-free returns and warranties|||Supportive resources — guides, content and a judgement-free space' | split: '|||' -%}
+        {%- for v in vals -%}
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--blue)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ v }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+
+  {%- comment -%} ===== 2. FOUNDER STATEMENT ===== {%- endcomment -%}
+  <section class="lba-statement">
+    <div class="lba-wrap lba-wrap--narrow">
+      <p class="lba-statement__text">{{ s.statement | default: 'Founded on the belief that sexual wellness should be designed for women — not as an afterthought — Libersens is committed to changing the way pleasure is understood and experienced in the world.' }}</p>
+    </div>
+  </section>
+
+  {%- comment -%} ===== 3. TIMELINE ===== {%- endcomment -%}
+  <section class="lba-timeline">
+    <div class="lba-wrap">
+      {%- if s.timeline_heading != blank -%}<h2 class="lba-timeline__heading">{{ s.timeline_heading }}</h2>{%- endif -%}
+      <div class="lba-timeline__track">
+        {%- assign t_years = s.timeline_years | default: '2023|||2024|||2025|||Now' | split: '|||' -%}
+        {%- assign t_texts = s.timeline_texts | default: 'Libersens is founded with a mission to close the pleasure gap.|||Our first body-safe vibrator launches to a waitlist of thousands.|||We expand into a full range of intimacy essentials, trusted worldwide.|||Leading a sexual-wellness movement that has touched countless lives.' | split: '|||' -%}
+        {%- for y in t_years -%}
+          <div class="lba-timeline__item">
+            <span class="lba-timeline__dot" aria-hidden="true"></span>
+            <span class="lba-timeline__year">{{ y }}</span>
+            <p class="lba-timeline__text">{{ t_texts[forloop.index0] }}</p>
           </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== 4. MISSION / PLEASURE GAP ===== {%- endcomment -%}
+  <section class="lba-mission">
+    <div class="lba-wrap lba-mission__inner">
+      <div class="lba-mission__copy">
+        <span class="eyebrow">{{ s.mission_eyebrow | default: 'Our mission' }}</span>
+        <h2>{{ s.mission_heading | default: 'A healthier relationship with pleasure' }}</h2>
+        <div class="rte">{{ s.mission_text | default: '<p>You may have noticed it firsthand — or heard the reports — that women are not quite as satisfied with sex as their partners. Less pleasure, less arousal, fewer orgasms. That’s no way to live.</p><p>Libersens is on a mission to end this disparity — the Pleasure Gap — by shaping shame-free paths to sexual wellbeing. Through the products we design, the research we do and the stories we tell, we’re creating a world where wellness is a pleasure.</p>' }}</div>
+      </div>
+      <div class="lba-mission__img">
+        {%- if s.mission_image != blank -%}
+          <img src="{{ s.mission_image | image_url: width: 900 }}" alt="{{ s.mission_image.alt | escape }}" loading="lazy">
+        {%- else -%}
+          <div class="lba-ph" style="background:var(--peach)"></div>
         {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== 5. ADVISORY BOARD ===== {%- endcomment -%}
+  {%- assign advisors = section.blocks | where: 'type', 'advisor' -%}
+  {%- if advisors.size > 0 -%}
+    <section class="lba-board">
+      <div class="lba-wrap">
+        <h2 class="lba-board__heading">{{ s.board_heading | default: 'Our Advisory Board' }}</h2>
+        <div class="lba-board__grid">
+          {%- for block in advisors -%}
+            <div class="lba-board__member" {{ block.shopify_attributes }}>
+              <div class="lba-board__photo">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.name | escape }}" loading="lazy">
+                {%- else -%}
+                  <div class="lba-ph" style="background:{{ block.settings.tint | default: '#e2d1dd' }}"></div>
+                {%- endif -%}
+              </div>
+              <h3 class="lba-board__name">{{ block.settings.name }}</h3>
+              <p class="lba-board__role">{{ block.settings.role }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ===== 6. COMPARISON STAT BARS ===== {%- endcomment -%}
+  <section class="lba-stats">
+    <div class="lba-wrap lba-stats__grid">
+      {%- assign bar_labels = s.bar_labels | default: 'Report they “usually” or “always” orgasm during sex.|||Described recent sex as “not at all pleasurable.”' | split: '|||' -%}
+      {%- assign bar_women  = s.bar_women  | default: '39|||23' | split: '|||' -%}
+      {%- assign bar_men    = s.bar_men    | default: '91|||11' | split: '|||' -%}
+      {%- for label in bar_labels -%}
+        <div class="lba-stat">
+          <h3 class="lba-stat__title">{{ label }}</h3>
+          <div class="lba-stat__bar">
+            <span class="lba-stat__bar-label">Women</span>
+            <div class="lba-stat__track"><div class="lba-stat__fill lba-stat__fill--women" data-pct="{{ bar_women[forloop.index0] }}"></div></div>
+            <span class="lba-stat__pct">{{ bar_women[forloop.index0] }}%</span>
+          </div>
+          <div class="lba-stat__bar">
+            <span class="lba-stat__bar-label">Men</span>
+            <div class="lba-stat__track"><div class="lba-stat__fill lba-stat__fill--men" data-pct="{{ bar_men[forloop.index0] }}"></div></div>
+            <span class="lba-stat__pct">{{ bar_men[forloop.index0] }}%</span>
+          </div>
+        </div>
       {%- endfor -%}
     </div>
-  </div>
-
-  <div class="lbs-about__story">
-    <div class="wrap lbs-about__story-inner">
-      <div class="lbs-about__story-copy">
-        <span class="eyebrow">{{ section.settings.story_eyebrow | default: 'Our story' }}</span>
-        <h2>{{ section.settings.story_heading | default: 'Built by women, for women' }}</h2>
-        <div class="rte">{{ section.settings.story_text | default: '<p>Libersens was founded with one belief: that intimacy products should be designed with women at the centre — not as an afterthought. We spent years researching what women actually want from their intimate lives, and built a brand around those findings.</p><p>Every product is tested for safety, designed for pleasure, and packaged with the privacy you deserve. We believe that knowing your own body is a form of self-care.</p>' }}</div>
-      </div>
-      <div class="lbs-about__story-img">
-        {%- if section.settings.story_image != blank -%}
-          <img src="{{ section.settings.story_image | image_url: width: 800 }}"
-               alt="{{ section.settings.story_image.alt | escape }}" loading="lazy">
-        {%- else -%}
-          <div style="background:var(--peach);width:100%;height:100%;border-radius:16px"></div>
-        {%- endif -%}
-      </div>
-    </div>
-  </div>
-
-  <div class="lbs-about__mission">
-    <div class="wrap">
-      <div class="lbs-about__mission-stat">
-        <span class="lbs-about__stat-num">{{ section.settings.stat1_num | default: '70%' }}</span>
-        <span class="lbs-about__stat-label">{{ section.settings.stat1_label | default: 'of women report never reaching orgasm through intercourse alone' }}</span>
-      </div>
-      <div class="lbs-about__mission-stat">
-        <span class="lbs-about__stat-num">{{ section.settings.stat2_num | default: '1 in 3' }}</span>
-        <span class="lbs-about__stat-label">{{ section.settings.stat2_label | default: 'women have never spoken to a partner about what they want in bed' }}</span>
-      </div>
-      <div class="lbs-about__mission-stat">
-        <span class="lbs-about__stat-num">{{ section.settings.stat3_num | default: '2024' }}</span>
-        <span class="lbs-about__stat-label">{{ section.settings.stat3_label | default: 'Libersens is changing that — one conversation at a time' }}</span>
-      </div>
-    </div>
-  </div>
+  </section>
 
 </div>
+
+<style>
+#lba-{{ section.id }} .lba-wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+#lba-{{ section.id }} .lba-wrap--narrow{max-width:820px}
+
+/* Hero */
+#lba-{{ section.id }} .lba-hero{padding:64px 0 48px;text-align:center}
+#lba-{{ section.id }} .lba-hero__title{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5vw,64px);line-height:1.08;color:var(--ink);max-width:14em;margin:0 auto 40px}
+#lba-{{ section.id }} .lba-hero__title em{font-style:italic;color:var(--blue)}
+#lba-{{ section.id }} .lba-hero__values{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:left;max-width:1100px;margin:0 auto}
+#lba-{{ section.id }} .lba-hero__values li{display:flex;gap:10px;align-items:flex-start;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink)}
+#lba-{{ section.id }} .lba-hero__values svg{width:22px;height:22px;flex-shrink:0;margin-top:1px}
+
+/* Statement */
+#lba-{{ section.id }} .lba-statement{padding:48px 0;background:var(--cream)}
+#lba-{{ section.id }} .lba-statement__text{font-family:var(--serif);font-size:clamp(20px,2.4vw,30px);line-height:1.4;color:var(--ink);text-align:center;margin:0}
+
+/* Timeline */
+#lba-{{ section.id }} .lba-timeline{padding:64px 0}
+#lba-{{ section.id }} .lba-timeline__heading{font-family:var(--serif);font-size:clamp(24px,3vw,38px);text-align:center;margin:0 0 40px;color:var(--ink)}
+#lba-{{ section.id }} .lba-timeline__track{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+#lba-{{ section.id }} .lba-timeline__track::before{content:'';position:absolute;top:7px;left:8%;right:8%;height:2px;background:var(--line)}
+#lba-{{ section.id }} .lba-timeline__item{position:relative;text-align:center;padding-top:0}
+#lba-{{ section.id }} .lba-timeline__dot{display:block;width:16px;height:16px;border-radius:50%;background:var(--blue);margin:0 auto 16px;position:relative;z-index:1}
+#lba-{{ section.id }} .lba-timeline__year{display:block;font-family:var(--sans);font-weight:700;font-size:20px;color:var(--blue);margin-bottom:8px}
+#lba-{{ section.id }} .lba-timeline__text{font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--grey);margin:0;max-width:14em;margin-inline:auto}
+
+/* Mission */
+#lba-{{ section.id }} .lba-mission{padding:64px 0}
+#lba-{{ section.id }} .lba-mission__inner{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+#lba-{{ section.id }} .lba-mission__copy h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,44px);line-height:1.12;color:var(--ink);margin:10px 0 18px}
+#lba-{{ section.id }} .lba-mission__copy .rte{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--grey)}
+#lba-{{ section.id }} .lba-mission__copy .rte p{margin:0 0 14px}
+#lba-{{ section.id }} .lba-mission__img{aspect-ratio:4/5;border-radius:18px;overflow:hidden}
+#lba-{{ section.id }} .lba-mission__img img{width:100%;height:100%;object-fit:cover;display:block}
+#lba-{{ section.id }} .lba-ph{width:100%;height:100%}
+
+/* Board */
+#lba-{{ section.id }} .lba-board{padding:48px 0 64px}
+#lba-{{ section.id }} .lba-board__heading{font-family:var(--serif);font-size:clamp(24px,3vw,38px);text-align:center;margin:0 0 40px;color:var(--ink)}
+#lba-{{ section.id }} .lba-board__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+#lba-{{ section.id }} .lba-board__member{text-align:center}
+#lba-{{ section.id }} .lba-board__photo{aspect-ratio:1;border-radius:50%;overflow:hidden;width:160px;margin:0 auto 16px}
+#lba-{{ section.id }} .lba-board__photo img{width:100%;height:100%;object-fit:cover}
+#lba-{{ section.id }} .lba-board__name{font-family:var(--serif);font-size:20px;color:var(--ink);margin:0 0 6px}
+#lba-{{ section.id }} .lba-board__role{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--grey);margin:0;max-width:18em;margin-inline:auto}
+
+/* Stat bars */
+#lba-{{ section.id }} .lba-stats{padding:48px 0 80px;background:var(--cream)}
+#lba-{{ section.id }} .lba-stats__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:48px}
+#lba-{{ section.id }} .lba-stat__title{font-family:var(--sans);font-weight:600;font-size:18px;line-height:1.4;color:var(--ink);margin:0 0 22px;max-width:20em}
+#lba-{{ section.id }} .lba-stat__bar{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+#lba-{{ section.id }} .lba-stat__bar-label{font-family:var(--sans);font-size:14px;color:var(--ink);width:56px;flex-shrink:0}
+#lba-{{ section.id }} .lba-stat__track{flex:1;height:22px;background:#fff;border-radius:999px;overflow:hidden}
+#lba-{{ section.id }} .lba-stat__fill{height:100%;width:0;border-radius:999px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+#lba-{{ section.id }} .lba-stat__fill--women{background:var(--coral)}
+#lba-{{ section.id }} .lba-stat__fill--men{background:var(--blue)}
+#lba-{{ section.id }} .lba-stat__pct{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--ink);width:44px;flex-shrink:0;text-align:right}
+
+@media (max-width:900px){
+  #lba-{{ section.id }} .lba-hero__values{grid-template-columns:repeat(2,1fr)}
+  #lba-{{ section.id }} .lba-timeline__track{grid-template-columns:repeat(2,1fr);gap:36px}
+  #lba-{{ section.id }} .lba-timeline__track::before{display:none}
+  #lba-{{ section.id }} .lba-mission__inner{grid-template-columns:1fr;gap:32px}
+  #lba-{{ section.id }} .lba-board__grid{grid-template-columns:repeat(2,1fr);gap:32px}
+  #lba-{{ section.id }} .lba-stats__grid{grid-template-columns:1fr;gap:36px}
+}
+@media (max-width:560px){
+  #lba-{{ section.id }} .lba-hero__values{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('lba-{{ section.id }}');
+  if (!root) return;
+  const fills = root.querySelectorAll('.lba-stat__fill');
+  if (!fills.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.style.width = (e.target.dataset.pct || 0) + '%';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  fills.forEach((f) => io.observe(f));
+})();
+</script>
 
 {% schema %}
 {
@@ -75,29 +222,36 @@
   "class": "section-lbs-about",
   "settings": [
     { "type": "header", "content": "Hero" },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
-    { "type": "textarea", "id": "hero_heading", "label": "Hero headline", "default": "Libersens is creating a world where women's pleasure is celebrated, not whispered about." },
-    { "type": "header", "content": "Brand story" },
-    { "type": "text", "id": "story_eyebrow", "label": "Eyebrow", "default": "Our story" },
-    { "type": "text", "id": "story_heading", "label": "Heading", "default": "Built by women, for women" },
-    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>Libersens was founded with one belief: that intimacy products should be designed with women at the centre — not as an afterthought.</p><p>Every product is tested for safety, designed for pleasure, and packaged with the privacy you deserve.</p>" },
-    { "type": "image_picker", "id": "story_image", "label": "Story image" },
-    { "type": "header", "content": "Statistics" },
-    { "type": "text", "id": "stat1_num", "label": "Stat 1 number", "default": "70%" },
-    { "type": "text", "id": "stat1_label", "label": "Stat 1 label", "default": "of women report never reaching orgasm through intercourse alone" },
-    { "type": "text", "id": "stat2_num", "label": "Stat 2 number", "default": "1 in 3" },
-    { "type": "text", "id": "stat2_label", "label": "Stat 2 label", "default": "women have never spoken to a partner about what they want in bed" },
-    { "type": "text", "id": "stat3_num", "label": "Stat 3 number", "default": "2024" },
-    { "type": "text", "id": "stat3_label", "label": "Stat 3 label", "default": "Libersens is changing that — one conversation at a time" }
+    { "type": "text", "id": "hero_pre", "label": "Headline (start)", "default": "Libersens is creating a world where" },
+    { "type": "text", "id": "hero_em", "label": "Headline (emphasis)", "default": "wellness is a pleasure." },
+    { "type": "textarea", "id": "values", "label": "Value props (separate with |||)", "default": "People-centred research with our community of real women|||Doctor-approved products made from 100% body-safe materials|||Exceptional service with hassle-free returns and warranties|||Supportive resources — guides, content and a judgement-free space" },
+    { "type": "header", "content": "Founder statement" },
+    { "type": "textarea", "id": "statement", "label": "Statement", "default": "Founded on the belief that sexual wellness should be designed for women — not as an afterthought — Libersens is committed to changing the way pleasure is understood and experienced in the world." },
+    { "type": "header", "content": "Timeline" },
+    { "type": "text", "id": "timeline_heading", "label": "Heading (optional)" },
+    { "type": "textarea", "id": "timeline_years", "label": "Years (separate with |||)", "default": "2023|||2024|||2025|||Now" },
+    { "type": "textarea", "id": "timeline_texts", "label": "Milestones (separate with |||)", "default": "Libersens is founded with a mission to close the pleasure gap.|||Our first body-safe vibrator launches to a waitlist of thousands.|||We expand into a full range of intimacy essentials, trusted worldwide.|||Leading a sexual-wellness movement that has touched countless lives." },
+    { "type": "header", "content": "Mission" },
+    { "type": "text", "id": "mission_eyebrow", "label": "Eyebrow", "default": "Our mission" },
+    { "type": "text", "id": "mission_heading", "label": "Heading", "default": "A healthier relationship with pleasure" },
+    { "type": "richtext", "id": "mission_text", "label": "Body", "default": "<p>You may have noticed it firsthand — or heard the reports — that women are not quite as satisfied with sex as their partners. Less pleasure, less arousal, fewer orgasms. That’s no way to live.</p><p>Libersens is on a mission to end this disparity — the Pleasure Gap — by shaping shame-free paths to sexual wellbeing.</p>" },
+    { "type": "image_picker", "id": "mission_image", "label": "Mission image" },
+    { "type": "header", "content": "Advisory board" },
+    { "type": "text", "id": "board_heading", "label": "Heading", "default": "Our Advisory Board" },
+    { "type": "header", "content": "Comparison stats (the Pleasure Gap)" },
+    { "type": "textarea", "id": "bar_labels", "label": "Stat titles (separate with |||)", "default": "Report they “usually” or “always” orgasm during sex.|||Described recent sex as “not at all pleasurable.”" },
+    { "type": "text", "id": "bar_women", "label": "Women % (separate with |||)", "default": "39|||23" },
+    { "type": "text", "id": "bar_men", "label": "Men % (separate with |||)", "default": "91|||11" }
   ],
   "blocks": [
     {
-      "type": "pillar",
-      "name": "Trust pillar",
+      "type": "advisor",
+      "name": "Advisory board member",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon emoji or symbol", "default": "🔬" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Research-led" },
-        { "type": "textarea", "id": "text", "label": "Description", "default": "Every product is designed based on real feedback from women, not assumptions." }
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "color", "id": "tint", "label": "Placeholder colour", "default": "#e2d1dd" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Advisor name" },
+        { "type": "textarea", "id": "role", "label": "Credentials", "default": "Role / credentials" }
       ]
     }
   ],
@@ -105,9 +259,10 @@
     {
       "name": "LBS About",
       "blocks": [
-        { "type": "pillar", "settings": { "icon": "🔬", "title": "Research-led design", "text": "Every product is designed based on real feedback from women, not assumptions." } },
-        { "type": "pillar", "settings": { "icon": "🛡️", "title": "Body-safe materials", "text": "Medical-grade silicone and ABS plastic — phthalate-free, latex-free, rigorously tested." } },
-        { "type": "pillar", "settings": { "icon": "🔒", "title": "Privacy guaranteed", "text": "Plain packaging, discreet billing, and data that stays yours — always." } }
+        { "type": "advisor", "settings": { "tint": "#e2d1dd", "name": "Advisor name", "role": "Board-certified OB/GYN" } },
+        { "type": "advisor", "settings": { "tint": "#def1ee", "name": "Advisor name", "role": "Certified Sex Therapist (CST)" } },
+        { "type": "advisor", "settings": { "tint": "#e9f1b3", "name": "Advisor name", "role": "Pelvic Floor Physical Therapist" } },
+        { "type": "advisor", "settings": { "tint": "#c4c3f2", "name": "Advisor name", "role": "Naturopathic physician" } }
       ]
     }
   ]
