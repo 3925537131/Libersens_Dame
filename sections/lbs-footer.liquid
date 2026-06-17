@@ -5,15 +5,23 @@
       <div class="lbs-footer2__news">
         <p class="lbs-footer2__news-label">{{ section.settings.newsletter_heading }}</p>
         <div class="lbs-footer2__news-field">
-          <div class="klaviyo-form-Xerejc"></div>
-          <script>
-            if (!document.querySelector('script[src*="static.klaviyo.com/onsite"]')) {
-              var klScript = document.createElement('script');
-              klScript.async = true;
-              klScript.src = 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=WRqsLJ';
-              document.head.appendChild(klScript);
-            }
-          </script>
+          {%- form 'customer' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="lbs-footer2__news-form">
+              <input id="NewsletterFormEmail--footer" class="lbs-footer2__news-input"
+                     type="email" name="contact[email]" placeholder="Email" aria-label="Email"
+                     autocorrect="off" autocapitalize="off" autocomplete="email"
+                     value="{% if form.email %}{{ form.email }}{% endif %}" required>
+              <button type="submit" class="lbs-footer2__news-submit" name="commit" aria-label="Subscribe">Submit</button>
+            </div>
+            <div class="lbs-footer2__news-msgs" aria-live="polite">
+              {%- if form.posted_successfully? -%}
+                <p class="lbs-footer2__news-msg lbs-footer2__news-msg--ok">Great! You’re on our list.</p>
+              {%- elsif form.errors -%}
+                <p class="lbs-footer2__news-msg lbs-footer2__news-msg--err">Oops! That didn’t work. Please try again.</p>
+              {%- endif -%}
+            </div>
+          {%- endform -%}
         </div>
       </div>
     {%- endif -%}
