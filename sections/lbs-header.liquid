@@ -21,7 +21,7 @@
           <div class="wrap lbs-mega__pad">
             {%- if vib_coll != blank and vib_coll.products_count > 0 -%}
               <div class="lbs-mega-products">
-                {%- for product in vib_coll.products limit: 5 -%}
+                {%- for product in vib_coll.products limit: 12 -%}
                   <div class="lbs-mega-prod-item">
                     <a href="{{ product.url }}" class="lbs-mega-prod-link">
                       <div class="lbs-mega-prod__img">
