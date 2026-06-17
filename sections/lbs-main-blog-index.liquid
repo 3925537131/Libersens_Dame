@@ -14,23 +14,24 @@
   <div class="wrap lbs-blog-index__wrap">
     {%- if blog.articles_count > 0 -%}
 
-      <div class="lbs-blog-rows">
+      <div class="lbs-blog-grid">
         {%- assign bgs = 'var(--lavender),var(--peach),var(--mint),var(--lime)' | split: ',' -%}
         {%- for article in blog.articles -%}
           {%- assign ci = forloop.index0 | modulo: bgs.size -%}
-          <a class="lbs-blog-row" href="{{ article.url }}">
-            <div class="lbs-blog-row__img" style="background:{{ bgs[ci] | strip }}">
+          <article class="lbs-bcard">
+            <a href="{{ article.url }}" class="lbs-bcard__img" style="background:{{ bgs[ci] | strip }}">
               {%- if article.image -%}
-                <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy">
+                <img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy">
               {%- endif -%}
-            </div>
-            <div class="lbs-blog-row__info">
-              {%- if article.tags.size > 0 -%}<span class="lbs-blog-row__tag">{{ article.tags.first }}</span>{%- endif -%}
-              <h2 class="lbs-blog-row__title">{{ article.title }}</h2>
-              <time class="lbs-blog-row__date">{{ article.published_at | date: '%B %d, %Y' }}</time>
-              <p class="lbs-blog-row__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 34 }}</p>
-            </div>
-          </a>
+            </a>
+            {%- if article.tags.size > 0 -%}<span class="lbs-bcard__tag">{{ article.tags.first }}</span>{%- endif -%}
+            <h2 class="lbs-bcard__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+            <time class="lbs-bcard__date">{{ article.published_at | date: '%B %d, %Y' }}</time>
+            <p class="lbs-bcard__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+            {%- if article.comments_count and article.comments_count > 0 -%}
+              <span class="lbs-bcard__comments">{{ article.comments_count }} comment{% if article.comments_count != 1 %}s{% endif %}</span>
+            {%- endif -%}
+          </article>
         {%- endfor -%}
       </div>
 

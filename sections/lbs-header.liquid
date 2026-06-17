@@ -160,13 +160,20 @@
 
 {%- comment -%} ===== SLIDE-IN CART DRAWER ===== {%- endcomment -%}
 <div class="lbs-cart-overlay" data-cart-overlay hidden></div>
-<aside class="lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true">
+<aside class="lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true"
+       data-free-ship="{{ section.settings.free_ship_threshold | default: 50 }}">
   <div class="lbs-cart-drawer__head">
     <p class="lbs-cart-drawer__title">Your cart (<span data-cart-count>{{ cart.item_count }}</span>)</p>
     <button type="button" class="lbs-cart-drawer__close" aria-label="Close cart" data-cart-close>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
+  {%- if section.settings.free_ship_threshold > 0 -%}
+    <div class="lbs-cart-ship" data-cart-ship hidden>
+      <p class="lbs-cart-ship__msg" data-ship-msg></p>
+      <div class="lbs-cart-ship__track"><div class="lbs-cart-ship__fill" data-ship-fill></div></div>
+    </div>
+  {%- endif -%}
   <div class="lbs-cart-drawer__body" data-cart-body>
     <p class="lbs-cart-drawer__empty">Your cart is empty.</p>
   </div>
@@ -176,8 +183,12 @@
       <span data-cart-subtotal></span>
     </div>
     <p class="lbs-cart-drawer__note">Shipping &amp; taxes calculated at checkout.</p>
-    <a href="{{ routes.cart_url }}" class="lbs-cart-drawer__view">View cart</a>
     <form action="{{ routes.cart_url }}" method="post"><button type="submit" name="checkout" class="lbs-cart-drawer__checkout">Checkout</button></form>
+    <a href="{{ routes.cart_url }}" class="lbs-cart-drawer__view">View full cart</a>
+    <div class="lbs-cart-drawer__trust">
+      <span>↩ {{ section.settings.cart_perk_1 | default: '60-Day Returns' }}</span>
+      <span>🛡 {{ section.settings.cart_perk_2 | default: '1-Year Warranty' }}</span>
+    </div>
   </div>
 </aside>
 
@@ -273,8 +284,26 @@
   function openDrawer()  { overlay.hidden = false; drawer.classList.add('is-open'); overlay.classList.add('is-open'); drawer.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
   function closeDrawer() { drawer.classList.remove('is-open'); overlay.classList.remove('is-open'); drawer.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; setTimeout(function(){ overlay.hidden = true; }, 300); }
 
+  var ship    = drawer.querySelector('[data-cart-ship]');
+  var shipMsg = drawer.querySelector('[data-ship-msg]');
+  var shipFill= drawer.querySelector('[data-ship-fill]');
+  var shipThreshold = parseFloat(drawer.dataset.freeShip || '0') * 100;
+
+  function updateShip(cart) {
+    if (!ship || shipThreshold <= 0) return;
+    if (!cart.items || !cart.items.length) { ship.hidden = true; return; }
+    ship.hidden = false;
+    var total = cart.total_price;
+    var remaining = shipThreshold - total;
+    var pct = Math.min(100, Math.round((total / shipThreshold) * 100));
+    shipFill.style.width = pct + '%';
+    if (remaining <= 0) shipMsg.innerHTML = 'You’ve unlocked <strong>free shipping</strong>! 🎉';
+    else shipMsg.innerHTML = 'You’re <strong>' + money(remaining, cart.currency) + '</strong> away from free shipping';
+  }
+
   function render(cart) {
     counts.forEach(function (c) { c.textContent = cart.item_count; });
+    updateShip(cart);
     if (!cart.items || !cart.items.length) {
       body.innerHTML = '<p class="lbs-cart-drawer__empty">Your cart is empty.</p>';
       foot.hidden = true;
@@ -364,7 +393,11 @@
     { "type": "url", "id": "about_url_1", "label": "About card 1 link (About Us)" },
     { "type": "url", "id": "about_url_2", "label": "About card 2 link (Lab)" },
     { "type": "url", "id": "about_url_3", "label": "About card 3 link (Blog)" },
-    { "type": "url", "id": "quiz_url", "label": "Find Your Vibe link" }
+    { "type": "url", "id": "quiz_url", "label": "Find Your Vibe link" },
+    { "type": "header", "content": "Cart drawer" },
+    { "type": "number", "id": "free_ship_threshold", "label": "Free shipping threshold", "info": "Amount in your currency for the free-shipping progress bar. Set 0 to hide.", "default": 50 },
+    { "type": "text", "id": "cart_perk_1", "label": "Cart perk 1", "default": "60-Day Returns" },
+    { "type": "text", "id": "cart_perk_2", "label": "Cart perk 2", "default": "1-Year Warranty" }
   ],
   "blocks": [
     {
