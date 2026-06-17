@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "lbs-main-article",
+      "type": "lbs-blog-featured",
       "settings": {}
     }
   },
