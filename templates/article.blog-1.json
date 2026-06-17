@@ -3,7 +3,18 @@
     "main": {
       "type": "lbs-blog-featured",
       "settings": {}
+    },
+    "faq": {
+      "type": "lbs-product-faq",
+      "blocks": {
+        "q1": { "type": "faq", "settings": { "question": "How do I choose between external and internal stimulation?", "answer": "<p>External (clitoral) toys sit against the body and suit most people, especially beginners. Internal toys reach the G-spot, and dual styles do both. If you’re unsure, start external.</p>" } },
+        "q2": { "type": "faq", "settings": { "question": "What intensity should a beginner start with?", "answer": "<p>Begin on the lowest setting and work your way up. Look for a toy with a wide range so you can grow into it — it’s easier to ease off than to wish for more power.</p>" } },
+        "q3": { "type": "faq", "settings": { "question": "Are your vibrators body-safe?", "answer": "<p>Yes — every Libersens vibrator is made from body-safe, medical-grade silicone that’s non-porous, hypoallergenic and easy to clean.</p>" } },
+        "q4": { "type": "faq", "settings": { "question": "How do I clean and store it?", "answer": "<p>Wash with warm water and a mild, fragrance-free soap before and after use, pat dry, and store it in its pouch away from other silicone toys.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
+      "settings": { "heading": "FAQs" }
     }
   },
-  "order": ["main"]
+  "order": ["main", "faq"]
 }

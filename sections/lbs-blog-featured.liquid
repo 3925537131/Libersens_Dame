@@ -114,8 +114,8 @@
                 </a>
                 {%- if a.tags.size > 0 -%}<span class="lart-card__tag">{{ a.tags.first }}</span>{%- endif -%}
                 <h3 class="lart-card__title"><a href="{{ a.url }}">{{ a.title }}</a></h3>
-                <p class="lart-card__excerpt">{{ a.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
-                <a href="{{ a.url }}" class="lart-card__read">Read more →</a>
+                <time class="lart-card__date">{{ a.published_at | date: '%B %d, %Y' }}</time>
+                <p class="lart-card__excerpt">{{ a.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
               </article>
               {%- assign shown = shown | plus: 1 -%}
             {%- endif -%}
@@ -129,8 +129,8 @@
 
 <style>
 #lart-{{ section.id }}{display:block}
-#lart-{{ section.id }} .lart-wrap{max-width:820px;margin:0 auto;padding:0 24px}
-#lart-{{ section.id }} .lart-hero{max-width:1100px;margin:0 auto 36px;padding:24px 24px 0}
+#lart-{{ section.id }} .lart-wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px}
+#lart-{{ section.id }} .lart-hero{max-width:var(--maxw);margin:0 auto 40px;padding:24px 40px 0}
 #lart-{{ section.id }} .lart-hero__media{aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:var(--cream)}
 #lart-{{ section.id }} .lart-hero__media img,#lart-{{ section.id }} .lart-hero__ph{width:100%;height:100%;object-fit:cover;display:block}
 #lart-{{ section.id }} .lart-hero__bar{max-width:760px;margin:28px auto 0;text-align:center}
@@ -174,8 +174,8 @@
 #lart-{{ section.id }} .lart-card__tag{font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700}
 #lart-{{ section.id }} .lart-card__title{font-family:var(--serif);font-size:20px;line-height:1.2;margin:8px 0 8px}
 #lart-{{ section.id }} .lart-card__title a{color:var(--ink);text-decoration:none}
-#lart-{{ section.id }} .lart-card__excerpt{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--grey);margin:0 0 10px}
-#lart-{{ section.id }} .lart-card__read{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--blue);text-decoration:none}
+#lart-{{ section.id }} .lart-card__date{display:block;font-family:var(--sans);font-size:12.5px;color:var(--grey);margin:0 0 8px}
+#lart-{{ section.id }} .lart-card__excerpt{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--grey);margin:0}
 @media (max-width:900px){
   #lart-{{ section.id }} .lart-layout{grid-template-columns:1fr;gap:0}
   #lart-{{ section.id }} .lart-toc{position:static;margin-bottom:28px}
@@ -230,7 +230,7 @@
     { "type": "text", "id": "author_tags", "label": "Expertise chips (comma-separated)", "default": "Sexual wellness, Body literacy, Arousal science" },
     { "type": "textarea", "id": "author_bio", "label": "Bio", "default": "The Libersens editorial team writes clear, research-backed guides to help you understand your body and explore pleasure with confidence — no shame, no jargon." },
     { "type": "header", "content": "Article body" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>If you’ve ever stared at a wall of vibrators — online or in a shop — and felt completely overwhelmed, you’re in good company. Here’s the honest truth: there is no single “best” vibrator. There’s only the one that’s right for your body, your preferences, and the kind of pleasure you’re curious about.</p><p>This guide walks you through the handful of decisions that actually matter, so you can choose with confidence.</p><h2>Start with how you like to be touched</h2><p>Before features, think about sensation. Do you enjoy broad, gentle pressure spread over a wider area, or focused, pinpoint intensity? Do you like a steady buzz, or rhythms that build and change? There are no wrong answers — paying attention to what your body already responds to is the fastest shortcut to the right toy.</p><h2>External, internal, or both?</h2><p>External (clitoral) vibrators sit against the body and are a wonderful place to start, especially if penetration isn’t your focus. Internal toys are shaped to reach the G-spot, while dual or “rabbit” styles do both at once. If you’re unsure, an external toy is the most universally loved entry point.</p><h2>Finding your intensity</h2><p>Power isn’t everything, but range is. Look for something that starts gentle and climbs higher than you think you’ll need — it’s easier to ease off than to wish for more. Multiple patterns are a bonus once you know what you like, but a great steady setting matters most.</p><h2>Why material and safety matter</h2><p>Choose body-safe, medical-grade silicone. It’s non-porous, hypoallergenic and easy to keep clean — unlike cheaper porous materials that can harbour bacteria. Every Libersens vibrator is made from body-safe silicone and is fully waterproof, so it’s simple to enjoy and simple to care for.</p><h2>Caring for your vibrator</h2><p>Wash with warm water and a mild, fragrance-free soap before and after each use, pat dry, and store it somewhere clean and dry — ideally the pouch it came in, away from other silicone toys. Charge it fully before first use and top it up when the light blinks.</p><h2>Frequently asked questions</h2><h3>Is it discreet?</h3><p>Yes. Every order ships in plain, unbranded packaging with nothing on the outside that hints at what’s inside.</p><h3>Can I use it in the shower?</h3><p>All Libersens vibrators are fully waterproof, so the bath or shower is fair game — and cleanup is effortless.</p><h3>What if I’m brand new to this?</h3><p>Start slow, on the lowest setting, with plenty of patience and a little lube. There’s no “right” way and no timeline — exploring on your own terms is the whole point.</p>" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>If you’ve ever stared at a wall of vibrators — online or in a shop — and felt completely overwhelmed, you’re in good company. Here’s the honest truth: there is no single “best” vibrator. There’s only the one that’s right for your body, your preferences, and the kind of pleasure you’re curious about.</p><p>This guide walks you through the handful of decisions that actually matter, so you can choose with confidence.</p><h2>Start with how you like to be touched</h2><p>Before features, think about sensation. Do you enjoy broad, gentle pressure spread over a wider area, or focused, pinpoint intensity? Do you like a steady buzz, or rhythms that build and change? There are no wrong answers — paying attention to what your body already responds to is the fastest shortcut to the right toy.</p><h2>External, internal, or both?</h2><p>External (clitoral) vibrators sit against the body and are a wonderful place to start, especially if penetration isn’t your focus. Internal toys are shaped to reach the G-spot, while dual or “rabbit” styles do both at once. If you’re unsure, an external toy is the most universally loved entry point.</p><h2>Finding your intensity</h2><p>Power isn’t everything, but range is. Look for something that starts gentle and climbs higher than you think you’ll need — it’s easier to ease off than to wish for more. Multiple patterns are a bonus once you know what you like, but a great steady setting matters most.</p><h2>Why material and safety matter</h2><p>Choose body-safe, medical-grade silicone. It’s non-porous, hypoallergenic and easy to keep clean — unlike cheaper porous materials that can harbour bacteria. Every Libersens vibrator is made from body-safe silicone and is fully waterproof, so it’s simple to enjoy and simple to care for.</p><h2>Caring for your vibrator</h2><p>Wash with warm water and a mild, fragrance-free soap before and after each use, pat dry, and store it somewhere clean and dry — ideally the pouch it came in, away from other silicone toys. Charge it fully before first use and top it up when the light blinks.</p>" },
     { "type": "header", "content": "Related" },
     { "type": "text", "id": "related_heading", "label": "Related heading", "default": "Keep reading" }
   ],

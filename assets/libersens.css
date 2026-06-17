@@ -75,6 +75,48 @@
 .lbs .icon-btn{background:none;border:none;cursor:pointer;color:var(--ink);display:flex;align-items:center}
 .lbs .icon-btn:hover{color:var(--blue)}
 .lbs .cart-count{background:var(--coral);color:#fff;font-size:11px;font-weight:700;border-radius:999px;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;margin-left:-6px;margin-top:-12px}
+.lbs .lbs-cart-btn{position:relative;background:none;border:none;cursor:pointer;color:var(--ink);display:flex;align-items:center}
+.lbs .lbs-cart-btn:hover{color:var(--blue)}
+
+/* Dynamic search — input expands to the left of the icon */
+.lbs .lbs-search{display:flex;align-items:center}
+.lbs .lbs-search__form{overflow:hidden;width:0;transition:width .28s ease}
+.lbs .lbs-search.is-open .lbs-search__form{width:clamp(160px,22vw,260px)}
+.lbs .lbs-search__input{width:100%;background:transparent;border:none;border-bottom:1.5px solid currentColor;border-radius:0;padding:4px 10px 4px 2px;font-family:var(--sans);font-size:15px;color:var(--ink);outline:none}
+.lbs .lbs-search__input::placeholder{color:var(--ink);opacity:.5}
+
+/* Cart drawer */
+.lbs-cart-overlay{position:fixed;inset:0;background:rgba(12,12,43,.35);opacity:0;transition:opacity .3s ease;z-index:10000}
+.lbs-cart-overlay.is-open{opacity:1}
+.lbs-cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100vw);max-width:100vw;background:#fff;box-shadow:-12px 0 40px rgba(12,12,43,.16);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:10001;display:flex;flex-direction:column;font-family:var(--sans)}
+.lbs-cart-drawer.is-open{transform:none}
+.lbs-cart-drawer__head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--line)}
+.lbs-cart-drawer__title{font-family:var(--serif);font-size:22px;color:var(--ink);margin:0}
+.lbs-cart-drawer__close{background:none;border:none;cursor:pointer;color:var(--ink);display:flex}
+.lbs-cart-drawer__body{flex:1;overflow-y:auto;padding:8px 24px}
+.lbs-cart-drawer__empty{color:var(--grey);font-size:15px;text-align:center;padding:48px 0}
+.lbs-cart-drawer__foot{border-top:1px solid var(--line);padding:20px 24px}
+.lbs-cart-drawer__subtotal{display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.lbs-cart-drawer__note{font-size:12px;color:var(--grey);margin:0 0 16px}
+.lbs-cart-drawer__view{display:block;text-align:center;font-size:13px;color:var(--blue);text-decoration:underline;margin-bottom:12px}
+.lbs-cart-drawer__checkout{width:100%;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:15px;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+.lbs-cart-drawer__checkout:hover{background:#001fcc}
+
+/* Cart line items */
+.lbs-ci{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+.lbs-ci__img{flex:0 0 72px;width:72px;height:72px;border-radius:10px;overflow:hidden;background:var(--cream);display:block}
+.lbs-ci__img img{width:100%;height:100%;object-fit:cover}
+.lbs-ci__info{flex:1;min-width:0}
+.lbs-ci__title{font-family:var(--serif);font-size:16px;color:var(--ink);text-decoration:none;display:block;line-height:1.2}
+.lbs-ci__opts{font-size:12px;color:var(--grey);margin:4px 0 0}
+.lbs-ci__row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.lbs-ci__qty{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+.lbs-ci__qty button{background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:var(--ink)}
+.lbs-ci__qty span{font-size:14px;min-width:14px;text-align:center}
+.lbs-ci__price{font-size:14px;font-weight:700;color:var(--ink)}
+.lbs-ci__remove{background:none;border:none;cursor:pointer;font-size:12px;color:var(--grey);text-decoration:underline;padding:0;margin-top:8px}
+.lbs-ci__remove:hover{color:var(--coral)}
+.lbs .pdp-dame__atc.is-loading{opacity:.7;pointer-events:none}
 .lbs .burger{display:none}
 
 .lbs.hero{background:var(--lavender);overflow:hidden}
