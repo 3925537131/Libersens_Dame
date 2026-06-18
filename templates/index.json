@@ -353,9 +353,8 @@
       "settings": {
         "heading": "Find your vibe",
         "text": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order.",
-        "placeholder": "Enter your email",
         "button_label": "Get matched",
-        "fineprint": "By signing up you agree to receive emails from Libersens. Unsubscribe anytime.",
+        "quiz_link": "shopify://pages/find-your-vibe",
         "anchor_id": "quiz"
       }
     },
