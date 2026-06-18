@@ -1,7 +1,7 @@
 <div class="lbs lbs-announce">
   <span>{{ section.settings.text }}</span>
   {%- if section.settings.link_label != blank -%}
-    <a href="{{ section.settings.link_url | default: '#' }}">{{ section.settings.link_label }}</a>
+    <a href="{{ section.settings.link_url | default: '/collections/all' }}">{{ section.settings.link_label }}</a>
   {%- endif -%}
 </div>
 
