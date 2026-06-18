@@ -469,7 +469,7 @@
 .lbs.lbs-hero2{position:relative;min-height:var(--hero-min,640px);display:flex;align-items:center;overflow:hidden;color:var(--hero-text,#f4ead9)}
 .lbs .lbs-hero2__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center}
 .lbs .lbs-hero2__bg--fallback{background:radial-gradient(circle at 62% 42%,#cf6a4c,transparent 52%),linear-gradient(125deg,#7b54c9,#2a32d6)}
-.lbs .lbs-hero2__overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,6,24,calc(var(--hero-overlay,.25) + .18)) 0%,rgba(8,6,24,var(--hero-overlay,.25)) 38%,rgba(8,6,24,0) 72%)}
+.lbs .lbs-hero2__overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,6,24,var(--hero-overlay,.25)) 0%,rgba(8,6,24,calc(var(--hero-overlay,.25) * .45)) 45%,rgba(8,6,24,0) 72%)}
 .lbs .lbs-hero2__inner{position:relative;z-index:2;width:100%}
 .lbs .lbs-hero2__content{max-width:560px}
 .lbs .lbs-hero2__eyebrow{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:32px}
