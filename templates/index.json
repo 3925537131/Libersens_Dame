@@ -351,6 +351,7 @@
     "newsletter": {
       "type": "lbs-newsletter",
       "settings": {
+        "bg_image": "shopify://shop_images/background.png",
         "heading": "Find your vibe",
         "text": "Take our 60-second quiz and get matched with your perfect Libersens — plus 10% off your first order.",
         "button_label": "Get matched",
