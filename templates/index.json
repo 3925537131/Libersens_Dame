@@ -13,7 +13,7 @@
       "type": "lbs-hero",
       "settings": {
         "image": "shopify://shop_images/background.png",
-        "overlay_opacity": 25,
+        "overlay_opacity": 80,
         "min_height": 640,
         "text_color": "#f4ead9",
         "show_stars": true,
