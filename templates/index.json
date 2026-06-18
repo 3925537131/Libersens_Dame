@@ -12,6 +12,7 @@
     "hero": {
       "type": "lbs-hero",
       "settings": {
+        "image": "shopify://shop_images/background.png",
         "overlay_opacity": 25,
         "min_height": 640,
         "text_color": "#f4ead9",
@@ -22,11 +23,11 @@
         "heading_suffix": "",
         "text": "Vibrators and sexual health essentials — researched, developed, and designed by women for over a decade.",
         "button_label_1": "Shop sex products",
-        "button_link_1": "",
+        "button_link_1": "shopify://collections",
         "button_bg": "#cde000",
         "button_text": "#0029ff",
         "button_label_2": "Need help? Take the quiz",
-        "button_link_2": ""
+        "button_link_2": "shopify://pages/find-your-vibe"
       }
     },
     "trust": {
