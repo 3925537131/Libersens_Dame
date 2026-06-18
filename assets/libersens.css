@@ -31,7 +31,10 @@
 .lbs.lbs-announce{background:var(--blue);color:#fff;text-align:center;font-size:13px;font-weight:600;letter-spacing:.02em;padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 .lbs.lbs-announce a{text-decoration:underline;text-underline-offset:2px}
 
-.lbs.lbs-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line)}
+/* Sticky header — applied to the section WRAPPER (a direct child of body),
+   because the inner header's own wrapper is only header-height so sticky on it has no room. */
+.section-lbs-header{position:sticky;top:0;z-index:100}
+.lbs.lbs-header{position:relative;z-index:100;background:#fff;border-bottom:1px solid var(--line)}
 .lbs .lbs-header__inner{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px;max-width:100%;padding:0 28px}
 .lbs .lbs-logo{font-family:var(--serif);font-weight:600;font-size:28px;letter-spacing:-.02em;color:var(--blue)}
 .lbs .lbs-nav{display:flex;gap:28px;align-items:center}
@@ -103,13 +106,13 @@
 .lbs-mmenu__foot{padding:18px 24px;border-top:1px solid var(--line)}
 .lbs-mmenu__foot a{font-size:15px;color:var(--ink);text-decoration:none;font-weight:600}
 
-/* Mobile search popup */
-.lbs-msearch{position:fixed;top:0;left:0;right:0;background:#fff;z-index:10002;padding:14px 16px;box-shadow:0 8px 24px rgba(12,12,43,.12);transform:translateY(-100%);transition:transform .25s ease}
-.lbs-msearch.is-open{transform:none}
-.lbs-msearch__form{display:flex;align-items:center;gap:10px;color:var(--blue)}
-.lbs-msearch__input{flex:1;min-width:0;background:transparent;border:none;border-bottom:1.5px solid var(--blue);border-radius:0;padding:8px 4px;font-family:var(--sans);font-size:16px;color:var(--ink);outline:none}
-.lbs-msearch__input::placeholder{color:var(--ink);opacity:.5}
-.lbs-msearch__cancel{background:none;border:none;color:var(--blue);font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;flex-shrink:0}
+/* Mobile search — full-screen blank page with the bar centered */
+.lbs-msearch{position:fixed;inset:0;background:#fff;z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
+.lbs-msearch.is-open{opacity:1;visibility:visible}
+.lbs-msearch__form{display:flex;align-items:center;gap:12px;width:100%;max-width:460px;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:12px}
+.lbs-msearch__input{flex:1;min-width:0;background:transparent;border:none;border-radius:0;padding:6px 2px;font-family:var(--serif);font-size:22px;color:var(--ink);outline:none}
+.lbs-msearch__input::placeholder{color:var(--ink);opacity:.4}
+.lbs-msearch__cancel{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--blue);font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer}
 @media(min-width:821px){.lbs-msearch{display:none !important}}
 @media(max-width:820px){.lbs .lbs-search.is-open .lbs-search__form{width:0}}
 
@@ -360,9 +363,10 @@
   .lbs .hero__grid,.lbs .story,.lbs .podcast__grid{grid-template-columns:1fr}
   .lbs .hero__copy{padding:48px 24px;margin:0;max-width:none}
   .lbs .hero__img{min-height:300px}
-  .lbs .story__img{min-height:300px}
+  .lbs .story{display:flex;flex-direction:column}
+  .lbs .story__img{order:-1;width:100%;min-height:0;aspect-ratio:4/3}
   .lbs .story__copy,.lbs .podcast__grid{padding:48px 24px}
-  .lbs .story__copy{text-align:center}
+  .lbs .story__copy{order:0;text-align:center}
   .lbs .story__copy .eyebrow{display:block}
   .lbs .story__copy p{margin-left:auto;margin-right:auto}
   .lbs .story__copy .btn{display:inline-block}

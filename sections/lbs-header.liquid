@@ -233,13 +233,13 @@
 </aside>
 
 {%- comment -%} ===== MOBILE SEARCH POPUP ===== {%- endcomment -%}
-<div class="lbs lbs-msearch" data-msearch hidden>
+<div class="lbs lbs-msearch" data-msearch>
+  <button type="button" class="lbs-msearch__cancel" data-msearch-close>Cancel</button>
   <form action="{{ routes.search_url }}" method="get" role="search" class="lbs-msearch__form">
     <input type="hidden" name="type" value="product">
     <input type="hidden" name="options[prefix]" value="last">
-    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="7"/><path d="M19 19l-5-5"/></svg>
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="7"/><path d="M19 19l-5-5"/></svg>
     <input type="search" name="q" class="lbs-msearch__input" placeholder="Search products" aria-label="Search" autocomplete="off" data-msearch-input>
-    <button type="button" class="lbs-msearch__cancel" data-msearch-close>Cancel</button>
   </form>
 </div>
 
@@ -309,8 +309,8 @@
   /* Mobile popup */
   var pop = document.querySelector('[data-msearch]');
   var popInput = pop && pop.querySelector('[data-msearch-input]');
-  function openPop()  { if (!pop) return; pop.hidden = false; requestAnimationFrame(function(){ pop.classList.add('is-open'); if (popInput) popInput.focus(); }); }
-  function closePop() { if (!pop) return; pop.classList.remove('is-open'); setTimeout(function(){ pop.hidden = true; }, 250); }
+  function openPop()  { if (!pop) return; pop.classList.add('is-open'); document.body.style.overflow = 'hidden'; if (popInput) setTimeout(function(){ popInput.focus(); }, 60); }
+  function closePop() { if (!pop) return; pop.classList.remove('is-open'); document.body.style.overflow = ''; }
   if (pop) {
     pop.querySelector('[data-msearch-close]').addEventListener('click', closePop);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePop(); });
