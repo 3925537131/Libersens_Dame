@@ -2,7 +2,7 @@
   if section.settings.blog != blank
     assign blog = blogs[section.settings.blog]
   else
-    assign blog = blogs.news
+    assign blog = blogs['sexual-wellness']
   endif
   assign limit = section.settings.posts_to_show
   assign bgs = 'var(--lavender),var(--peach),var(--mint),var(--lime)' | split: ','
