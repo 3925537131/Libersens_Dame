@@ -158,6 +158,27 @@
   </div>
 </header>
 
+{%- comment -%} ===== MOBILE MENU DRAWER ===== {%- endcomment -%}
+<div class="lbs lbs-menu-overlay" data-menu-overlay hidden></div>
+<aside class="lbs lbs-menu-drawer" data-menu-drawer aria-label="Menu" aria-hidden="true">
+  <div class="lbs-menu-drawer__head">
+    <span class="lbs-menu-drawer__title">Menu</span>
+    <button type="button" class="lbs-menu-drawer__close" aria-label="Close menu" data-menu-close>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <nav class="lbs-menu-drawer__nav">
+    {%- liquid
+      assign vib_coll = collections['vibrators']
+      assign acc_coll = collections['accessories']
+    -%}
+    <a href="{{ vib_coll.url | default: '/collections/vibrators' }}" class="lbs-menu-drawer__link">Vibrators</a>
+    <a href="/collections/all" class="lbs-menu-drawer__link">Shop All</a>
+    <a href="{{ section.settings.about_url_1 | default: '/pages/about-us' }}" class="lbs-menu-drawer__link">About</a>
+    <a href="{{ section.settings.quiz_url | default: '/pages/find-your-vibe' }}" class="lbs-menu-drawer__link lbs-menu-drawer__link--accent">Find Your Vibe</a>
+  </nav>
+</aside>
+
 {%- comment -%} ===== SLIDE-IN CART DRAWER ===== {%- endcomment -%}
 <div class="lbs lbs-cart-overlay" data-cart-overlay hidden></div>
 <aside class="lbs lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true"
@@ -453,6 +474,38 @@
       .catch(function () { form.submit(); })
       .finally(function () { if (btn) btn.classList.remove('is-loading'); });
   });
+})();
+</script>
+
+<script>
+/* ===== Mobile menu drawer ===== */
+(function () {
+  var burger  = document.querySelector('.lbs-header .burger');
+  var drawer  = document.querySelector('[data-menu-drawer]');
+  var overlay = document.querySelector('[data-menu-overlay]');
+  if (!burger || !drawer || !overlay) return;
+
+  var closeBtn = drawer.querySelector('[data-menu-close]');
+
+  function openMenu() {
+    overlay.hidden = false;
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lbs-menu-open');
+  }
+  function closeMenu() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lbs-menu-open');
+    setTimeout(function () { overlay.hidden = true; }, 300);
+  }
+
+  burger.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openMenu(); });
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 })();
 </script>
 
