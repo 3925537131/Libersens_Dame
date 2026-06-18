@@ -183,8 +183,7 @@
       <span data-cart-subtotal></span>
     </div>
     <p class="lbs-cart-drawer__note">Shipping &amp; taxes calculated at checkout.</p>
-    <form action="{{ routes.cart_url }}" method="post"><button type="submit" name="checkout" class="lbs-cart-drawer__checkout">Checkout</button></form>
-    <a href="{{ routes.cart_url }}" class="lbs-cart-drawer__view">View full cart</a>
+    <a href="/checkout" class="lbs-cart-drawer__checkout">Checkout</a>
     <div class="lbs-cart-drawer__trust">
       <span>↩ {{ section.settings.cart_perk_1 | default: '60-Day Returns' }}</span>
       <span>🛡 {{ section.settings.cart_perk_2 | default: '1-Year Warranty' }}</span>

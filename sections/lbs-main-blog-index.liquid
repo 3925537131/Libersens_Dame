@@ -1,14 +1,11 @@
 {%- paginate blog.articles by 9 -%}
 <div class="lbs lbs-blog-index">
 
-  <div class="lbs-blog-index__header">
-    <div class="wrap">
-      <span class="eyebrow">{{ section.settings.eyebrow | default: 'Libersens Journal' }}</span>
-      <h1>{{ section.settings.heading | default: blog.title | default: 'Learn &amp; Explore' }}</h1>
-      {%- if section.settings.intro != blank -%}
-        <p class="lbs-blog-index__intro">{{ section.settings.intro }}</p>
-      {%- endif -%}
-    </div>
+  <div class="lbs-blog-index__head2">
+    <h1 class="lbs-blog-index__h2title">{{ section.settings.heading | default: blog.title | default: 'Journal' }}</h1>
+    {%- if section.settings.intro != blank -%}
+      <p class="lbs-blog-index__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
   </div>
 
   <div class="wrap lbs-blog-index__wrap">
