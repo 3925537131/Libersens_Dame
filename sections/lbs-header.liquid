@@ -159,8 +159,8 @@
 </header>
 
 {%- comment -%} ===== SLIDE-IN CART DRAWER ===== {%- endcomment -%}
-<div class="lbs-cart-overlay" data-cart-overlay hidden></div>
-<aside class="lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true"
+<div class="lbs lbs-cart-overlay" data-cart-overlay hidden></div>
+<aside class="lbs lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true"
        data-free-ship="{{ section.settings.free_ship_threshold | default: 50 }}">
   <div class="lbs-cart-drawer__head">
     <p class="lbs-cart-drawer__title">Your cart (<span data-cart-count>{{ cart.item_count }}</span>)</p>

@@ -1,7 +1,7 @@
 <section class="lbs lbs-hero2"
   style="--hero-min:{{ section.settings.min_height }}px;--hero-text:{{ section.settings.text_color }};--hero-overlay:{{ section.settings.overlay_opacity | divided_by: 100.0 }}">
   {%- if section.settings.image != blank -%}
-    <div class="lbs-hero2__bg" style="background-image:url({{ section.settings.image | image_url: width: 2400 }})"></div>
+    <div class="lbs-hero2__bg" style="background-image:url('{{ section.settings.image | image_url: width: 2400 }}')"></div>
   {%- else -%}
     <div class="lbs-hero2__bg lbs-hero2__bg--fallback"></div>
   {%- endif -%}

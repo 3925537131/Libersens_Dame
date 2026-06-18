@@ -111,7 +111,7 @@
 /* Footer */
 .lbs-cart-drawer__foot{border-top:1px solid var(--line);padding:18px 24px 22px}
 .lbs-cart-drawer__subtotal{display:flex;justify-content:space-between;font-family:var(--sans);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:14px}
-.lbs-cart-drawer__checkout{display:block;width:100%;box-sizing:border-box;text-align:center;text-decoration:none;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:16px;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+.lbs-cart-drawer__checkout{display:block;width:100%;box-sizing:border-box;text-align:center;text-decoration:none;background:#0029FF;color:#fff;border:none;border-radius:12px;padding:16px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background .15s}
 .lbs-cart-drawer__checkout:hover{background:#001fcc}
 .lbs-cart-drawer__trust{display:flex;justify-content:center;gap:28px;margin-top:16px}
 .lbs-cart-drawer__perk{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;color:var(--grey)}

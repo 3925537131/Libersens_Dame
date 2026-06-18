@@ -1,5 +1,5 @@
 <section class="lbs story" id="{{ section.settings.anchor_id | default: 'story' }}">
-  <div class="story__img"{% if section.settings.image %} style="background-image:url({{ section.settings.image | image_url: width: 1200 }})"{% endif %}></div>
+  <div class="story__img"{% if section.settings.image %} style="background-image:url('{{ section.settings.image | image_url: width: 1600 }}');background-size:cover;background-position:center"{% endif %}></div>
   <div class="story__copy">
     {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
     <h2>{{ section.settings.heading }}</h2>
