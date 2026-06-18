@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Footer",
   "type": "footer",
@@ -49,7 +58,7 @@
       "block_order": ["f1", "f2", "f3", "f4"],
       "settings": {
         "bg_color": "#ffffff",
-        "text_color": "#0029FF",
+        "text_color": "#7a5f80",
         "wave_color": "#fbe8de",
         "show_newsletter": true,
         "newsletter_heading": "Subscribe to our emails",
