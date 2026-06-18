@@ -1,5 +1,8 @@
 {%- liquid
-  assign collection = collections[section.settings.collection]
+  assign collection = collections['best-sellers']
+  if collection == blank
+    assign collection = collections[section.settings.collection]
+  endif
   assign limit = section.settings.products_to_show
   assign cols = section.settings.columns_desktop
 -%}

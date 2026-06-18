@@ -29,11 +29,11 @@
 .lbs.lbs-announce a{text-decoration:underline;text-underline-offset:2px}
 
 .lbs.lbs-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line)}
-.lbs .lbs-header__inner{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.lbs .lbs-header__inner{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px;max-width:100%;padding:0 28px}
 .lbs .lbs-logo{font-family:var(--serif);font-weight:600;font-size:28px;letter-spacing:-.02em;color:var(--blue)}
 .lbs .lbs-nav{display:flex;gap:28px;align-items:center}
 .lbs .lbs-nav-item{position:static}
-.lbs .lbs-nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;padding:26px 0;color:var(--ink);transition:color .15s}
+.lbs .lbs-nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;padding:26px 0;color:var(--blue);transition:color .15s}
 .lbs .lbs-nav-link:hover{color:var(--blue)}
 .lbs .lbs-nav-link.accent{color:var(--coral)}
 .lbs .lbs-caret{width:12px;height:12px;transition:transform .2s}
@@ -72,11 +72,11 @@
 .lbs .lbs-mega-item__img{width:64px;height:64px;border-radius:8px;overflow:hidden;background:var(--cream);flex:0 0 auto}
 .lbs .lbs-mega-item__img img{width:100%;height:100%;object-fit:cover}
 .lbs .lbs-actions{display:flex;align-items:center;gap:18px}
-.lbs .icon-btn{background:none;border:none;cursor:pointer;color:var(--ink);display:flex;align-items:center}
-.lbs .icon-btn:hover{color:var(--blue)}
+.lbs .icon-btn{background:none;border:none;cursor:pointer;color:var(--blue);display:flex;align-items:center}
+.lbs .icon-btn:hover{opacity:.7}
 .lbs .cart-count{background:var(--coral);color:#fff;font-size:11px;font-weight:700;border-radius:999px;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;margin-left:-6px;margin-top:-12px}
-.lbs .lbs-cart-btn{position:relative;background:none;border:none;cursor:pointer;color:var(--ink);display:flex;align-items:center}
-.lbs .lbs-cart-btn:hover{color:var(--blue)}
+.lbs .lbs-cart-btn{position:relative;background:none;border:none;cursor:pointer;color:var(--blue);display:flex;align-items:center}
+.lbs .lbs-cart-btn:hover{opacity:.7}
 
 /* Dynamic search — input expands to the left of the icon */
 .lbs .lbs-search{display:flex;align-items:center}
@@ -86,7 +86,7 @@
 .lbs .lbs-search__input::placeholder{color:var(--ink);opacity:.5}
 
 /* Cart drawer */
-.lbs-cart-overlay{position:fixed;inset:0;background:rgba(12,12,43,.35);opacity:0;transition:opacity .3s ease;z-index:10000}
+.lbs-cart-overlay{position:fixed;inset:0;background:rgba(12,12,43,.55);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);opacity:0;transition:opacity .3s ease;z-index:10000;cursor:pointer}
 .lbs-cart-overlay.is-open{opacity:1}
 .lbs-cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100vw);max-width:100vw;background:#fff;box-shadow:-12px 0 40px rgba(12,12,43,.16);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:10001;display:flex;flex-direction:column;font-family:var(--sans)}
 .lbs-cart-drawer.is-open{transform:none}
@@ -241,13 +241,12 @@
 .lbs .sibling h3{font-size:28px;margin-bottom:10px}
 .lbs .sibling p{font-size:14px;color:var(--grey);margin-bottom:18px;max-width:340px}
 
-.lbs.newsletter{background:var(--blue);color:#fff;text-align:center}
+.lbs.newsletter{background:#fff;color:var(--ink);text-align:center}
 .lbs .newsletter__inner{padding:80px 24px;max-width:620px;margin:0 auto}
-.lbs .newsletter h2{font-size:clamp(30px,4vw,48px);color:#fff;margin-bottom:14px}
-.lbs .newsletter p{opacity:.85;margin-bottom:28px;font-size:16px}
-.lbs .newsletter__form{display:flex;gap:10px;max-width:460px;margin:0 auto}
-.lbs .newsletter input{flex:1;border:none;border-radius:999px;padding:15px 22px;font-size:15px;font-family:var(--sans)}
-.lbs .newsletter .fineprint{font-size:12px;opacity:.7;margin-top:16px}
+.lbs .newsletter h2{font-family:var(--serif);font-size:clamp(30px,4vw,48px);color:var(--ink);margin-bottom:14px}
+.lbs .newsletter p{color:var(--grey);margin-bottom:28px;font-size:16px}
+.lbs .newsletter__btn{display:inline-block;background:var(--blue);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;padding:15px 34px;border-radius:999px;transition:background .15s}
+.lbs .newsletter__btn:hover{background:#001fcc}
 
 .lbs .blogs{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .lbs .post__img{aspect-ratio:1.5;border-radius:16px;margin-bottom:18px;background-size:cover;background-position:center;overflow:hidden}
