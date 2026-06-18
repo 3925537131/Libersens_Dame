@@ -158,27 +158,6 @@
   </div>
 </header>
 
-{%- comment -%} ===== MOBILE MENU DRAWER ===== {%- endcomment -%}
-<div class="lbs lbs-menu-overlay" data-menu-overlay hidden></div>
-<aside class="lbs lbs-menu-drawer" data-menu-drawer aria-label="Menu" aria-hidden="true">
-  <div class="lbs-menu-drawer__head">
-    <span class="lbs-menu-drawer__title">Menu</span>
-    <button type="button" class="lbs-menu-drawer__close" aria-label="Close menu" data-menu-close>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-  </div>
-  <nav class="lbs-menu-drawer__nav">
-    {%- liquid
-      assign vib_coll = collections['vibrators']
-      assign acc_coll = collections['accessories']
-    -%}
-    <a href="{{ vib_coll.url | default: '/collections/vibrators' }}" class="lbs-menu-drawer__link">Vibrators</a>
-    <a href="/collections/all" class="lbs-menu-drawer__link">Shop All</a>
-    <a href="{{ section.settings.about_url_1 | default: '/pages/about-us' }}" class="lbs-menu-drawer__link">About</a>
-    <a href="{{ section.settings.quiz_url | default: '/pages/find-your-vibe' }}" class="lbs-menu-drawer__link lbs-menu-drawer__link--accent">Find Your Vibe</a>
-  </nav>
-</aside>
-
 {%- comment -%} ===== SLIDE-IN CART DRAWER ===== {%- endcomment -%}
 <div class="lbs lbs-cart-overlay" data-cart-overlay hidden></div>
 <aside class="lbs lbs-cart-drawer" data-cart-drawer aria-label="Shopping cart" aria-hidden="true"
@@ -230,6 +209,39 @@
     </div>
   </div>
 </aside>
+
+{%- comment -%} ===== MOBILE MENU DRAWER ===== {%- endcomment -%}
+<div class="lbs lbs-mmenu-overlay" data-mmenu-overlay hidden></div>
+<aside class="lbs lbs-mmenu" data-mmenu aria-hidden="true" aria-label="Menu">
+  <div class="lbs-mmenu__head">
+    <span class="lbs-mmenu__logo">{{ section.settings.logo_text | default: shop.name }}</span>
+    <button type="button" class="lbs-mmenu__close" aria-label="Close menu" data-mmenu-close>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <nav class="lbs-mmenu__nav">
+    <a href="{{ vib_coll.url | default: '/collections/vibrators' }}">Vibrators</a>
+    <a href="/collections/all">Shop All</a>
+    <a href="{{ about_url_1 }}">About</a>
+    <a href="{{ about_url_2 }}">Lab</a>
+    <a href="{{ about_url_3 }}">Blog</a>
+    <a href="{{ section.settings.quiz_url | default: '/pages/find-your-vibe' }}" class="lbs-mmenu__accent">Find Your Vibe</a>
+  </nav>
+  <div class="lbs-mmenu__foot">
+    <a href="{{ routes.account_url }}">Account</a>
+  </div>
+</aside>
+
+{%- comment -%} ===== MOBILE SEARCH POPUP ===== {%- endcomment -%}
+<div class="lbs lbs-msearch" data-msearch hidden>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="lbs-msearch__form">
+    <input type="hidden" name="type" value="product">
+    <input type="hidden" name="options[prefix]" value="last">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="7"/><path d="M19 19l-5-5"/></svg>
+    <input type="search" name="q" class="lbs-msearch__input" placeholder="Search products" aria-label="Search" autocomplete="off" data-msearch-input>
+    <button type="button" class="lbs-msearch__cancel" data-msearch-close>Cancel</button>
+  </form>
+</div>
 
 <script>
   (function () {
@@ -285,24 +297,49 @@
 </script>
 
 <script>
-/* ===== Dynamic search: expands an input to the left of the icon ===== */
+/* ===== Search: inline expand on desktop, popup on mobile ===== */
 (function () {
   var wrap = document.querySelector('[data-search]');
   if (!wrap) return;
   var toggle = wrap.querySelector('[data-search-toggle]');
   var input  = wrap.querySelector('.lbs-search__input');
   var form   = wrap.querySelector('.lbs-search__form');
-  function open()  { wrap.classList.add('is-open'); input.focus(); }
-  function close() { wrap.classList.remove('is-open'); }
+  var mq = window.matchMedia('(max-width: 820px)');
+
+  /* Mobile popup */
+  var pop = document.querySelector('[data-msearch]');
+  var popInput = pop && pop.querySelector('[data-msearch-input]');
+  function openPop()  { if (!pop) return; pop.hidden = false; requestAnimationFrame(function(){ pop.classList.add('is-open'); if (popInput) popInput.focus(); }); }
+  function closePop() { if (!pop) return; pop.classList.remove('is-open'); setTimeout(function(){ pop.hidden = true; }, 250); }
+  if (pop) {
+    pop.querySelector('[data-msearch-close]').addEventListener('click', closePop);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePop(); });
+  }
+
+  function openInline()  { wrap.classList.add('is-open'); input.focus(); }
+  function closeInline() { wrap.classList.remove('is-open'); }
   toggle.addEventListener('click', function (e) {
     e.preventDefault();
+    if (mq.matches) { openPop(); return; }
     if (wrap.classList.contains('is-open')) {
-      if (input.value.trim()) { form.submit(); } else { close(); }
-    } else { open(); }
+      if (input.value.trim()) { form.submit(); } else { closeInline(); }
+    } else { openInline(); }
   });
-  document.addEventListener('click', function (e) {
-    if (!wrap.contains(e.target)) close();
-  });
+  document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) closeInline(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeInline(); });
+})();
+
+/* ===== Mobile menu drawer ===== */
+(function () {
+  var burger  = document.querySelector('.lbs-header .burger');
+  var menu    = document.querySelector('[data-mmenu]');
+  var overlay = document.querySelector('[data-mmenu-overlay]');
+  if (!burger || !menu || !overlay) return;
+  function open()  { overlay.hidden = false; requestAnimationFrame(function(){ menu.classList.add('is-open'); overlay.classList.add('is-open'); }); menu.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  function close() { menu.classList.remove('is-open'); overlay.classList.remove('is-open'); menu.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; setTimeout(function(){ overlay.hidden = true; }, 280); }
+  burger.addEventListener('click', open);
+  menu.querySelector('[data-mmenu-close]').addEventListener('click', close);
+  overlay.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 
@@ -474,38 +511,6 @@
       .catch(function () { form.submit(); })
       .finally(function () { if (btn) btn.classList.remove('is-loading'); });
   });
-})();
-</script>
-
-<script>
-/* ===== Mobile menu drawer ===== */
-(function () {
-  var burger  = document.querySelector('.lbs-header .burger');
-  var drawer  = document.querySelector('[data-menu-drawer]');
-  var overlay = document.querySelector('[data-menu-overlay]');
-  if (!burger || !drawer || !overlay) return;
-
-  var closeBtn = drawer.querySelector('[data-menu-close]');
-
-  function openMenu() {
-    overlay.hidden = false;
-    drawer.classList.add('is-open');
-    overlay.classList.add('is-open');
-    drawer.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('lbs-menu-open');
-  }
-  function closeMenu() {
-    drawer.classList.remove('is-open');
-    overlay.classList.remove('is-open');
-    drawer.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('lbs-menu-open');
-    setTimeout(function () { overlay.hidden = true; }, 300);
-  }
-
-  burger.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openMenu(); });
-  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-  overlay.addEventListener('click', closeMenu);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 })();
 </script>
 
